@@ -1808,6 +1808,76 @@ main{position:relative;z-index:1}
 }
 </style>
 
+
+<style id="ravi-performance-india">
+/* =========================================================
+   REQUESTED CHANGE ONLY — 60–120Hz performance + subtle Indian
+   heritage-inspired rangoli accent.
+========================================================= */
+html{
+  scroll-behavior:auto !important;
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+  overscroll-behavior-x:none;
+}
+
+/* Keep animation layout-friendly and let native scrolling remain native. */
+.cinemaProgressTop i,
+.cinemaCursor,
+.indiaRangoli{
+  transform:translateZ(0);
+  backface-visibility:hidden;
+}
+
+/* Indian rangoli-inspired geometry, intentionally subtle. */
+.indiaRangoli{
+  position:absolute;
+  left:-2.5%;
+  bottom:8%;
+  width:176px;
+  height:176px;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+  opacity:.28;
+  background:conic-gradient(from 0deg,
+    rgba(255,153,51,.34) 0 15%, transparent 15% 30%,
+    rgba(255,255,255,.18) 30% 45%, transparent 45% 60%,
+    rgba(19,136,8,.27) 60% 75%, transparent 75% 90%,
+    rgba(20,65,120,.20) 90% 100%);
+  -webkit-mask:radial-gradient(circle,
+    transparent 0 28%, #000 29% 31%, transparent 32% 44%,
+    #000 45% 46%, transparent 47% 58%, #000 59% 60%, transparent 61%);
+  mask:radial-gradient(circle,
+    transparent 0 28%, #000 29% 31%, transparent 32% 44%,
+    #000 45% 46%, transparent 47% 58%, #000 59% 60%, transparent 61%);
+  animation:indiaRangoliSpin 30s linear infinite;
+}
+.indiaRangoli::before{
+  content:"";
+  position:absolute;
+  inset:37%;
+  border-radius:50%;
+  background:#1d2b5d;
+  box-shadow:0 0 20px rgba(255,153,51,.10),0 0 20px rgba(19,136,8,.08);
+}
+.indiaRangoli::after{
+  content:"✦";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:rgba(255,255,255,.42);
+  font-size:18px;
+}
+@keyframes indiaRangoliSpin{
+  to{transform:translateZ(0) rotate(360deg)}
+}
+@media(max-width:850px){
+  .indiaRangoli{width:118px;height:118px;left:-10%;bottom:6%;opacity:.18}
+}
+@media(prefers-reduced-motion:reduce){.indiaRangoli{animation:none}}
+</style>
 </head>
 
 
@@ -1896,6 +1966,7 @@ main{position:relative;z-index:1}
 
 <section class="hero cinematicSection" data-scene="IDENTITY">
   <div class="heroDataRing" aria-hidden="true"><i></i></div>
+  <div class="indiaRangoli" aria-hidden="true"></div>
 
   <div class="wrap heroGrid">
 
@@ -2950,7 +3021,9 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
 
   const sceneCount = sections.length;
   const root = document.documentElement;
-  const state = { scroll: window.scrollY || 0, frame: 0, vh: window.innerHeight };
+  const state = { scroll: window.scrollY || 0, frame: 0, vh: window.innerHeight, lastTime: 0 };
+  const CINEMATIC_MAX_HZ = 120;
+  const CINEMATIC_FRAME_MS = 1000 / CINEMATIC_MAX_HZ;
   window.__raviScene = window.__raviScene || { index:0, t:0, local:0, count:sceneCount };
 
   function schedule(){
@@ -2958,8 +3031,14 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
     state.frame = requestAnimationFrame(render);
   }
 
-  function render(){
+  function render(time){
     state.frame = 0;
+    if(document.hidden) return;
+    if(state.lastTime && (time - state.lastTime) < CINEMATIC_FRAME_MS - 0.25){
+      schedule();
+      return;
+    }
+    state.lastTime = time;
     const maxScroll = Math.max(1, document.documentElement.scrollHeight - state.vh);
     const normalized = Math.min(1, Math.max(0, state.scroll / maxScroll));
     const sceneFloat = normalized * Math.max(0, sceneCount - 1);
@@ -3306,7 +3385,24 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
       autoRaf:false
     });
     lenis.on('scroll',()=>ScrollTrigger.update());
-    gsap.ticker.add(t=>lenis.raf(t*1000));
+
+    /* Adaptive 60-120Hz loop. At 144Hz+ the smooth-scroll engine is
+       intentionally capped at 120Hz to avoid unnecessary CPU work. */
+    const RAVI_MAX_HZ = 120;
+    const RAVI_FRAME_MS = 1000 / RAVI_MAX_HZ;
+    let raviLenisLast = 0;
+
+    function raviLenisRAF(time){
+      if(document.hidden){
+        raviLenisLast = time;
+      }else if(!raviLenisLast || (time - raviLenisLast) >= RAVI_FRAME_MS - 0.25){
+        raviLenisLast = time;
+        lenis.raf(time);
+      }
+      requestAnimationFrame(raviLenisRAF);
+    }
+
+    requestAnimationFrame(raviLenisRAF);
     gsap.ticker.lagSmoothing(1000,16);
   }
 
@@ -3372,16 +3468,18 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
 
   /* Pointer light: one rAF, never one DOM write per pointer event. */
   let mx=innerWidth*.5,my=innerHeight*.35,px=mx,py=my,raf=0;
+  function renderPointer(){
+    raf=0;
+    if(document.hidden) return;
+    px+=(mx-px)*.18;py+=(my-py)*.18;
+    if(cursor) cursor.style.transform='translate3d('+(px-130)+'px,'+(py-130)+'px,0)';
+    root.style.setProperty('--cinema-x',mx+'px');
+    root.style.setProperty('--cinema-y',my+'px');
+  }
   addEventListener('pointermove',e=>{
     mx=e.clientX;my=e.clientY;
     if(raf)return;
-    raf=requestAnimationFrame(()=>{
-      raf=0;
-      px+=(mx-px)*.18;py+=(my-py)*.18;
-      if(cursor) cursor.style.transform='translate3d('+(px-130)+'px,'+(py-130)+'px,0)';
-      root.style.setProperty('--cinema-x',mx+'px');
-      root.style.setProperty('--cinema-y',my+'px');
-    });
+    raf=requestAnimationFrame(renderPointer);
   },{passive:true});
 
   /* Avoid browser restoring an old position on a fresh entry. */
@@ -3393,5 +3491,13 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
 })();
 </script>
 
+
+<script>
+(function(){
+  document.addEventListener('visibilitychange',function(){
+    document.documentElement.classList.toggle('pageHidden',document.hidden);
+  });
+})();
+</script>
 </body>
 </html>
