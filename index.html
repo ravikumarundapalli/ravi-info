@@ -1774,6 +1774,38 @@ main{position:relative;z-index:1}
  .cinemaMarqueeTrack{animation-duration:20s}
 }
 @media(prefers-reduced-motion:reduce){.cinemaBeam,.cinemaMarqueeTrack,.heroDataRing i{animation:none}.cinemaCursor{display:none}.cinemaReveal{opacity:1;clip-path:none;transform:none}}
+/* =========================================================
+   CINEMATIC V3 — REFINED TYPOGRAPHY
+   Keeps the immersive look while preventing oversized copy.
+========================================================= */
+.hero h1{
+  font-size:clamp(46px,6.2vw,88px);
+  line-height:.92;
+  letter-spacing:-.05em;
+  max-width:980px;
+}
+.sectionTop h2{
+  font-size:clamp(34px,4.6vw,62px);
+  line-height:1.02;
+  letter-spacing:-.045em;
+  max-width:1080px;
+}
+.cinematicSection::before{
+  font-size:clamp(72px,15vw,220px);
+}
+.heroText{
+  font-size:clamp(15px,1.05vw,18px);
+}
+.flowTitle{font-size:10px;}
+@media (min-width:1600px){
+  .hero h1{font-size:clamp(52px,5vw,82px);}
+  .sectionTop h2{font-size:clamp(38px,3.7vw,58px);}
+}
+@media (max-width:850px){
+  .hero h1{font-size:clamp(42px,12vw,66px);}
+  .sectionTop h2{font-size:clamp(31px,8.5vw,48px);}
+  .cinematicSection::before{font-size:clamp(58px,22vw,120px);}
+}
 </style>
 
 </head>
@@ -2086,7 +2118,7 @@ main{position:relative;z-index:1}
 
         <div class="statNumber" id="experienceYears">
 
-          0+
+          4.8
 
         </div>
 
@@ -2757,25 +2789,13 @@ document.getElementById("year").textContent =
    every year on the anniversary.
 ========================================================= */
 
-const startDate = new Date("2021-12-13");
-
+const startDate = new Date("2021-12-13T00:00:00");
 const today = new Date();
-
-let experienceYears =
-  today.getFullYear() - startDate.getFullYear();
-
-const anniversaryThisYear = new Date(
-  today.getFullYear(),
-  startDate.getMonth(),
-  startDate.getDate()
-);
-
-if (today < anniversaryThisYear) {
-  experienceYears--;
-}
+const millisecondsPerYear = 365.2425 * 24 * 60 * 60 * 1000;
+const experienceYears = Math.max(0, (today - startDate) / millisecondsPerYear);
 
 document.getElementById("experienceYears").textContent =
-  experienceYears + "+";
+  experienceYears.toFixed(1);
 
 
 /* =========================================================
