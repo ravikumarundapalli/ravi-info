@@ -17,10 +17,6 @@ content="Ravi Kumar | Data Engineer, Production Engineering and AI Explorer">
 
 <style>
 
-/* =========================================================
-   CORE
-========================================================= */
-
 :root {
   --bg: #05060a;
   --bg2: #090b12;
@@ -101,9 +97,7 @@ button {
 }
 
 
-/* =========================================================
-   PARTICLES
-========================================================= */
+/* PARTICLES */
 
 .particles {
   position: fixed;
@@ -143,9 +137,7 @@ button {
 }
 
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
+/* NAVIGATION */
 
 nav {
   position: sticky;
@@ -189,9 +181,7 @@ nav {
 }
 
 
-/* =========================================================
-   HERO
-========================================================= */
+/* HERO */
 
 .hero {
   min-height: calc(100vh - 72px);
@@ -319,9 +309,7 @@ h1 {
 }
 
 
-/* =========================================================
-   HERO TECH
-========================================================= */
+/* HERO TECHNOLOGY */
 
 .heroTech {
   display: flex;
@@ -348,9 +336,7 @@ h1 {
 }
 
 
-/* =========================================================
-   PROFILE ORBIT
-========================================================= */
+/* PROFILE ORBIT */
 
 .profile {
   display: flex;
@@ -446,9 +432,7 @@ h1 {
 }
 
 
-/* =========================================================
-   SECTIONS
-========================================================= */
+/* SECTIONS */
 
 section {
   padding: 100px 0;
@@ -480,9 +464,7 @@ h2 {
 }
 
 
-/* =========================================================
-   GLASS CARDS
-========================================================= */
+/* GLASS CARDS */
 
 .cards {
   display: grid;
@@ -533,9 +515,7 @@ h2 {
 }
 
 
-/* =========================================================
-   PRODUCTION FLOW
-========================================================= */
+/* PRODUCTION FLOW */
 
 .flow {
   display: grid;
@@ -562,7 +542,12 @@ h2 {
   bottom: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg,transparent,var(--cyan),transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--cyan),
+    transparent
+  );
   animation: scan 3s linear infinite;
 }
 
@@ -591,9 +576,7 @@ h2 {
 }
 
 
-/* =========================================================
-   TOOLKIT
-========================================================= */
+/* TOOLKIT */
 
 .toolkit {
   display: flex;
@@ -618,9 +601,7 @@ h2 {
 }
 
 
-/* =========================================================
-   AI SECTION
-========================================================= */
+/* AI SECTION */
 
 .aiBox {
   position: relative;
@@ -668,9 +649,7 @@ h2 {
 }
 
 
-/* =========================================================
-   SOCIAL
-========================================================= */
+/* SOCIAL */
 
 .socials {
   display: grid;
@@ -720,9 +699,7 @@ h2 {
 }
 
 
-/* =========================================================
-   STATS
-========================================================= */
+/* STATS */
 
 .stats {
   display: grid;
@@ -744,6 +721,7 @@ h2 {
   font-weight: 900;
   background: linear-gradient(90deg,#fff,#8d9aff);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
 
@@ -755,9 +733,7 @@ h2 {
 }
 
 
-/* =========================================================
-   FOOTER
-========================================================= */
+/* FOOTER */
 
 footer {
   padding: 45px 0;
@@ -768,9 +744,7 @@ footer {
 }
 
 
-/* =========================================================
-   SCROLL REVEAL
-========================================================= */
+/* SCROLL REVEAL */
 
 .reveal {
   opacity: 0;
@@ -784,9 +758,7 @@ footer {
 }
 
 
-/* =========================================================
-   MOBILE
-========================================================= */
+/* MOBILE */
 
 @media(max-width:850px) {
 
@@ -836,6 +808,7 @@ footer {
   }
 
   @keyframes orbitDotMobile {
+
     from {
       transform: rotate(0deg) translateX(138px);
     }
@@ -843,6 +816,7 @@ footer {
     to {
       transform: rotate(360deg) translateX(138px);
     }
+
   }
 
   .cards,
@@ -869,22 +843,23 @@ footer {
   h1 {
     letter-spacing: -2.5px;
   }
+
 }
 
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
+/* REDUCED MOTION */
 
 @media(prefers-reduced-motion:reduce) {
 
   *,
   *::before,
   *::after {
+
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
+
   }
 
 }
@@ -895,9 +870,8 @@ footer {
 
 <body>
 
-<!-- =======================================================
-     PARTICLES
-======================================================= -->
+
+<!-- PARTICLES -->
 
 <div class="particles">
 
@@ -917,9 +891,7 @@ footer {
 </div>
 
 
-<!-- =======================================================
-     NAVIGATION
-======================================================= -->
+<!-- NAVIGATION -->
 
 <nav>
 
@@ -930,10 +902,12 @@ footer {
     </a>
 
     <div class="navlinks">
+
       <a href="#about">About</a>
       <a href="#expertise">Engineering</a>
       <a href="#ai">AI Explorer</a>
       <a href="#social">Social</a>
+
     </div>
 
   </div>
@@ -944,9 +918,7 @@ footer {
 <main id="top">
 
 
-<!-- =======================================================
-     HERO
-======================================================= -->
+<!-- HERO -->
 
 <section class="hero">
 
@@ -955,35 +927,56 @@ footer {
     <div class="heroContent reveal">
 
       <div class="statusPill">
+
         <span class="statusDot"></span>
+
         Building. Learning. Exploring AI.
+
       </div>
+
 
       <div class="eyebrow">
+
         DATA ENGINEER · PRODUCTION ENGINEERING · AI EXPLORER
+
       </div>
 
+
       <h1>
+
         Engineering data.
+
         <span class="gradient">
+
           Exploring what's next.
+
         </span>
+
       </h1>
 
+
       <p class="heroText">
+
         I build, manage and optimize end-to-end data pipelines and live
         production systems. My work connects cloud data engineering,
         automation, reliability and practical AI exploration.
+
       </p>
+
 
       <div class="buttons">
 
         <a class="btn primary" href="#expertise">
+
           Explore my expertise →
+
         </a>
 
+
         <a class="btn" href="#social">
+
           Connect with me
+
         </a>
 
       </div>
@@ -1009,6 +1002,7 @@ footer {
 
         <div class="orbitDot"></div>
 
+
         <div class="profileGlow">
 
           <img
@@ -1027,28 +1021,35 @@ footer {
 </section>
 
 
-<!-- =======================================================
-     ABOUT
-======================================================= -->
+<!-- ABOUT -->
 
 <section id="about">
 
   <div class="wrap">
 
+
     <div class="sectionTop reveal">
 
       <div class="kicker">
+
         ABOUT
+
       </div>
 
+
       <h2>
+
         More than building pipelines.
+
       </h2>
 
+
       <p class="muted">
+
         I work across the complete data lifecycle — from ingestion and
         transformation to deployment, monitoring, troubleshooting and
         optimization in production environments.
+
       </p>
 
     </div>
@@ -1056,15 +1057,20 @@ footer {
 
     <div class="cards">
 
+
       <div class="card reveal">
 
         <h3>
+
           Data Engineering
+
         </h3>
 
         <p>
+
           Designing and supporting reliable batch and real-time data
           ingestion pipelines across cloud and enterprise environments.
+
         </p>
 
       </div>
@@ -1073,12 +1079,16 @@ footer {
       <div class="card reveal">
 
         <h3>
+
           Production Engineering
+
         </h3>
 
         <p>
+
           Working with live systems, incidents, monitoring, root-cause
           analysis, performance improvements and operational reliability.
+
         </p>
 
       </div>
@@ -1087,12 +1097,16 @@ footer {
       <div class="card reveal">
 
         <h3>
+
           End-to-End Ownership
+
         </h3>
 
         <p>
+
           From BUILD to DEPLOY, MONITOR, TROUBLESHOOT and OPTIMIZE —
           keeping the complete pipeline lifecycle in view.
+
         </p>
 
       </div>
@@ -1100,16 +1114,23 @@ footer {
     </div>
 
 
+    <!-- DYNAMIC EXPERIENCE STATS -->
+
     <div class="stats">
 
+
       <div class="stat reveal">
 
-        <div class="statNumber">
-          4+
+        <div class="statNumber" id="experienceYears">
+
+          0+
+
         </div>
 
         <span class="statLabel">
+
           Years in Data Engineering
+
         </span>
 
       </div>
@@ -1118,11 +1139,15 @@ footer {
       <div class="stat reveal">
 
         <div class="statNumber">
+
           E2E
+
         </div>
 
         <span class="statLabel">
+
           Production Pipeline Ownership
+
         </span>
 
       </div>
@@ -1131,14 +1156,19 @@ footer {
       <div class="stat reveal">
 
         <div class="statNumber">
+
           AI
+
         </div>
 
         <span class="statLabel">
+
           Explorer Mindset
+
         </span>
 
       </div>
+
 
     </div>
 
@@ -1147,27 +1177,34 @@ footer {
 </section>
 
 
-<!-- =======================================================
-     PRODUCTION ENGINEERING
-======================================================= -->
+<!-- PRODUCTION ENGINEERING -->
 
 <section id="expertise">
 
   <div class="wrap">
 
+
     <div class="sectionTop reveal">
 
       <div class="kicker">
+
         PRODUCTION ENGINEERING
+
       </div>
 
+
       <h2>
+
         BUILD → DEPLOY → MONITOR → TROUBLESHOOT → OPTIMIZE
+
       </h2>
 
+
       <p class="muted">
+
         Practical engineering focused on keeping data systems reliable,
         scalable and useful in real production environments.
+
       </p>
 
     </div>
@@ -1175,12 +1212,15 @@ footer {
 
     <div class="flow">
 
+
       <div class="flowItem reveal">
 
         <span class="flowNumber">01</span>
 
         <span class="flowTitle">
+
           BUILD
+
         </span>
 
       </div>
@@ -1191,7 +1231,9 @@ footer {
         <span class="flowNumber">02</span>
 
         <span class="flowTitle">
+
           DEPLOY
+
         </span>
 
       </div>
@@ -1202,7 +1244,9 @@ footer {
         <span class="flowNumber">03</span>
 
         <span class="flowTitle">
+
           MONITOR
+
         </span>
 
       </div>
@@ -1213,7 +1257,9 @@ footer {
         <span class="flowNumber">04</span>
 
         <span class="flowTitle">
+
           TROUBLESHOOT
+
         </span>
 
       </div>
@@ -1224,10 +1270,13 @@ footer {
         <span class="flowNumber">05</span>
 
         <span class="flowTitle">
+
           OPTIMIZE
+
         </span>
 
       </div>
+
 
     </div>
 
@@ -1260,9 +1309,7 @@ footer {
 </section>
 
 
-<!-- =======================================================
-     AI EXPLORER
-======================================================= -->
+<!-- AI EXPLORER -->
 
 <section id="ai">
 
@@ -1272,13 +1319,20 @@ footer {
 
       <div class="aiGlow"></div>
 
+
       <div class="aiLabel">
+
         AI EXPLORER
+
       </div>
 
+
       <h2>
+
         Learning what AI can do next.
+
       </h2>
+
 
       <p class="muted">
 
@@ -1290,15 +1344,20 @@ footer {
 
       <div class="cards" style="margin-top:35px">
 
+
         <div class="card">
 
           <h3>
+
             GenAI
+
           </h3>
 
           <p>
+
             Exploring modern generative AI tools, assistants, prompting
             and practical engineering use cases.
+
           </p>
 
         </div>
@@ -1307,12 +1366,16 @@ footer {
         <div class="card">
 
           <h3>
+
             Automation
+
           </h3>
 
           <p>
+
             Looking for opportunities where intelligent automation can
             reduce repetitive work and improve engineering workflows.
+
           </p>
 
         </div>
@@ -1321,15 +1384,20 @@ footer {
         <div class="card">
 
           <h3>
+
             Experiment → Learn
+
           </h3>
 
           <p>
+
             Testing new AI capabilities and turning useful discoveries
             into practical ideas.
+
           </p>
 
         </div>
+
 
       </div>
 
@@ -1340,32 +1408,40 @@ footer {
 </section>
 
 
-<!-- =======================================================
-     SOCIAL
-======================================================= -->
+<!-- SOCIAL -->
 
 <section id="social">
 
   <div class="wrap">
 
+
     <div class="sectionTop reveal">
 
       <div class="kicker">
+
         SOCIAL UNIVERSE
+
       </div>
 
+
       <h2>
+
         Find me around the web.
+
       </h2>
 
+
       <p class="muted">
+
         Professional updates, social content and direct contact.
+
       </p>
 
     </div>
 
 
     <div class="socials">
+
 
       <a
         class="social reveal"
@@ -1374,11 +1450,15 @@ footer {
         rel="noopener">
 
         <strong>
+
           LinkedIn
+
         </strong>
 
         <span>
+
           Professional network
+
         </span>
 
       </a>
@@ -1391,11 +1471,15 @@ footer {
         rel="noopener">
 
         <strong>
+
           Instagram
+
         </strong>
 
         <span>
+
           Photos and social updates
+
         </span>
 
       </a>
@@ -1408,11 +1492,15 @@ footer {
         rel="noopener">
 
         <strong>
+
           X / Twitter
+
         </strong>
 
         <span>
+
           Thoughts and updates
+
         </span>
 
       </a>
@@ -1425,11 +1513,15 @@ footer {
         rel="noopener">
 
         <strong>
+
           Facebook
+
         </strong>
 
         <span>
+
           Personal social profile
+
         </span>
 
       </a>
@@ -1442,11 +1534,15 @@ footer {
         rel="noopener">
 
         <strong>
+
           WhatsApp
+
         </strong>
 
         <span>
+
           Message me directly
+
         </span>
 
       </a>
@@ -1457,14 +1553,19 @@ footer {
         href="mailto:ravikumar.undapalli444@gmail.com">
 
         <strong>
+
           Email
+
         </strong>
 
         <span>
+
           ravikumar.undapalli444@gmail.com
+
         </span>
 
       </a>
+
 
     </div>
 
@@ -1476,9 +1577,7 @@ footer {
 </main>
 
 
-<!-- =======================================================
-     FOOTER
-======================================================= -->
+<!-- FOOTER -->
 
 <footer>
 
@@ -1494,17 +1593,38 @@ footer {
 
 <script>
 
-/* =========================================================
-   YEAR
-========================================================= */
+/* YEAR */
 
 document.getElementById("year").textContent =
   new Date().getFullYear();
 
 
 /* =========================================================
-   MOUSE / TOUCH GLOW
+   DYNAMIC EXPERIENCE CALCULATOR
+   START DATE: DECEMBER 13, 2021
 ========================================================= */
+
+const startDate = new Date("2021-12-13");
+const today = new Date();
+
+let experienceYears =
+  today.getFullYear() - startDate.getFullYear();
+
+const anniversaryThisYear = new Date(
+  today.getFullYear(),
+  startDate.getMonth(),
+  startDate.getDate()
+);
+
+if (today < anniversaryThisYear) {
+  experienceYears--;
+}
+
+document.getElementById("experienceYears").textContent =
+  experienceYears + "+";
+
+
+/* MOUSE / TOUCH GLOW */
 
 function updateGlow(x, y) {
 
@@ -1539,9 +1659,7 @@ document.addEventListener("touchmove", function(e) {
 }, { passive:true });
 
 
-/* =========================================================
-   SCROLL REVEAL
-========================================================= */
+/* SCROLL REVEAL */
 
 const observer =
   new IntersectionObserver(
@@ -1576,9 +1694,7 @@ document
   });
 
 
-/* =========================================================
-   CARD TILT
-========================================================= */
+/* CARD TILT */
 
 document
   .querySelectorAll(".card, .social, .flowItem")
@@ -1628,6 +1744,7 @@ document
   });
 
 </script>
+
 
 </body>
 </html>
