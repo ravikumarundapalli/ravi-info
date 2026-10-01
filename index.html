@@ -1910,6 +1910,175 @@ html{
 }
 @media(prefers-reduced-motion:reduce){.indiaRangoli{animation:none}}
 </style>
+
+<style id="ravi-indian-heritage-slides">
+/* =========================================================
+   INDIAN HERITAGE CINEMATIC SLIDES
+   Lightweight inline SVG artwork — no external image requests.
+========================================================= */
+.heritageSlide{
+  position:absolute;
+  top:18px;
+  left:0;
+  right:0;
+  height:156px;
+  padding:0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+  pointer-events:none;
+  z-index:0;
+  opacity:.84;
+  overflow:hidden;
+}
+.heritageSlide::before{
+  content:"";
+  position:absolute;
+  left:4%;
+  right:4%;
+  bottom:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+}
+.heritageSlide::after{
+  content:"";
+  position:absolute;
+  width:42vw;
+  max-width:520px;
+  height:120px;
+  right:8%;
+  top:12px;
+  background:radial-gradient(circle,rgba(255,153,64,.13),transparent 68%);
+  filter:blur(20px);
+  opacity:.55;
+}
+.heritageMeta{
+  position:relative;
+  z-index:2;
+  min-width:240px;
+  opacity:0;
+  transform:translate3d(-34px,18px,0);
+  transition:opacity .9s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);
+}
+.heritageKicker{
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:#ffb36c;
+  margin-bottom:8px;
+}
+.heritageName{
+  font-size:clamp(18px,2.1vw,28px);
+  line-height:1;
+  letter-spacing:-.04em;
+  font-weight:900;
+  color:#f6f7fb;
+}
+.heritagePlace{
+  margin-top:7px;
+  color:#7d879a;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+}
+.heritageMiniFlag{
+  display:inline-flex;
+  width:28px;
+  height:4px;
+  margin-top:11px;
+  border-radius:10px;
+  background:linear-gradient(90deg,#ff9933 0 33%,#f8f8f8 33% 66%,#138808 66% 100%);
+  box-shadow:0 0 12px rgba(255,153,51,.18);
+}
+.heritageArt{
+  position:relative;
+  z-index:1;
+  width:min(52vw,620px);
+  height:148px;
+  opacity:0;
+  transform:translate3d(70px,28px,0) scale(.94);
+  transition:opacity 1s cubic-bezier(.16,1,.3,1) .08s,transform 1.1s cubic-bezier(.16,1,.3,1) .08s;
+}
+.heritageArt svg{width:100%;height:100%;display:block;overflow:visible}
+.heritageArt .line{
+  fill:none;
+  stroke:#ffbb78;
+  stroke-width:1.25;
+  vector-effect:non-scaling-stroke;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 5px rgba(255,173,93,.18));
+}
+.heritageArt .soft{
+  fill:none;
+  stroke:rgba(255,188,111,.20);
+  stroke-width:1;
+  vector-effect:non-scaling-stroke;
+}
+.heritageArt .solid{
+  fill:rgba(255,170,88,.055);
+  stroke:rgba(255,188,111,.22);
+  stroke-width:1;
+}
+.heritageArt .spark{
+  fill:#ffcf9a;
+  filter:drop-shadow(0 0 8px rgba(255,173,93,.9));
+}
+.heritageArt .draw{
+  stroke-dasharray:1200;
+  stroke-dashoffset:1200;
+  transition:stroke-dashoffset 1.5s cubic-bezier(.16,1,.3,1) .14s;
+}
+.cinematicSection.heritageActive .heritageMeta{opacity:1;transform:none}
+.cinematicSection.heritageActive .heritageArt{opacity:1;transform:none}
+.cinematicSection.heritageActive .draw{stroke-dashoffset:0}
+.heritageSlide .scan{
+  position:absolute;
+  left:-25%;
+  top:0;
+  width:22%;
+  height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);
+  transform:skewX(-18deg);
+  opacity:0;
+}
+.cinematicSection.heritageActive .scan{opacity:1;animation:heritageScan 1.8s cubic-bezier(.2,.8,.2,1) .25s forwards}
+@keyframes heritageScan{to{left:125%}}
+#about .heritageSlide::after{background:radial-gradient(circle,rgba(255,233,190,.13),transparent 68%)}
+#expertise .heritageSlide::after{background:radial-gradient(circle,rgba(255,177,86,.11),transparent 68%)}
+#ai .heritageSlide::after{background:radial-gradient(circle,rgba(118,207,255,.10),transparent 68%)}
+#resume .heritageSlide::after{background:radial-gradient(circle,rgba(233,156,82,.10),transparent 68%)}
+#social .heritageSlide::after{background:radial-gradient(circle,rgba(98,197,255,.11),transparent 68%)}
+@media(max-width:850px){
+  .heritageSlide{
+    position:relative;
+    top:auto;left:auto;right:auto;
+    height:138px;
+    padding:0 0 8px;
+    margin:0 0 22px;
+    opacity:.84;
+  }
+  .heritageSlide::before{left:0;right:0}
+  .heritageSlide::after{right:-12%;width:75vw;height:110px}
+  .heritageMeta{min-width:170px;transform:translate3d(-20px,14px,0)}
+  .heritageArt{width:58vw;height:128px;transform:translate3d(30px,18px,0) scale(.95)}
+}
+@media(max-width:560px){
+  .heritageSlide{height:126px}
+  .heritageMeta{min-width:150px}
+  .heritageName{font-size:17px}
+  .heritagePlace{font-size:8px}
+  .heritageArt{width:55vw;height:116px}
+}
+@media(prefers-reduced-motion:reduce){
+  .heritageMeta,.heritageArt{transition:none;transform:none;opacity:1}
+  .heritageSlide .scan{display:none}
+  .heritageArt .draw{stroke-dashoffset:0;transition:none}
+}
+</style>
 </head>
 
 
@@ -1997,6 +2166,17 @@ html{
 ======================================================= -->
 
 <section class="hero cinematicSection" data-scene="IDENTITY">
+  <div class="heritageSlide" data-heritage="01" aria-hidden="true">
+    <div class="heritageMeta">
+      <div class="heritageKicker">INDIAN HERITAGE · 01</div>
+      <div class="heritageName">KONARK SUN TEMPLE</div>
+      <div class="heritagePlace">Odisha · Sun Temple heritage</div>
+      <span class="heritageMiniFlag"></span>
+    </div>
+    <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(435 74)"><circle r="57" class="soft"/><circle r="49" class="line draw"/><circle r="8" class="solid"/><g class="soft" opacity=".8"><path d="M0-49L0-8M0 8L0 49M-49 0L-8 0M8 0L49 0M-34.6-34.6L-5.7-5.7M5.7 5.7L34.6 34.6M34.6-34.6L5.7-5.7M-5.7 5.7L-34.6 34.6"/><path d="M-18-46L-3-7M18-46L3-7M46-18L7-3M46 18L7 3M18 46L3 7M-18 46L-3 7M-46 18L-7 3M-46-18L-7-3"/></g><circle cx="0" cy="-49" r="2.2" class="spark"/></g><g transform="translate(245 25)" opacity=".62"><path class="line draw" d="M0 92L0 56 17 48 17 88 33 40 49 88 49 32 67 88 67 24 86 88 86 15 105 88"/><path class="soft" d="M-10 92H124"/></g></svg></div>
+    <span class="scan"></span>
+  </div>
+
   <div class="heroDataRing" aria-hidden="true"><i></i></div>
   <div class="indiaRangoli" aria-hidden="true"></div>
 
@@ -2116,6 +2296,17 @@ html{
 ======================================================= -->
 
 <section id="about" class="cinematicSection" data-scene="ABOUT">
+  <div class="heritageSlide" data-heritage="02" aria-hidden="true">
+    <div class="heritageMeta">
+      <div class="heritageKicker">INDIAN HERITAGE · 02</div>
+      <div class="heritageName">TAJ MAHAL</div>
+      <div class="heritagePlace">Agra · Mughal-era architecture</div>
+      <span class="heritageMiniFlag"></span>
+    </div>
+    <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(282 12)"><path class="line draw" d="M0 112V61M28 112V49M56 112V58M214 112V58M242 112V49M270 112V61"/><path class="line draw" d="M18 110V83Q135 15 252 83V110"/><path class="line draw" d="M77 110V70Q135 14 193 70V110"/><path class="line draw" d="M135 14V1M124 14Q135-11 146 14"/><path class="soft" d="M86 110V78Q135 45 184 78V110M102 110V83Q135 61 168 83V110"/><path class="line draw" d="M0 112H270M42 112V64M228 112V64"/><circle cx="135" cy="1" r="2.5" class="spark"/></g></svg></div>
+    <span class="scan"></span>
+  </div>
+
 
   <div class="wrap">
 
@@ -2293,6 +2484,17 @@ html{
 
 <div class="cinemaMarquee" aria-hidden="true"><div class="cinemaMarqueeTrack"><span>DATA ENGINEERING</span><span>AWS</span><span>PYTHON</span><span>SQL</span><span>APACHE NIFI</span><span>FIVETRAN</span><span>HVR</span><span>INFORMATICA</span><span>SPARK</span><span>DATABRICKS</span><span>PRODUCTION SYSTEMS</span><span>AI EXPLORER</span><span>DATA ENGINEERING</span><span>AWS</span><span>PYTHON</span><span>SQL</span><span>APACHE NIFI</span><span>FIVETRAN</span><span>HVR</span><span>INFORMATICA</span><span>SPARK</span><span>DATABRICKS</span><span>PRODUCTION SYSTEMS</span><span>AI EXPLORER</span></div></div>
 <section id="expertise" class="cinematicSection" data-scene="ENGINEERING">
+  <div class="heritageSlide" data-heritage="03" aria-hidden="true">
+    <div class="heritageMeta">
+      <div class="heritageKicker">INDIAN HERITAGE · 03</div>
+      <div class="heritageName">RANI KI VAV</div>
+      <div class="heritagePlace">Gujarat · Stepwell architecture</div>
+      <span class="heritageMiniFlag"></span>
+    </div>
+    <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(175 8)"><path class="line draw" d="M0 16H270M15 32H255M30 48H240M45 64H225M60 80H210M75 96H195M90 112H180M105 128H165"/><path class="line draw" d="M0 16L60 80M270 16L210 80M30 48L75 96M240 48L195 96M60 80L90 112M210 80L180 112"/><path class="soft" d="M105 128V108M165 128V108M112 126V108M158 126V108"/><circle cx="135" cy="113" r="4" class="spark"/></g><g opacity=".6"><path class="line draw" d="M74 44V127M92 58V127M500 44V127M518 58V127"/><path class="soft" d="M56 127H110M482 127H536"/></g></svg></div>
+    <span class="scan"></span>
+  </div>
+
 
   <div class="wrap">
 
@@ -2424,6 +2626,17 @@ html{
 ======================================================= -->
 
 <section id="ai" class="cinematicSection" data-scene="AI EXPLORER">
+  <div class="heritageSlide" data-heritage="04" aria-hidden="true">
+    <div class="heritageMeta">
+      <div class="heritageKicker">INDIAN HERITAGE · 04</div>
+      <div class="heritageName">HAMPI</div>
+      <div class="heritagePlace">Karnataka · Vijayanagara heritage</div>
+      <span class="heritageMiniFlag"></span>
+    </div>
+    <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(240 24)"><path class="line draw" d="M0 92H280M30 92V52L75 30 120 52V92M160 92V54L205 31 250 54V92"/><path class="line draw" d="M55 52Q120 16 185 52"/><path class="line draw" d="M92 92V55M118 92V55M170 92V57M196 92V57"/><circle cx="93" cy="104" r="30" class="soft"/><circle cx="93" cy="104" r="22" class="line"/><circle cx="187" cy="104" r="30" class="soft"/><circle cx="187" cy="104" r="22" class="line"/><path class="soft" d="M71 104H115M165 104H209"/><circle cx="140" cy="16" r="2.5" class="spark"/></g><g transform="translate(112 68)" opacity=".62"><path class="line draw" d="M0 58L15 30 30 58M8 42L15 30 22 42M36 58L51 30 66 58M44 42L51 30 58 42"/></g></svg></div>
+    <span class="scan"></span>
+  </div>
+
 
   <div class="wrap">
 
@@ -2535,6 +2748,17 @@ html{
 ======================================================= -->
 
 <section id="resume" class="cinematicSection" data-scene="RESUME">
+  <div class="heritageSlide" data-heritage="05" aria-hidden="true">
+    <div class="heritageMeta">
+      <div class="heritageKicker">INDIAN HERITAGE · 05</div>
+      <div class="heritageName">AJANTA CAVES</div>
+      <div class="heritagePlace">Maharashtra · Cave art & architecture</div>
+      <span class="heritageMiniFlag"></span>
+    </div>
+    <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(192 11)"><path class="line draw" d="M0 118V60Q135 0 270 60V118"/><path class="line draw" d="M24 118V71Q135 22 246 71V118"/><path class="soft" d="M50 118V79Q135 43 220 79V118"/><path class="line draw" d="M62 118V84M88 118V76M114 118V70M156 118V70M182 118V76M208 118V84"/><path class="soft" d="M0 118H270"/><circle cx="135" cy="18" r="3" class="spark"/></g><g opacity=".6"><path class="line draw" d="M80 58Q92 42 104 58M516 58Q528 42 540 58"/></g></svg></div>
+    <span class="scan"></span>
+  </div>
+
 
   <div class="wrap">
 
@@ -2617,6 +2841,17 @@ html{
 ======================================================= -->
 
 <section id="social" class="cinematicSection" data-scene="SOCIAL">
+  <div class="heritageSlide" data-heritage="06" aria-hidden="true">
+    <div class="heritageMeta">
+      <div class="heritageKicker">INDIAN HERITAGE · 06</div>
+      <div class="heritageName">CHARMINAR</div>
+      <div class="heritagePlace">Hyderabad · Deccan heritage</div>
+      <span class="heritageMiniFlag"></span>
+    </div>
+    <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(220 9)"><path class="line draw" d="M72 122V56Q72 38 90 38H180Q198 38 198 56V122"/><path class="line draw" d="M106 122V70H164V122M135 70V42"/><path class="line draw" d="M90 38Q135 4 180 38"/><path class="line draw" d="M68 122V42Q68 26 56 19Q42 12 34 28V122M202 122V42Q202 26 214 19Q228 12 236 28V122"/><path class="soft" d="M34 72H68M202 72H236M20 122H250M120 90H150M120 103H150"/><circle cx="135" cy="42" r="3" class="spark"/></g><g opacity=".6"><path class="line draw" d="M100 122H180M260 122H330M390 122H460"/></g></svg></div>
+    <span class="scan"></span>
+  </div>
+
 
   <div class="wrap">
 
@@ -3534,6 +3769,23 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
   document.addEventListener('visibilitychange',function(){
     document.documentElement.classList.toggle('pageHidden',document.hidden);
   });
+})();
+</script>
+
+<script>
+/* =========================================================
+   INDIAN HERITAGE SLIDES
+   Activates the heritage animation for each section.
+========================================================= */
+(function(){
+  const sections = document.querySelectorAll('.cinematicSection');
+  if(!sections.length) return;
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      entry.target.classList.toggle('heritageActive', entry.isIntersecting);
+    });
+  }, {threshold:0.34, rootMargin:'-8% 0px -8% 0px'});
+  sections.forEach(function(section){ io.observe(section); });
 })();
 </script>
 </body>
