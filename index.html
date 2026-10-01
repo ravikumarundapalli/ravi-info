@@ -1832,34 +1832,37 @@ html{
 /* Indian rangoli-inspired geometry, intentionally subtle. */
 .indiaRangoli{
   position:absolute;
-  left:-2.5%;
-  bottom:8%;
-  width:176px;
-  height:176px;
+  right:4.5%;
+  bottom:10%;
+  width:220px;
+  height:220px;
   border-radius:50%;
   pointer-events:none;
   z-index:0;
-  opacity:.28;
-  background:conic-gradient(from 0deg,
-    rgba(255,153,51,.34) 0 15%, transparent 15% 30%,
-    rgba(255,255,255,.18) 30% 45%, transparent 45% 60%,
-    rgba(19,136,8,.27) 60% 75%, transparent 75% 90%,
-    rgba(20,65,120,.20) 90% 100%);
+  opacity:.62;
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.22) 0 2px, transparent 3px),
+    repeating-conic-gradient(from 0deg, rgba(255,153,51,.85) 0 7deg, transparent 7deg 15deg);
   -webkit-mask:radial-gradient(circle,
-    transparent 0 28%, #000 29% 31%, transparent 32% 44%,
-    #000 45% 46%, transparent 47% 58%, #000 59% 60%, transparent 61%);
+    transparent 0 11%, #000 12% 16%, transparent 17% 23%,
+    #000 24% 27%, transparent 28% 35%, #000 36% 39%,
+    transparent 40% 47%, #000 48% 50%, transparent 51% 100%);
   mask:radial-gradient(circle,
-    transparent 0 28%, #000 29% 31%, transparent 32% 44%,
-    #000 45% 46%, transparent 47% 58%, #000 59% 60%, transparent 61%);
-  animation:indiaRangoliSpin 30s linear infinite;
+    transparent 0 11%, #000 12% 16%, transparent 17% 23%,
+    #000 24% 27%, transparent 28% 35%, #000 36% 39%,
+    transparent 40% 47%, #000 48% 50%, transparent 51% 100%);
+  filter:drop-shadow(0 0 20px rgba(255,153,51,.16)) drop-shadow(0 0 30px rgba(19,136,8,.10));
+  animation:indiaRangoliSpin 34s linear infinite;
 }
 .indiaRangoli::before{
   content:"";
   position:absolute;
-  inset:37%;
+  inset:33%;
   border-radius:50%;
-  background:#1d2b5d;
-  box-shadow:0 0 20px rgba(255,153,51,.10),0 0 20px rgba(19,136,8,.08);
+  background:
+    radial-gradient(circle, rgba(19,136,8,.34) 0 30%, transparent 31%),
+    conic-gradient(#ff9933 0 33%, #ffffff 33% 66%, #138808 66% 100%);
+  box-shadow:0 0 24px rgba(255,153,51,.18), 0 0 34px rgba(19,136,8,.10);
 }
 .indiaRangoli::after{
   content:"✦";
@@ -1867,14 +1870,43 @@ html{
   inset:0;
   display:grid;
   place-items:center;
-  color:rgba(255,255,255,.42);
-  font-size:18px;
+  color:rgba(255,255,255,.9);
+  font-size:24px;
+  text-shadow:0 0 18px rgba(255,255,255,.35);
 }
 @keyframes indiaRangoliSpin{
   to{transform:translateZ(0) rotate(360deg)}
 }
+
+/* Visible Indian tricolour heritage accent — kept compact and premium. */
+.indiaHeritageBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin-top:18px;
+  padding:8px 12px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;
+  background:rgba(255,255,255,.035);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  color:#9aa4b7;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+.indiaHeritageBadge i{
+  display:block;
+  width:28px;
+  height:3px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#ff9933 0 33%,#fff 33% 66%,#138808 66% 100%);
+  box-shadow:0 0 12px rgba(255,255,255,.08);
+}
 @media(max-width:850px){
-  .indiaRangoli{width:118px;height:118px;left:-10%;bottom:6%;opacity:.18}
+  .indiaRangoli{width:145px;height:145px;right:-6%;bottom:9%;opacity:.48}
+  .indiaHeritageBadge{margin-top:14px}
 }
 @media(prefers-reduced-motion:reduce){.indiaRangoli{animation:none}}
 </style>
@@ -2039,6 +2071,11 @@ html{
         <span>Production Troubleshooting</span>
         <span>AI</span>
 
+      </div>
+
+      <div class="indiaHeritageBadge" aria-label="Indian heritage accent">
+        <i aria-hidden="true"></i>
+        INDIA · ROOTED IN CULTURE · BUILDING WITH TECHNOLOGY
       </div>
 
 
