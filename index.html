@@ -2078,6 +2078,44 @@ html{
   .heritageSlide .scan{display:none}
   .heritageArt .draw{stroke-dashoffset:0;transition:none}
 }
+
+<style id="heritage-overlap-fix">
+/* =========================================================
+   HERITAGE HEADER SPACING FIX
+   Reserve a dedicated top band so heritage art/text never
+   overlaps the section heading or body copy.
+========================================================= */
+@media (min-width: 851px){
+  .cinematicSection:not(.hero){
+    padding-top: 176px !important;
+  }
+
+  .cinematicSection:not(.hero) > .wrap{
+    position: relative;
+    z-index: 2;
+  }
+
+  .heritageSlide{
+    top: 10px;
+    height: 142px;
+  }
+
+  .heritageMeta{
+    min-width: 250px;
+  }
+
+  .heritageArt{
+    height: 132px;
+  }
+}
+
+@media (max-width: 850px){
+  .cinematicSection:not(.hero){
+    padding-top: 110px !important;
+  }
+}
+</style>
+
 </style>
 </head>
 
