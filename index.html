@@ -673,6 +673,99 @@ h2 {
 }
 
 
+
+/* =========================================================
+   RESUME
+========================================================= */
+
+.resumeBox {
+  position: relative;
+  overflow: hidden;
+  padding: 42px;
+  border-radius: 30px;
+  border: 1px solid rgba(115,133,255,.18);
+  background:
+    radial-gradient(circle at 85% 20%, rgba(115,133,255,.12), transparent 35%),
+    linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+}
+
+.resumeGlow {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(115,133,255,.09);
+  filter: blur(70px);
+  right: -90px;
+  top: -100px;
+  animation: resumeFloat 6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes resumeFloat {
+  to {
+    transform: translate(-35px, 30px);
+  }
+}
+
+.resumeContent {
+  position: relative;
+  z-index: 2;
+}
+
+.resumeIcon {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  background: rgba(115,133,255,.10);
+  border: 1px solid rgba(115,133,255,.20);
+  color: #aeb8ff;
+  font-size: 24px;
+}
+
+.resumeBox h3 {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.resumeBox p {
+  max-width: 700px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.resumeActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 27px;
+}
+
+.resumeActions .btn {
+  cursor: pointer;
+}
+
+.resumeMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.resumeMeta span {
+  padding: 7px 10px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(255,255,255,.07);
+  color: #858fa2;
+  font-size: 10px;
+  font-weight: 700;
+}
+
 /* =========================================================
    SOCIAL
 ========================================================= */
@@ -828,13 +921,13 @@ footer {
   }
 
   .profileOrb {
-    width: 290px;
-    height: 290px;
+    width: 300px;
+    height: 300px;
   }
 
   .photo {
-    width: 205px;
-    height: 205px;
+    width: 212px;
+    height: 212px;
   }
 
   .orbitDot {
@@ -870,6 +963,10 @@ footer {
     padding: 32px 23px;
   }
 
+  .resumeBox {
+    padding: 32px 23px;
+  }
+
   section {
     padding: 70px 0;
   }
@@ -898,6 +995,250 @@ footer {
 
   }
 
+}
+
+
+/* =========================================================
+   4K VISUAL POLISH
+   High-DPI / cinematic UI enhancements
+========================================================= */
+
+html {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+.hero::before,
+section::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.hero {
+  overflow: hidden;
+}
+
+.hero::before {
+  width: 620px;
+  height: 620px;
+  left: 42%;
+  top: 5%;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(115,133,255,.10) 0%,
+      rgba(94,231,212,.035) 32%,
+      transparent 68%
+    );
+  filter: blur(8px);
+  transform: translateZ(0);
+  animation: heroAtmosphere 12s ease-in-out infinite alternate;
+}
+
+@keyframes heroAtmosphere {
+  from {
+    transform: translate3d(-20px,-10px,0) scale(.96);
+  }
+  to {
+    transform: translate3d(35px,25px,0) scale(1.04);
+  }
+}
+
+.profileOrb {
+  filter: drop-shadow(0 35px 80px rgba(0,0,0,.38));
+  transform: translateZ(0);
+}
+
+.profileGlow {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 50px rgba(115,133,255,.20),
+    0 0 100px rgba(94,231,212,.07),
+    0 35px 90px rgba(0,0,0,.65);
+}
+
+.photo {
+  image-rendering: auto;
+  box-shadow:
+    inset 0 0 35px rgba(0,0,0,.22),
+    0 0 0 1px rgba(255,255,255,.04);
+}
+
+.card,
+.social,
+.flowItem,
+.resumeBox,
+.aiBox,
+.stat {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.035),
+    0 18px 55px rgba(0,0,0,.14);
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.card:hover,
+.social:hover,
+.flowItem:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 25px 70px rgba(0,0,0,.28),
+    0 0 35px rgba(115,133,255,.06);
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent,
+    rgba(255,255,255,.20),
+    transparent
+  );
+  transform: skewX(-18deg);
+  transition: left .7s ease;
+  z-index: -1;
+}
+
+.btn:hover::before {
+  left: 145%;
+}
+
+.heroTech span,
+.tag,
+.resumeMeta span {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.aiBox,
+.resumeBox {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.045),
+    0 30px 90px rgba(0,0,0,.24);
+}
+
+.aiBox::after,
+.resumeBox::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 20%,
+      rgba(255,255,255,.035) 45%,
+      transparent 70%
+    );
+  background-size: 220% 100%;
+  animation: surfaceSweep 9s ease-in-out infinite;
+}
+
+@keyframes surfaceSweep {
+  0%, 55%, 100% {
+    background-position: 120% 0;
+  }
+  75% {
+    background-position: -20% 0;
+  }
+}
+
+.flowItem:nth-child(1) { animation-delay: .0s; }
+.flowItem:nth-child(2) { animation-delay: .12s; }
+.flowItem:nth-child(3) { animation-delay: .24s; }
+.flowItem:nth-child(4) { animation-delay: .36s; }
+.flowItem:nth-child(5) { animation-delay: .48s; }
+
+.flowItem.visible {
+  animation: flowEnter .7s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes flowEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.reveal.visible {
+  animation: premiumReveal .8s cubic-bezier(.2,.75,.2,1) both;
+}
+
+@keyframes premiumReveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0,28px,0) scale(.985);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Fine cinematic grain without an image asset */
+body::after {
+  mix-blend-mode: screen;
+}
+
+/* Keep animations crisp on high-DPI screens */
+@media (min-width: 1600px) {
+  .wrap {
+    width: min(1280px, calc(100% - 72px));
+  }
+
+  .hero {
+    padding-top: 110px;
+    padding-bottom: 100px;
+  }
+
+  .heroGrid {
+    gap: 90px;
+  }
+
+  .profileOrb {
+    width: 390px;
+    height: 390px;
+  }
+
+  .photo {
+    width: 285px;
+    height: 285px;
+  }
+
+  h1 {
+    font-size: clamp(58px, 5vw, 88px);
+  }
+
+  .heroText {
+    font-size: 18px;
+  }
 }
 
 </style>
@@ -949,6 +1290,7 @@ footer {
       <a href="#about">About</a>
       <a href="#expertise">Engineering</a>
       <a href="#ai">AI Explorer</a>
+      <a href="#resume">Resume</a>
       <a href="#social">Social</a>
 
     </div>
@@ -1490,6 +1832,89 @@ footer {
 </section>
 
 
+
+<!-- =======================================================
+     RESUME · REPLACE resume.pdf IN GITHUB TO UPDATE
+======================================================= -->
+
+<section id="resume">
+
+  <div class="wrap">
+
+    <div class="sectionTop reveal">
+
+      <div class="kicker">
+        RESUME
+      </div>
+
+      <h2>
+        A snapshot of my professional journey.
+      </h2>
+
+      <p class="muted">
+        Explore my experience across Data Engineering, ETL, cloud platforms,
+        production systems, troubleshooting and automation.
+      </p>
+
+    </div>
+
+    <div class="resumeBox reveal">
+
+      <div class="resumeGlow"></div>
+
+      <div class="resumeContent">
+
+        <div class="resumeIcon">
+          ↗
+        </div>
+
+        <h3>
+          Ravi Kumar — Resume
+        </h3>
+
+        <p>
+          My latest professional resume covering my experience, technical
+          skills, production engineering background, cloud technologies and
+          data engineering work.
+        </p>
+
+        <div class="resumeActions">
+
+          <a
+            class="btn primary"
+            href="resume.pdf"
+            target="_blank"
+            rel="noopener">
+            View Resume →
+          </a>
+
+          <a
+            class="btn"
+            href="resume.pdf"
+            download="Ravi-Kumar-Resume.pdf">
+            Download PDF
+          </a>
+
+        </div>
+
+        <div class="resumeMeta">
+
+          <span>Data Engineering</span>
+          <span>ETL</span>
+          <span>AWS</span>
+          <span>Production Engineering</span>
+          <span>AI Explorer</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
 <!-- =======================================================
      SOCIAL
 ======================================================= -->
@@ -1684,7 +2109,7 @@ footer {
   <div class="wrap">
 
     © <span id="year"></span>
-    Ravi Info · Data Engineering · Production Engineering · AI Explorer
+    Ravi Info · Data Engineering · Production Engineering · AI Explorer · Resume
 
   </div>
 
