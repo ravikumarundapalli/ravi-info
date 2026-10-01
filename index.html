@@ -1335,6 +1335,123 @@ body::after {
 @keyframes welcomeIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(prefers-reduced-motion:reduce){.visitorWelcome{transition:none}.visitorWelcomeCard{animation:none}}
 
+
+
+/* =========================================================
+   BUTTER-SMOOTH PERFORMANCE LAYER
+   Optimized for high-refresh displays without forcing a fake
+   500Hz rate. requestAnimationFrame follows the display's
+   actual refresh cadence when the browser/GPU supports it.
+========================================================= */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+  overscroll-behavior-y: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overscroll-behavior-x: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+nav,
+.card,
+.flowItem,
+.social,
+.stat,
+.btn,
+.tag,
+.heroTech span,
+.profileOrb,
+.aiBox,
+.resumeBox,
+.profileGlow {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.btn,
+.card,
+.flowItem,
+.social,
+.tag,
+.heroTech span,
+.navlinks a {
+  transition-timing-function: cubic-bezier(.22,1,.36,1);
+}
+
+.reveal {
+  transition-timing-function: cubic-bezier(.22,1,.36,1);
+  will-change: opacity, transform;
+}
+
+.reveal.visible {
+  will-change: auto;
+}
+
+.profileOrb,
+.aiGlow,
+.resumeGlow,
+.gradient,
+.statusPill,
+.flowItem::after,
+.particle {
+  will-change: transform;
+}
+
+#webgl-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: -4;
+  contain: strict;
+}
+
+.webglVignette,
+.webglScanlines {
+  contain: strict;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn,
+  .card,
+  .flowItem,
+  .social,
+  .tag,
+  .heroTech span {
+    will-change: transform;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .profileOrb,
+  .aiGlow,
+  .resumeGlow,
+  .gradient,
+  .statusPill,
+  .flowItem::after,
+  .particle {
+    will-change: auto !important;
+  }
+}
+
+
+
+/* Keep below-the-fold sections cheap during first paint. */
+section:not(.hero), footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 700px;
+}
+
 </style>
 </head>
 
@@ -2221,6 +2338,27 @@ body::after {
 
 
 <script>
+/* =========================================================
+   INITIAL PAGE POSITION
+   Always open/reload the site at the top instead of restoring
+   the browser's previous scroll position.
+========================================================= */
+(function(){
+  try {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+  } catch(e) {}
+
+  function forceTop(){
+    window.scrollTo(0, 0);
+  }
+
+  window.addEventListener("load", forceTop);
+  window.addEventListener("pageshow", forceTop);
+  setTimeout(forceTop, 80);
+})();
+
 
 
 /* =========================================================
@@ -2483,8 +2621,12 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
     powerPreference: "high-performance"
   });
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  // High-refresh friendly rendering: rAF syncs to the real display refresh rate.
+  // We cap DPR to keep frame time low on 4K/5K/high-Hz screens.
+  const maxDPR = window.innerWidth < 850 ? 1.25 : 1.75;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDPR));
   renderer.setSize(window.innerWidth, window.innerHeight, false);
+  renderer.domElement.style.contain = "strict";
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -2663,17 +2805,35 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
     const h = window.innerHeight;
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const maxDPR = w < 850 ? 1.25 : 1.75;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDPR));
     renderer.setSize(w, h, false);
   }
 
   window.addEventListener("resize", resize, { passive: true });
 
   const clock = new THREE.Clock();
+  let animationFrame = 0;
+  let isPageVisible = !document.hidden;
+  let lastRender = 0;
+  const frameBudget = 0; // 0 = let requestAnimationFrame use the display's native refresh cadence.
 
-  function animate() {
-    requestAnimationFrame(animate);
+  document.addEventListener("visibilitychange", function () {
+    isPageVisible = !document.hidden;
+    if (isPageVisible) {
+      clock.start();
+      lastRender = 0;
+    }
+  }, { passive: true });
 
+  function animate(now) {
+    animationFrame = requestAnimationFrame(animate);
+    if (!isPageVisible) return;
+    if (frameBudget && now - lastRender < frameBudget) return;
+    lastRender = now;
+
+    const delta = Math.min(.05, clock.getDelta());
+    const frameScale = Math.min(2, Math.max(.5, delta * 60));
     const t = clock.getElapsedTime();
 
     mouse.x += (mouse.targetX - mouse.x) * .025;
@@ -2685,9 +2845,9 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
       const index = i * 3;
       const v = velocities[i];
 
-      p[index] += v.x;
-      p[index + 1] += v.y;
-      p[index + 2] += v.z;
+      p[index] += v.x * frameScale;
+      p[index + 1] += v.y * frameScale;
+      p[index + 2] += v.z * frameScale;
 
       if (Math.abs(p[index]) > 17) v.x *= -1;
       if (Math.abs(p[index + 1]) > 11) v.y *= -1;
@@ -2713,7 +2873,11 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
     renderer.render(scene, camera);
   }
 
-  animate();
+  animationFrame = requestAnimationFrame(animate);
+
+  window.addEventListener("beforeunload", function () {
+    cancelAnimationFrame(animationFrame);
+  }, { passive: true });
 
 })();
 
