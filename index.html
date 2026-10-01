@@ -1635,6 +1635,147 @@ body::after,
 }
 
 </style>
+
+<style id="ravi-cinematic-v2">
+/* =========================================================
+   RAVI INFO — CINEMATIC EXPERIENCE V2
+   Inspired by current award-winning patterns:
+   immersive chapters, editorial scale, WebGL depth,
+   scroll choreography and restrained motion.
+========================================================= */
+:root{
+  --cinema-progress:0;
+  --cinema-hue:220;
+  --cinema-x:50vw;
+  --cinema-y:35vh;
+}
+html{scroll-behavior:auto!important}
+body{background:#030409;}
+
+/* cinematic stage */
+.cinemaStage{
+  position:fixed; inset:0; pointer-events:none; z-index:-1; overflow:hidden;
+  background:
+    radial-gradient(circle at var(--cinema-x) var(--cinema-y), hsla(var(--cinema-hue),100%,70%,.11), transparent 24%),
+    radial-gradient(circle at 15% 85%, rgba(182,108,255,.07), transparent 30%),
+    #030409;
+}
+.cinemaStage::before{
+  content:""; position:absolute; inset:-20%;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:72px 72px;
+  transform:perspective(900px) rotateX(62deg) translateY(28%);
+  transform-origin:center bottom;
+  opacity:.36;
+  mask-image:linear-gradient(to top,black,transparent 72%);
+}
+.cinemaStage::after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(ellipse at center,transparent 42%,rgba(0,0,0,.55) 100%);
+}
+.cinemaBeam{
+  position:absolute; width:42vw; height:120vh; left:50%; top:-30%;
+  transform:translateX(-50%) rotate(18deg);
+  background:linear-gradient(90deg,transparent,rgba(115,133,255,.045),transparent);
+  filter:blur(18px); opacity:.8;
+  animation:cinemaBeam 11s ease-in-out infinite alternate;
+}
+@keyframes cinemaBeam{to{transform:translateX(-44%) rotate(24deg)}}
+
+.cinemaHUDv2{
+  position:fixed; left:28px; top:50%; transform:translateY(-50%);
+  z-index:150; pointer-events:none; display:flex; flex-direction:column; gap:12px;
+  font-size:9px; letter-spacing:.18em; color:rgba(255,255,255,.45);
+}
+.cinemaHUDv2 .chapter{writing-mode:vertical-rl; transform:rotate(180deg);}
+.cinemaHUDv2 .chapter strong{color:white;font-weight:800}
+.cinemaDots{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.cinemaDot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.25);transition:transform .35s,background .35s,box-shadow .35s}
+.cinemaDot.active{background:#fff;transform:scale(1.8);box-shadow:0 0 14px rgba(115,133,255,.9)}
+.cinemaTime{font-variant-numeric:tabular-nums;opacity:.55}
+
+.cinemaProgressTop{
+  position:fixed;left:0;top:0;width:100%;height:2px;z-index:300;background:rgba(255,255,255,.04)
+}
+.cinemaProgressTop i{display:block;width:100%;height:100%;background:linear-gradient(90deg,#7385ff,#5ee7d4,#b66cff);box-shadow:0 0 18px rgba(94,231,212,.55);transform-origin:left}
+
+/* chapter sections become full cinematic scenes */
+main{position:relative;z-index:1}
+.cinematicSection{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  isolation:isolate;
+  overflow:clip;
+  transform-origin:center center;
+}
+.cinematicSection::before{
+  content:attr(data-scene);
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.92);
+  font-size:clamp(90px,20vw,300px);font-weight:900;letter-spacing:-.08em;
+  color:rgba(255,255,255,.018);white-space:nowrap;z-index:-1;pointer-events:none;
+}
+.cinematicSection::after{
+  content:"";position:absolute;inset:10% 4%;border-top:1px solid rgba(255,255,255,.035);border-bottom:1px solid rgba(255,255,255,.025);pointer-events:none;z-index:-1
+}
+.cinematicSection > .wrap{width:min(1240px,calc(100% - 72px));position:relative;z-index:2}
+
+/* editorial typography */
+.hero h1{font-size:clamp(56px,8.8vw,128px);line-height:.88;letter-spacing:-.065em;max-width:1100px}
+.heroText{font-size:clamp(15px,1.3vw,19px);max-width:720px}
+.sectionTop h2{font-size:clamp(42px,7vw,88px);letter-spacing:-.06em}
+.kicker{font-size:10px;letter-spacing:.22em}
+
+/* reveal mask — visually stronger than ordinary fade */
+.cinemaReveal{opacity:0;clip-path:inset(16% 0 16% 0 round 34px);transform:translateY(60px) scale(.97);}
+.cinemaReveal.in{opacity:1;clip-path:inset(0 0 0 0 round 0);transform:translateY(0) scale(1);transition:opacity 1s cubic-bezier(.16,1,.3,1),clip-path 1.2s cubic-bezier(.16,1,.3,1),transform 1.2s cubic-bezier(.16,1,.3,1)}
+
+/* glass surfaces with moving light, but no perpetual repaint */
+.card,.aiBox,.resumeBox,.social,.stat,.flowItem{
+  overflow:hidden;
+  isolation:isolate;
+}
+.card::after,.aiBox::after,.resumeBox::after,.social::after,.stat::after,.flowItem::after{
+  content:"";position:absolute;inset:-120% -30%;
+  background:linear-gradient(105deg,transparent 43%,rgba(255,255,255,.08) 49%,transparent 55%);
+  transform:translateX(-55%) rotate(5deg);pointer-events:none;opacity:0;
+}
+.cinemaSurface.in::after{opacity:1;animation:surfaceSweep 1.25s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes surfaceSweep{to{transform:translateX(55%) rotate(5deg)}}
+
+/* horizontal marquee */
+.cinemaMarquee{position:relative;width:100vw;margin-left:calc(50% - 50vw);overflow:hidden;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.018);}
+.cinemaMarqueeTrack{display:flex;width:max-content;gap:28px;padding:12px 0;animation:marquee 26s linear infinite;will-change:transform}
+.cinemaMarqueeTrack span{font-size:10px;font-weight:800;letter-spacing:.16em;color:#737d90;white-space:nowrap}
+.cinemaMarqueeTrack b{color:#5ee7d4}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* hero visual data ring */
+.heroDataRing{position:absolute;right:-6%;top:50%;width:min(46vw,650px);aspect-ratio:1;transform:translateY(-50%);border-radius:50%;border:1px solid rgba(115,133,255,.14);box-shadow:inset 0 0 80px rgba(115,133,255,.035);pointer-events:none}
+.heroDataRing::before,.heroDataRing::after{content:"";position:absolute;inset:10%;border-radius:50%;border:1px dashed rgba(94,231,212,.14)}
+.heroDataRing::after{inset:26%;border-color:rgba(182,108,255,.14);}
+.heroDataRing i{position:absolute;width:8px;height:8px;border-radius:50%;background:#5ee7d4;box-shadow:0 0 20px #5ee7d4;left:50%;top:-4px;transform-origin:4px calc(50% + 4px);animation:heroOrbit 9s linear infinite}
+@keyframes heroOrbit{to{transform:rotate(360deg)}}
+
+/* pointer light */
+.cinemaCursor{position:fixed;width:260px;height:260px;border-radius:50%;pointer-events:none;z-index:120;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(115,133,255,.09),transparent 65%);mix-blend-mode:screen;opacity:.9}
+
+/* mobile */
+@media(max-width:850px){
+ .cinemaHUDv2{left:12px;opacity:.55}.cinemaHUDv2 .chapter{display:none}.cinemaDots{display:none}
+ .cinematicSection{min-height:auto;padding:110px 0}
+ .cinematicSection > .wrap{width:min(100% - 34px,1240px)}
+ .hero{min-height:100svh;padding:90px 0 70px}
+ .hero h1{font-size:clamp(48px,15vw,76px)}
+ .heroDataRing{width:90vw;right:-35%;top:38%;opacity:.45}
+ .cinemaMarqueeTrack{animation-duration:20s}
+}
+@media(prefers-reduced-motion:reduce){.cinemaBeam,.cinemaMarqueeTrack,.heroDataRing i{animation:none}.cinemaCursor{display:none}.cinemaReveal{opacity:1;clip-path:none;transform:none}}
+</style>
+
 </head>
 
 
@@ -1703,6 +1844,17 @@ body::after,
 </nav>
 
 
+
+<!-- CINEMATIC EXPERIENCE V2 -->
+<div class="cinemaStage" aria-hidden="true"><div class="cinemaBeam"></div></div>
+<div class="cinemaProgressTop" aria-hidden="true"><i></i></div>
+<div class="cinemaCursor" id="cinemaCursor" aria-hidden="true"></div>
+<div class="cinemaHUDv2" aria-hidden="true">
+  <div class="chapter">RAVI INFO · <strong id="cinemaChapter">IDENTITY</strong></div>
+  <div class="cinemaDots" id="cinemaDots"></div>
+  <div class="cinemaTime" id="cinemaTime">00:00</div>
+</div>
+
 <main id="top">
 
 
@@ -1711,6 +1863,7 @@ body::after,
 ======================================================= -->
 
 <section class="hero cinematicSection" data-scene="IDENTITY">
+  <div class="heroDataRing" aria-hidden="true"><i></i></div>
 
   <div class="wrap heroGrid">
 
@@ -1998,6 +2151,7 @@ body::after,
      PRODUCTION ENGINEERING
 ======================================================= -->
 
+<div class="cinemaMarquee" aria-hidden="true"><div class="cinemaMarqueeTrack"><span>DATA ENGINEERING</span><span>AWS</span><span>PYTHON</span><span>SQL</span><span>APACHE NIFI</span><span>FIVETRAN</span><span>HVR</span><span>INFORMATICA</span><span>SPARK</span><span>DATABRICKS</span><span>PRODUCTION SYSTEMS</span><span>AI EXPLORER</span><span>DATA ENGINEERING</span><span>AWS</span><span>PYTHON</span><span>SQL</span><span>APACHE NIFI</span><span>FIVETRAN</span><span>HVR</span><span>INFORMATICA</span><span>SPARK</span><span>DATABRICKS</span><span>PRODUCTION SYSTEMS</span><span>AI EXPLORER</span></div></div>
 <section id="expertise" class="cinematicSection" data-scene="ENGINEERING">
 
   <div class="wrap">
@@ -3092,6 +3246,131 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
 
 })();
 
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.14/dist/lenis.min.js"></script>
+<script>
+/* =========================================================
+   CINEMATIC EXPERIENCE V2 ENGINE
+   Patterns inspired by current award-winning web work:
+   chapter-based storytelling, smooth Lenis scroll,
+   GSAP scroll choreography and WebGL depth.
+========================================================= */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(typeof gsap==='undefined' || typeof ScrollTrigger==='undefined') return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const sections=[...document.querySelectorAll('.cinematicSection')];
+  const chapter=document.getElementById('cinemaChapter');
+  const dots=document.getElementById('cinemaDots');
+  const cursor=document.getElementById('cinemaCursor');
+  const progress=document.querySelector('.cinemaProgressTop i');
+  const timeEl=document.getElementById('cinemaTime');
+  const root=document.documentElement;
+  const colors=[220,180,160,285,225,175];
+
+  /* Smooth scroll without taking control away from the browser. */
+  let lenis=null;
+  if(typeof Lenis!=='undefined'){
+    lenis=new Lenis({
+      duration:1.05,
+      smoothWheel:true,
+      smoothTouch:false,
+      wheelMultiplier:.92,
+      syncTouch:false,
+      autoRaf:false
+    });
+    lenis.on('scroll',()=>ScrollTrigger.update());
+    gsap.ticker.add(t=>lenis.raf(t*1000));
+    gsap.ticker.lagSmoothing(1000,16);
+  }
+
+  sections.forEach((s,i)=>{
+    const d=document.createElement('span');
+    d.className='cinemaDot'+(i===0?' active':'');
+    d.dataset.index=i;
+    dots && dots.appendChild(d);
+    s.querySelectorAll('.sectionTop,.heroContent,.card,.flowItem,.aiBox,.resumeBox,.social,.stat').forEach(el=>el.classList.add('cinemaReveal','cinemaSurface'));
+  });
+
+  /* Scene entrances: large, soft, editorial transitions. */
+  sections.forEach((section,i)=>{
+    const targets=section.querySelectorAll('.cinemaReveal');
+    ScrollTrigger.create({
+      trigger:section,
+      start:'top 78%',
+      once:true,
+      onEnter:()=>{
+        targets.forEach((el,j)=>setTimeout(()=>el.classList.add('in'),j*55));
+      }
+    });
+
+    /* Depth drift, deliberately subtle to avoid GPU waste. */
+    gsap.to(section.querySelector('.sectionTop, .heroContent'),{
+      yPercent:-5,
+      ease:'none',
+      scrollTrigger:{trigger:section,start:'top bottom',end:'bottom top',scrub:0.6}
+    });
+
+    ScrollTrigger.create({
+      trigger:section,
+      start:'top center',
+      end:'bottom center',
+      onEnter:()=>activate(i),
+      onEnterBack:()=>activate(i)
+    });
+  });
+
+  function activate(i){
+    const name=sections[i]?.dataset.scene||'';
+    if(chapter) chapter.textContent=name;
+    root.style.setProperty('--cinema-hue',colors[i%colors.length]);
+    document.querySelectorAll('.cinemaDot').forEach((d,n)=>d.classList.toggle('active',n===i));
+    if(window.__raviScene) window.__raviScene.index=i;
+  }
+
+  /* Progress + cinematic clock in one passive scroll-driven trigger. */
+  ScrollTrigger.create({
+    start:0,
+    end:'max',
+    onUpdate:self=>{
+      const p=self.progress;
+      root.style.setProperty('--cinema-progress',p.toFixed(5));
+      if(progress) progress.style.transform='scaleX('+p+')';
+      if(timeEl){
+        const total=sections.length*12;
+        const sec=Math.floor(p*total);
+        timeEl.textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
+      }
+    }
+  });
+
+  /* Pointer light: one rAF, never one DOM write per pointer event. */
+  let mx=innerWidth*.5,my=innerHeight*.35,px=mx,py=my,raf=0;
+  addEventListener('pointermove',e=>{
+    mx=e.clientX;my=e.clientY;
+    if(raf)return;
+    raf=requestAnimationFrame(()=>{
+      raf=0;
+      px+=(mx-px)*.18;py+=(my-py)*.18;
+      if(cursor) cursor.style.transform='translate3d('+(px-130)+'px,'+(py-130)+'px,0)';
+      root.style.setProperty('--cinema-x',mx+'px');
+      root.style.setProperty('--cinema-y',my+'px');
+    });
+  },{passive:true});
+
+  /* Avoid browser restoring an old position on a fresh entry. */
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  addEventListener('pageshow',()=>{ if(location.hash) return; scrollTo(0,0); },{passive:true});
+
+  /* Keep ScrollTrigger measurements correct after fonts/images settle. */
+  addEventListener('load',()=>ScrollTrigger.refresh(),{once:true,passive:true});
+})();
 </script>
 
 </body>
