@@ -3,15 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#07090f">
-<meta name="description" content="Ravi Kumar | Data Engineer, End-to-End Production Engineering and AI Explorer">
-<title>Ravi Info | Data Engineer & AI Explorer</title>
+<meta name="theme-color" content="#05060a">
+
+<meta name="description"
+content="Ravi Kumar | Data Engineer, Production Engineering and AI Explorer">
+
+<title>Ravi Info | Data Engineer × AI Explorer</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
+
+/* =========================================================
+   CORE
+========================================================= */
+
+:root {
+  --bg: #05060a;
+  --bg2: #090b12;
+  --text: #f5f7ff;
+  --muted: #929bad;
+  --line: rgba(255,255,255,.09);
+  --glass: rgba(255,255,255,.045);
+  --blue: #7385ff;
+  --cyan: #5ee7d4;
+  --purple: #b66cff;
+  --radius: 24px;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -25,11 +47,43 @@ html {
 body {
   font-family: Inter, Arial, sans-serif;
   background:
-    radial-gradient(circle at 80% 10%, rgba(85,95,255,.16), transparent 30%),
-    radial-gradient(circle at 10% 40%, rgba(0,220,180,.08), transparent 28%),
-    #07090f;
-  color: #f7f9ff;
+    radial-gradient(circle at 15% 10%, rgba(115,133,255,.13), transparent 30%),
+    radial-gradient(circle at 85% 20%, rgba(94,231,212,.09), transparent 28%),
+    radial-gradient(circle at 50% 80%, rgba(182,108,255,.07), transparent 30%),
+    var(--bg);
+  color: var(--text);
   line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .16;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+  z-index: -3;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: rgba(115,133,255,.07);
+  filter: blur(100px);
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  left: var(--mouse-x, 50%);
+  top: var(--mouse-y, 30%);
+  transition: left .5s ease, top .5s ease;
+  z-index: -2;
 }
 
 a {
@@ -37,18 +91,69 @@ a {
   text-decoration: none;
 }
 
+button {
+  font: inherit;
+}
+
 .wrap {
-  width: min(1120px, calc(100% - 36px));
+  width: min(1160px, calc(100% - 36px));
   margin: auto;
 }
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.45);
+  animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+  from {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: .8;
+  }
+
+  85% {
+    opacity: .6;
+  }
+
+  to {
+    transform: translateY(-20vh);
+    opacity: 0;
+  }
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 nav {
   position: sticky;
   top: 0;
-  z-index: 20;
-  background: rgba(7,9,15,.82);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255,255,255,.08);
+  z-index: 100;
+  backdrop-filter: blur(22px);
+  background: rgba(5,6,10,.72);
+  border-bottom: 1px solid rgba(255,255,255,.07);
 }
 
 .navin {
@@ -56,135 +161,328 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
 }
 
 .brand {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -1px;
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: -1.2px;
 }
 
 .brand span {
-  color: #6d7cff;
+  color: var(--blue);
 }
 
 .navlinks {
   display: flex;
-  gap: 24px;
-  color: #a9b1c4;
-  font-size: 14px;
+  gap: 26px;
+}
+
+.navlinks a {
+  color: #929bad;
+  font-size: 13px;
+  transition: .25s;
 }
 
 .navlinks a:hover {
   color: white;
 }
 
+
+/* =========================================================
+   HERO
+========================================================= */
+
 .hero {
-  padding: 90px 0 70px;
+  min-height: calc(100vh - 72px);
+  display: flex;
+  align-items: center;
+  padding: 90px 0 80px;
+  position: relative;
 }
 
 .heroGrid {
   display: grid;
-  grid-template-columns: 1.25fr .75fr;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 70px;
   align-items: center;
-  gap: 60px;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px;
+  border: 1px solid rgba(94,231,212,.18);
+  border-radius: 999px;
+  background: rgba(94,231,212,.05);
+  color: #a8e8df;
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 23px;
+  animation: pulseBorder 3s infinite;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 14px var(--cyan);
+}
+
+@keyframes pulseBorder {
+  0%,100% {
+    box-shadow: 0 0 0 rgba(94,231,212,0);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(94,231,212,.1);
+  }
 }
 
 .eyebrow {
   color: #7f8cff;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
   margin-bottom: 18px;
 }
 
 h1 {
-  font-size: clamp(42px, 7vw, 76px);
-  line-height: 1.02;
-  letter-spacing: -3px;
-  margin-bottom: 24px;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -4px;
+  max-width: 800px;
 }
 
 .gradient {
-  background: linear-gradient(90deg,#ffffff,#8f9aff,#5ee7d4);
+  display: block;
+  background: linear-gradient(
+    90deg,
+    #fff,
+    #8290ff,
+    #5ee7d4,
+    #b66cff,
+    #fff
+  );
+  background-size: 300% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  animation: gradientMove 7s linear infinite;
+}
+
+@keyframes gradientMove {
+  to {
+    background-position: 300% center;
+  }
 }
 
 .heroText {
-  max-width: 650px;
-  color: #a9b1c4;
-  font-size: 18px;
+  margin-top: 28px;
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 17px;
 }
 
 .buttons {
   display: flex;
+  gap: 13px;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 30px;
+  margin-top: 31px;
 }
 
 .btn {
-  padding: 13px 20px;
+  padding: 14px 20px;
   border-radius: 14px;
-  font-weight: 700;
-  font-size: 14px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.06);
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.045);
+  font-size: 13px;
+  font-weight: 800;
+  transition: .3s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,.2);
+  background: rgba(255,255,255,.08);
 }
 
 .btn.primary {
-  background: #ffffff;
-  color: #07090f;
+  color: #05060a;
+  background: white;
 }
+
+.btn.primary:hover {
+  box-shadow: 0 15px 40px rgba(255,255,255,.12);
+}
+
+
+/* =========================================================
+   HERO TECH
+========================================================= */
+
+.heroTech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+.heroTech span {
+  padding: 7px 10px;
+  border-radius: 9px;
+  border: 1px solid rgba(255,255,255,.07);
+  background: rgba(255,255,255,.035);
+  color: #8791a4;
+  font-size: 10px;
+  font-weight: 700;
+  transition: .3s;
+}
+
+.heroTech span:hover {
+  color: white;
+  transform: translateY(-3px);
+  border-color: rgba(115,133,255,.4);
+}
+
+
+/* =========================================================
+   PROFILE ORBIT
+========================================================= */
 
 .profile {
   display: flex;
   justify-content: center;
+  perspective: 1000px;
+}
+
+.profileOrb {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileOrb::before,
+.profileOrb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(115,133,255,.25);
+}
+
+.profileOrb::before {
+  animation: orbit 14s linear infinite;
+}
+
+.profileOrb::after {
+  inset: 25px;
+  border-color: rgba(94,231,212,.18);
+  animation: orbitReverse 10s linear infinite;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitReverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.profileGlow {
+  position: relative;
+  z-index: 2;
+  padding: 10px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(115,133,255,.65),
+    rgba(94,231,212,.3),
+    rgba(182,108,255,.45)
+  );
+  box-shadow:
+    0 0 80px rgba(115,133,255,.16),
+    0 30px 90px rgba(0,0,0,.6);
 }
 
 .photo {
-  width: 270px;
-  height: 270px;
+  width: 255px;
+  height: 255px;
   object-fit: cover;
   border-radius: 50%;
-  border: 5px solid rgba(255,255,255,.12);
-  box-shadow:
-    0 0 0 14px rgba(109,124,255,.06),
-    0 25px 80px rgba(0,0,0,.5);
+  display: block;
+  border: 4px solid #080a10;
 }
 
+.orbitDot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 20px var(--cyan);
+  top: 12px;
+  left: 50%;
+  animation: orbitDot 5s linear infinite;
+}
+
+@keyframes orbitDot {
+  from {
+    transform: rotate(0deg) translateX(168px) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(168px) rotate(-360deg);
+  }
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
 section {
-  padding: 80px 0;
+  padding: 100px 0;
 }
 
 .sectionTop {
-  margin-bottom: 35px;
+  margin-bottom: 40px;
 }
 
 .kicker {
-  color: #6d7cff;
-  font-size: 13px;
-  font-weight: 800;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .14em;
+  margin-bottom: 11px;
   text-transform: uppercase;
-  letter-spacing: .1em;
-  margin-bottom: 10px;
 }
 
 h2 {
-  font-size: clamp(30px,5vw,46px);
-  letter-spacing: -1.5px;
-  line-height: 1.1;
+  font-size: clamp(31px, 5vw, 49px);
+  line-height: 1.08;
+  letter-spacing: -2px;
 }
 
 .muted {
-  color: #9aa5b5;
-  max-width: 720px;
-  margin-top: 14px;
+  color: var(--muted);
+  max-width: 760px;
+  margin-top: 15px;
 }
+
+
+/* =========================================================
+   GLASS CARDS
+========================================================= */
 
 .cards {
   display: grid;
@@ -193,113 +491,329 @@ h2 {
 }
 
 .card {
-  padding: 26px;
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: 22px;
-  background: rgba(17,21,31,.66);
-  box-shadow: 0 18px 50px rgba(0,0,0,.18);
+  position: relative;
+  overflow: hidden;
+  padding: 29px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.065),
+      rgba(255,255,255,.018)
+    );
+  transition: transform .4s ease, border-color .4s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: rgba(115,133,255,.08);
+  filter: blur(45px);
+  top: -90px;
+  right: -90px;
+}
+
+.card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(115,133,255,.28);
 }
 
 .card h3 {
-  margin-bottom: 10px;
-  font-size: 19px;
+  font-size: 18px;
+  margin-bottom: 9px;
 }
 
 .card p {
-  color: #9aa5b5;
-  font-size: 14px;
+  color: var(--muted);
+  font-size: 13px;
 }
+
+
+/* =========================================================
+   PRODUCTION FLOW
+========================================================= */
 
 .flow {
   display: grid;
   grid-template-columns: repeat(5,1fr);
   gap: 10px;
-  margin-top: 30px;
+  margin-top: 35px;
 }
 
-.flow div {
-  padding: 20px 12px;
+.flowItem {
+  position: relative;
+  overflow: hidden;
+  padding: 25px 12px;
   text-align: center;
-  border-radius: 16px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.08);
-  font-size: 12px;
-  font-weight: 800;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.035);
+  transition: .35s;
+}
+
+.flowItem::after {
+  content: "";
+  position: absolute;
+  left: -100%;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg,transparent,var(--cyan),transparent);
+  animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+  to {
+    left: 100%;
+  }
+}
+
+.flowItem:hover {
+  transform: translateY(-5px);
+  border-color: rgba(94,231,212,.3);
+}
+
+.flowNumber {
+  display: block;
+  color: #667083;
+  font-size: 10px;
+  margin-bottom: 5px;
+}
+
+.flowTitle {
+  font-size: 11px;
+  font-weight: 900;
   letter-spacing: .05em;
 }
+
+
+/* =========================================================
+   TOOLKIT
+========================================================= */
 
 .toolkit {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 25px;
+  gap: 9px;
+  margin-top: 28px;
 }
 
 .tag {
   padding: 9px 13px;
   border-radius: 999px;
-  background: rgba(109,124,255,.10);
-  border: 1px solid rgba(109,124,255,.22);
-  color: #cbd1ff;
-  font-size: 13px;
+  background: rgba(115,133,255,.07);
+  border: 1px solid rgba(115,133,255,.16);
+  color: #b8c0ff;
+  font-size: 11px;
+  transition: .3s;
 }
+
+.tag:hover {
+  transform: translateY(-3px) scale(1.04);
+  background: rgba(115,133,255,.13);
+}
+
+
+/* =========================================================
+   AI SECTION
+========================================================= */
+
+.aiBox {
+  position: relative;
+  overflow: hidden;
+  padding: 55px;
+  border-radius: 30px;
+  border: 1px solid rgba(182,108,255,.18);
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(182,108,255,.12),
+      transparent 35%
+    ),
+    rgba(255,255,255,.025);
+}
+
+.aiGlow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(182,108,255,.08);
+  filter: blur(70px);
+  right: -100px;
+  top: -120px;
+  animation: aiFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes aiFloat {
+  to {
+    transform: translate(-50px,50px);
+  }
+}
+
+.aiLabel {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(182,108,255,.1);
+  border: 1px solid rgba(182,108,255,.2);
+  color: #d3b4ff;
+  font-size: 10px;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   SOCIAL
+========================================================= */
 
 .socials {
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 15px;
-  margin-top: 30px;
 }
 
 .social {
-  padding: 20px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.09);
-  background: rgba(255,255,255,.04);
-  transition: .2s;
+  position: relative;
+  overflow: hidden;
+  padding: 23px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.035);
+  transition: .35s;
+}
+
+.social::after {
+  content: "↗";
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: #6e7789;
+  transition: .3s;
 }
 
 .social:hover {
-  transform: translateY(-3px);
-  background: rgba(255,255,255,.08);
+  transform: translateY(-6px);
+  border-color: rgba(115,133,255,.3);
+  background: rgba(115,133,255,.06);
+}
+
+.social:hover::after {
+  color: white;
+  transform: translate(3px,-3px);
 }
 
 .social strong {
   display: block;
+  font-size: 14px;
   margin-bottom: 4px;
 }
 
 .social span {
-  color: #9aa5b5;
-  font-size: 13px;
+  color: var(--muted);
+  font-size: 11px;
 }
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.stat {
+  padding: 25px;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+}
+
+.statNumber {
+  font-size: 32px;
+  font-weight: 900;
+  background: linear-gradient(90deg,#fff,#8d9aff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.statLabel {
+  display: block;
+  margin-top: 4px;
+  color: #858fa2;
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
 
 footer {
-  padding: 35px 0;
-  border-top: 1px solid rgba(255,255,255,.08);
-  color: #7f899b;
-  font-size: 13px;
+  padding: 45px 0;
+  border-top: 1px solid var(--line);
+  color: #70798b;
+  font-size: 11px;
+  text-align: center;
 }
 
-@media (max-width: 800px) {
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:850px) {
+
   .navlinks {
     display: none;
   }
 
   .hero {
-    padding: 65px 0 45px;
+    padding: 65px 0 50px;
   }
 
   .heroGrid {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 55px;
   }
 
   .heroText {
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .buttons {
+    justify-content: center;
+  }
+
+  .heroTech {
     justify-content: center;
   }
 
@@ -307,9 +821,28 @@ footer {
     order: -1;
   }
 
+  .profileOrb {
+    width: 290px;
+    height: 290px;
+  }
+
   .photo {
-    width: 210px;
-    height: 210px;
+    width: 205px;
+    height: 205px;
+  }
+
+  .orbitDot {
+    animation-name: orbitDotMobile;
+  }
+
+  @keyframes orbitDotMobile {
+    from {
+      transform: rotate(0deg) translateX(138px);
+    }
+
+    to {
+      transform: rotate(360deg) translateX(138px);
+    }
   }
 
   .cards,
@@ -321,39 +854,120 @@ footer {
     grid-template-columns: repeat(2,1fr);
   }
 
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .aiBox {
+    padding: 32px 23px;
+  }
+
   section {
-    padding: 60px 0;
+    padding: 70px 0;
+  }
+
+  h1 {
+    letter-spacing: -2.5px;
   }
 }
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+
+}
+
 </style>
 </head>
 
+
 <body>
 
+<!-- =======================================================
+     PARTICLES
+======================================================= -->
+
+<div class="particles">
+
+  <span class="particle" style="left:5%;animation-duration:14s"></span>
+  <span class="particle" style="left:12%;animation-duration:19s"></span>
+  <span class="particle" style="left:20%;animation-duration:16s"></span>
+  <span class="particle" style="left:28%;animation-duration:22s"></span>
+  <span class="particle" style="left:37%;animation-duration:17s"></span>
+  <span class="particle" style="left:45%;animation-duration:20s"></span>
+  <span class="particle" style="left:53%;animation-duration:15s"></span>
+  <span class="particle" style="left:61%;animation-duration:21s"></span>
+  <span class="particle" style="left:70%;animation-duration:18s"></span>
+  <span class="particle" style="left:78%;animation-duration:24s"></span>
+  <span class="particle" style="left:86%;animation-duration:16s"></span>
+  <span class="particle" style="left:94%;animation-duration:20s"></span>
+
+</div>
+
+
+<!-- =======================================================
+     NAVIGATION
+======================================================= -->
+
 <nav>
+
   <div class="wrap navin">
-    <a class="brand" href="#top">RAVI<span>INFO</span></a>
+
+    <a class="brand" href="#top">
+      RAVI<span>INFO</span>
+    </a>
 
     <div class="navlinks">
       <a href="#about">About</a>
-      <a href="#expertise">Expertise</a>
+      <a href="#expertise">Engineering</a>
       <a href="#ai">AI Explorer</a>
       <a href="#social">Social</a>
     </div>
+
   </div>
+
 </nav>
+
 
 <main id="top">
 
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
 <section class="hero">
+
   <div class="wrap heroGrid">
 
-    <div>
-      <div class="eyebrow">Data Engineer • Production Engineering • AI Explorer</div>
+    <div class="heroContent reveal">
+
+      <div class="statusPill">
+        <span class="statusDot"></span>
+        Building. Learning. Exploring AI.
+      </div>
+
+      <div class="eyebrow">
+        DATA ENGINEER · PRODUCTION ENGINEERING · AI EXPLORER
+      </div>
 
       <h1>
-        Engineering data.<br>
-        <span class="gradient">Exploring what's next.</span>
+        Engineering data.
+        <span class="gradient">
+          Exploring what's next.
+        </span>
       </h1>
 
       <p class="heroText">
@@ -363,85 +977,263 @@ footer {
       </p>
 
       <div class="buttons">
-        <a class="btn primary" href="#social">Explore my network →</a>
-        <a class="btn" href="mailto:ravikumar.undapalli444@gmail.com">Contact me</a>
+
+        <a class="btn primary" href="#expertise">
+          Explore my expertise →
+        </a>
+
+        <a class="btn" href="#social">
+          Connect with me
+        </a>
+
       </div>
+
+
+      <div class="heroTech">
+
+        <span>AWS</span>
+        <span>Python</span>
+        <span>SQL</span>
+        <span>Apache NiFi</span>
+        <span>Fivetran</span>
+        <span>Databricks</span>
+
+      </div>
+
     </div>
 
-    <div class="profile">
-      <img
-        src="ravi-photo.jpg"
-        alt="Ravi Kumar"
-        class="photo">
+
+    <div class="profile reveal">
+
+      <div class="profileOrb">
+
+        <div class="orbitDot"></div>
+
+        <div class="profileGlow">
+
+          <img
+            src="ravi-photo.jpg"
+            alt="Ravi Kumar"
+            class="photo">
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
+
 </section>
 
+
+<!-- =======================================================
+     ABOUT
+======================================================= -->
+
 <section id="about">
+
   <div class="wrap">
 
-    <div class="sectionTop">
-      <div class="kicker">About</div>
-      <h2>More than building pipelines.</h2>
+    <div class="sectionTop reveal">
+
+      <div class="kicker">
+        ABOUT
+      </div>
+
+      <h2>
+        More than building pipelines.
+      </h2>
+
       <p class="muted">
         I work across the complete data lifecycle — from ingestion and
         transformation to deployment, monitoring, troubleshooting and
         optimization in production environments.
       </p>
+
     </div>
+
 
     <div class="cards">
 
-      <div class="card">
-        <h3>Data Engineering</h3>
+      <div class="card reveal">
+
+        <h3>
+          Data Engineering
+        </h3>
+
         <p>
           Designing and supporting reliable batch and real-time data
           ingestion pipelines across cloud and enterprise environments.
         </p>
+
       </div>
 
-      <div class="card">
-        <h3>Production Engineering</h3>
+
+      <div class="card reveal">
+
+        <h3>
+          Production Engineering
+        </h3>
+
         <p>
           Working with live systems, incidents, monitoring, root-cause
           analysis, performance improvements and operational reliability.
         </p>
+
       </div>
 
-      <div class="card">
-        <h3>End-to-End Ownership</h3>
+
+      <div class="card reveal">
+
+        <h3>
+          End-to-End Ownership
+        </h3>
+
         <p>
           From BUILD to DEPLOY, MONITOR, TROUBLESHOOT and OPTIMIZE —
           keeping the complete pipeline lifecycle in view.
         </p>
+
       </div>
 
     </div>
+
+
+    <div class="stats">
+
+      <div class="stat reveal">
+
+        <div class="statNumber">
+          4+
+        </div>
+
+        <span class="statLabel">
+          Years in Data Engineering
+        </span>
+
+      </div>
+
+
+      <div class="stat reveal">
+
+        <div class="statNumber">
+          E2E
+        </div>
+
+        <span class="statLabel">
+          Production Pipeline Ownership
+        </span>
+
+      </div>
+
+
+      <div class="stat reveal">
+
+        <div class="statNumber">
+          AI
+        </div>
+
+        <span class="statLabel">
+          Explorer Mindset
+        </span>
+
+      </div>
+
+    </div>
+
   </div>
+
 </section>
 
+
+<!-- =======================================================
+     PRODUCTION ENGINEERING
+======================================================= -->
+
 <section id="expertise">
+
   <div class="wrap">
 
-    <div class="sectionTop">
-      <div class="kicker">Production Engineering</div>
-      <h2>BUILD → DEPLOY → MONITOR → TROUBLESHOOT → OPTIMIZE</h2>
+    <div class="sectionTop reveal">
+
+      <div class="kicker">
+        PRODUCTION ENGINEERING
+      </div>
+
+      <h2>
+        BUILD → DEPLOY → MONITOR → TROUBLESHOOT → OPTIMIZE
+      </h2>
+
       <p class="muted">
         Practical engineering focused on keeping data systems reliable,
         scalable and useful in real production environments.
       </p>
+
     </div>
+
 
     <div class="flow">
-      <div>BUILD</div>
-      <div>DEPLOY</div>
-      <div>MONITOR</div>
-      <div>TROUBLESHOOT</div>
-      <div>OPTIMIZE</div>
+
+      <div class="flowItem reveal">
+
+        <span class="flowNumber">01</span>
+
+        <span class="flowTitle">
+          BUILD
+        </span>
+
+      </div>
+
+
+      <div class="flowItem reveal">
+
+        <span class="flowNumber">02</span>
+
+        <span class="flowTitle">
+          DEPLOY
+        </span>
+
+      </div>
+
+
+      <div class="flowItem reveal">
+
+        <span class="flowNumber">03</span>
+
+        <span class="flowTitle">
+          MONITOR
+        </span>
+
+      </div>
+
+
+      <div class="flowItem reveal">
+
+        <span class="flowNumber">04</span>
+
+        <span class="flowTitle">
+          TROUBLESHOOT
+        </span>
+
+      </div>
+
+
+      <div class="flowItem reveal">
+
+        <span class="flowNumber">05</span>
+
+        <span class="flowTitle">
+          OPTIMIZE
+        </span>
+
+      </div>
+
     </div>
 
-    <div class="toolkit">
+
+    <div class="toolkit reveal">
+
       <span class="tag">Python</span>
       <span class="tag">SQL</span>
       <span class="tag">AWS</span>
@@ -460,121 +1252,381 @@ footer {
       <span class="tag">ETL</span>
       <span class="tag">Data Pipelines</span>
       <span class="tag">Automation</span>
+
     </div>
 
   </div>
+
 </section>
+
+
+<!-- =======================================================
+     AI EXPLORER
+======================================================= -->
 
 <section id="ai">
+
   <div class="wrap">
 
-    <div class="sectionTop">
-      <div class="kicker">AI Explorer</div>
-      <h2>Learning what AI can do next.</h2>
+    <div class="aiBox reveal">
+
+      <div class="aiGlow"></div>
+
+      <div class="aiLabel">
+        AI EXPLORER
+      </div>
+
+      <h2>
+        Learning what AI can do next.
+      </h2>
+
       <p class="muted">
+
         Exploring GenAI, automation, AI-powered productivity and practical
         ways to connect intelligent tools with real engineering workflows.
+
       </p>
+
+
+      <div class="cards" style="margin-top:35px">
+
+        <div class="card">
+
+          <h3>
+            GenAI
+          </h3>
+
+          <p>
+            Exploring modern generative AI tools, assistants, prompting
+            and practical engineering use cases.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <h3>
+            Automation
+          </h3>
+
+          <p>
+            Looking for opportunities where intelligent automation can
+            reduce repetitive work and improve engineering workflows.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <h3>
+            Experiment → Learn
+          </h3>
+
+          <p>
+            Testing new AI capabilities and turning useful discoveries
+            into practical ideas.
+          </p>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="cards">
-
-      <div class="card">
-        <h3>GenAI</h3>
-        <p>
-          Exploring modern generative AI tools, assistants, prompting and
-          practical engineering use cases.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>Automation</h3>
-        <p>
-          Looking for opportunities where intelligent automation can reduce
-          repetitive work and improve engineering workflows.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>Experiment → Learn</h3>
-        <p>
-          Testing new AI capabilities and turning useful discoveries into
-          practical ideas.
-        </p>
-      </div>
-
-    </div>
   </div>
+
 </section>
 
+
+<!-- =======================================================
+     SOCIAL
+======================================================= -->
+
 <section id="social">
+
   <div class="wrap">
 
-    <div class="sectionTop">
-      <div class="kicker">Social Universe</div>
-      <h2>Find me around the web.</h2>
+    <div class="sectionTop reveal">
+
+      <div class="kicker">
+        SOCIAL UNIVERSE
+      </div>
+
+      <h2>
+        Find me around the web.
+      </h2>
+
       <p class="muted">
         Professional updates, social content and direct contact.
       </p>
+
     </div>
+
 
     <div class="socials">
 
-      <a class="social"
-         href="https://www.linkedin.com/in/ravikumarundapalli"
-         target="_blank">
-        <strong>LinkedIn</strong>
-        <span>Professional network</span>
+      <a
+        class="social reveal"
+        href="https://www.linkedin.com/in/ravikumarundapalli"
+        target="_blank"
+        rel="noopener">
+
+        <strong>
+          LinkedIn
+        </strong>
+
+        <span>
+          Professional network
+        </span>
+
       </a>
 
-      <a class="social"
-         href="https://www.instagram.com/vvssmrk.undapalli/"
-         target="_blank">
-        <strong>Instagram</strong>
-        <span>Photos and social updates</span>
+
+      <a
+        class="social reveal"
+        href="https://www.instagram.com/vvssmrk.undapalli/"
+        target="_blank"
+        rel="noopener">
+
+        <strong>
+          Instagram
+        </strong>
+
+        <span>
+          Photos and social updates
+        </span>
+
       </a>
 
-      <a class="social"
-         href="https://x.com/ravi_undapalli"
-         target="_blank">
-        <strong>X / Twitter</strong>
-        <span>Thoughts and updates</span>
+
+      <a
+        class="social reveal"
+        href="https://x.com/ravi_undapalli"
+        target="_blank"
+        rel="noopener">
+
+        <strong>
+          X / Twitter
+        </strong>
+
+        <span>
+          Thoughts and updates
+        </span>
+
       </a>
 
-      <a class="social"
-         href="https://www.facebook.com/vvssmravikumarundapalli"
-         target="_blank">
-        <strong>Facebook</strong>
-        <span>Personal social profile</span>
+
+      <a
+        class="social reveal"
+        href="https://www.facebook.com/vvssmravikumarundapalli"
+        target="_blank"
+        rel="noopener">
+
+        <strong>
+          Facebook
+        </strong>
+
+        <span>
+          Personal social profile
+        </span>
+
       </a>
 
-      <a class="social"
-         href="https://wa.me/919182941353"
-         target="_blank">
-        <strong>WhatsApp</strong>
-        <span>Message me directly</span>
+
+      <a
+        class="social reveal"
+        href="https://wa.me/919182941353"
+        target="_blank"
+        rel="noopener">
+
+        <strong>
+          WhatsApp
+        </strong>
+
+        <span>
+          Message me directly
+        </span>
+
       </a>
 
-      <a class="social"
-         href="mailto:ravikumar.undapalli444@gmail.com">
-        <strong>Email</strong>
-        <span>ravikumar.undapalli444@gmail.com</span>
+
+      <a
+        class="social reveal"
+        href="mailto:ravikumar.undapalli444@gmail.com">
+
+        <strong>
+          Email
+        </strong>
+
+        <span>
+          ravikumar.undapalli444@gmail.com
+        </span>
+
       </a>
 
     </div>
+
   </div>
+
 </section>
+
 
 </main>
 
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
 <footer>
+
   <div class="wrap">
-    © <span id="year"></span> Ravi Info. Built around data, reliability and curiosity.
+
+    © <span id="year"></span>
+    Ravi Info · Data Engineering · Production Engineering · AI Explorer
+
   </div>
+
 </footer>
 
+
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+
+/* =========================================================
+   MOUSE / TOUCH GLOW
+========================================================= */
+
+function updateGlow(x, y) {
+
+  document.documentElement.style.setProperty(
+    "--mouse-x",
+    x + "px"
+  );
+
+  document.documentElement.style.setProperty(
+    "--mouse-y",
+    y + "px"
+  );
+
+}
+
+document.addEventListener("mousemove", function(e) {
+
+  updateGlow(e.clientX, e.clientY);
+
+});
+
+
+document.addEventListener("touchmove", function(e) {
+
+  if (!e.touches.length) return;
+
+  updateGlow(
+    e.touches[0].clientX,
+    e.touches[0].clientY
+  );
+
+}, { passive:true });
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const observer =
+  new IntersectionObserver(
+
+    function(entries) {
+
+      entries.forEach(function(entry) {
+
+        if (entry.isIntersecting) {
+
+          entry.target.classList.add("visible");
+
+        }
+
+      });
+
+    },
+
+    {
+      threshold: .12
+    }
+
+  );
+
+
+document
+  .querySelectorAll(".reveal")
+  .forEach(function(element) {
+
+    observer.observe(element);
+
+  });
+
+
+/* =========================================================
+   CARD TILT
+========================================================= */
+
+document
+  .querySelectorAll(".card, .social, .flowItem")
+  .forEach(function(card) {
+
+    card.addEventListener("mousemove", function(e) {
+
+      if (window.innerWidth < 850) return;
+
+      const rect =
+        card.getBoundingClientRect();
+
+      const x =
+        e.clientX - rect.left;
+
+      const y =
+        e.clientY - rect.top;
+
+      const centerX =
+        rect.width / 2;
+
+      const centerY =
+        rect.height / 2;
+
+      const rotateX =
+        ((y - centerY) / centerY) * -2;
+
+      const rotateY =
+        ((x - centerX) / centerX) * 2;
+
+      card.style.transform =
+        "perspective(700px) rotateX(" +
+        rotateX +
+        "deg) rotateY(" +
+        rotateY +
+        "deg) translateY(-5px)";
+
+    });
+
+
+    card.addEventListener("mouseleave", function() {
+
+      card.style.transform = "";
+
+    });
+
+  });
+
 </script>
 
 </body>
