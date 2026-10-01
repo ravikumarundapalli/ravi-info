@@ -1316,6 +1316,127 @@ body::after {
 }
 
 
+
+
+/* =========================================================
+   CINEMATIC EXPERIENCE LAYER
+   Scroll-driven atmosphere without scroll hijacking.
+========================================================= */
+.cinematicHUD{
+  position:fixed;
+  right:22px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:95;
+  width:138px;
+  pointer-events:none;
+  opacity:.72;
+  transition:opacity .35s ease;
+}
+.cinematicHUDTop{
+  display:flex;
+  justify-content:flex-end;
+  align-items:baseline;
+  gap:9px;
+  margin-bottom:11px;
+  font-variant-numeric:tabular-nums;
+}
+.cinematicHUDIndex{
+  color:#aab4ff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+.cinematicHUDTitle{
+  color:#78839a;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.cinematicRail{
+  position:relative;
+  margin-left:auto;
+  width:2px;
+  height:116px;
+  overflow:hidden;
+  border-radius:99px;
+  background:rgba(255,255,255,.09);
+}
+.cinematicRailFill{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:0%;
+  border-radius:inherit;
+  background:linear-gradient(180deg,var(--cyan),var(--blue),var(--purple));
+  box-shadow:0 0 16px rgba(115,133,255,.5);
+  will-change:height;
+}
+.cinematicHUDHint{
+  margin-top:12px;
+  text-align:right;
+  color:#50596b;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:.17em;
+}
+.cinematicSection{
+  position:relative;
+  --cinematic-offset:0px;
+  --cinematic-scale:1;
+}
+.cinematicSection > .wrap{
+  transform:translate3d(0,var(--cinematic-offset),0) scale(var(--cinematic-scale));
+  transform-origin:center center;
+  will-change:transform;
+}
+.cinematicSection:not(.hero)::after{
+  content:"";
+  position:absolute;
+  left:12%;
+  right:12%;
+  bottom:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(115,133,255,.13),transparent);
+  pointer-events:none;
+}
+@media (hover:hover) and (pointer:fine){
+  .cinematicHUD:hover{opacity:1;}
+}
+@media (max-width:850px){
+  .cinematicHUD{display:none;}
+  .cinematicSection > .wrap{will-change:auto;}
+}
+@media (prefers-reduced-motion:reduce){
+  .cinematicHUD{display:none;}
+  .cinematicSection > .wrap{transform:none !important;}
+}
+
+
+
+
+/* Global cinematic progress accent */
+body::marker{content:"";}
+body:before{
+  /* preserve existing grid; progress is rendered by nav::after */
+}
+nav::after{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:var(--page-progress,0%);
+  height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));
+  box-shadow:0 0 14px rgba(115,133,255,.45);
+  pointer-events:none;
+  z-index:2;
+}
+
+
 /* =========================================================
    VISITOR WELCOME
 ========================================================= */
@@ -1589,7 +1710,7 @@ body::after,
      HERO
 ======================================================= -->
 
-<section class="hero">
+<section class="hero cinematicSection" data-scene="IDENTITY">
 
   <div class="wrap heroGrid">
 
@@ -1701,7 +1822,7 @@ body::after,
      ABOUT
 ======================================================= -->
 
-<section id="about">
+<section id="about" class="cinematicSection" data-scene="ABOUT">
 
   <div class="wrap">
 
@@ -1877,7 +1998,7 @@ body::after,
      PRODUCTION ENGINEERING
 ======================================================= -->
 
-<section id="expertise">
+<section id="expertise" class="cinematicSection" data-scene="ENGINEERING">
 
   <div class="wrap">
 
@@ -2008,7 +2129,7 @@ body::after,
      AI EXPLORER
 ======================================================= -->
 
-<section id="ai">
+<section id="ai" class="cinematicSection" data-scene="AI EXPLORER">
 
   <div class="wrap">
 
@@ -2119,7 +2240,7 @@ body::after,
      RESUME · REPLACE resume.pdf IN GITHUB TO UPDATE
 ======================================================= -->
 
-<section id="resume">
+<section id="resume" class="cinematicSection" data-scene="RESUME">
 
   <div class="wrap">
 
@@ -2201,7 +2322,7 @@ body::after,
      SOCIAL
 ======================================================= -->
 
-<section id="social">
+<section id="social" class="cinematicSection" data-scene="SOCIAL">
 
   <div class="wrap">
 
@@ -2623,6 +2744,90 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
 <div class="webglVignette" aria-hidden="true"></div>
 <div class="webglScanlines" aria-hidden="true"></div>
 
+<!-- =======================================================
+     CINEMATIC SCENE HUD
+     Lightweight DOM layer driven by one shared scroll rAF.
+======================================================= -->
+<div class="cinematicHUD" aria-hidden="true">
+  <div class="cinematicHUDTop">
+    <span class="cinematicHUDIndex" id="cinematicHUDIndex">01</span>
+    <span class="cinematicHUDTitle" id="cinematicHUDTitle">IDENTITY</span>
+  </div>
+  <div class="cinematicRail">
+    <span class="cinematicRailFill" id="cinematicRailFill"></span>
+  </div>
+  <div class="cinematicHUDHint">SCROLL TO EXPLORE</div>
+</div>
+
+
+
+<script>
+/* =========================================================
+   CINEMATIC SCROLL CHOREOGRAPHY
+   One passive scroll listener + one rAF for all DOM motion.
+   No scroll hijacking; browser retains native high-Hz scrolling.
+========================================================= */
+(function(){
+  const sections = Array.from(document.querySelectorAll('.cinematicSection'));
+  const hudIndex = document.getElementById('cinematicHUDIndex');
+  const hudTitle = document.getElementById('cinematicHUDTitle');
+  const railFill = document.getElementById('cinematicRailFill');
+  if(!sections.length) return;
+
+  const sceneCount = sections.length;
+  const root = document.documentElement;
+  const state = { scroll: window.scrollY || 0, frame: 0, vh: window.innerHeight };
+  window.__raviScene = window.__raviScene || { index:0, t:0, local:0, count:sceneCount };
+
+  function schedule(){
+    if(state.frame) return;
+    state.frame = requestAnimationFrame(render);
+  }
+
+  function render(){
+    state.frame = 0;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - state.vh);
+    const normalized = Math.min(1, Math.max(0, state.scroll / maxScroll));
+    const sceneFloat = normalized * Math.max(0, sceneCount - 1);
+    const sceneIndex = Math.min(sceneCount - 1, Math.floor(sceneFloat));
+    const local = sceneFloat - sceneIndex;
+
+    sections.forEach((section, i) => {
+      const distance = i - sceneFloat;
+      const clamped = Math.max(-1.5, Math.min(1.5, distance));
+      const offset = clamped * 8;
+      const scale = 1 - Math.min(.018, Math.abs(clamped) * .012);
+      section.style.setProperty('--cinematic-offset', offset.toFixed(2) + 'px');
+      section.style.setProperty('--cinematic-scale', scale.toFixed(4));
+    });
+
+    const sceneName = sections[sceneIndex].dataset.scene || '';
+    if(hudIndex) hudIndex.textContent = String(sceneIndex + 1).padStart(2,'0');
+    if(hudTitle) hudTitle.textContent = sceneName;
+    if(railFill) railFill.style.height = (normalized * 100).toFixed(2) + '%';
+
+    root.style.setProperty('--page-progress', (normalized * 100).toFixed(2) + '%');
+    window.__raviScene.index = sceneIndex;
+    window.__raviScene.t = sceneFloat;
+    window.__raviScene.local = local;
+    window.__raviScene.count = sceneCount;
+  }
+
+  window.addEventListener('scroll', function(){
+    state.scroll = window.scrollY || 0;
+    schedule();
+  }, { passive:true });
+
+  window.addEventListener('resize', function(){
+    state.vh = window.innerHeight;
+    state.scroll = window.scrollY || 0;
+    schedule();
+  }, { passive:true });
+
+  schedule();
+})();
+</script>
+
 <script type="module">
 
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
@@ -2673,19 +2878,94 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
   const positions = new Float32Array(nodeCount * 3);
   const velocities = [];
 
-  for (let i = 0; i < nodeCount; i++) {
-    const radius = 5.5 + Math.random() * 10.5;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos((Math.random() * 2) - 1);
+  // Deterministic pseudo-random helper keeps every scene stable across reloads.
+  function seeded(i, salt) {
+    const x = Math.sin((i + 1) * (12.9898 + salt * 78.233)) * 43758.5453;
+    return x - Math.floor(x);
+  }
 
-    positions[i * 3] = Math.sin(phi) * Math.cos(theta) * radius;
-    positions[i * 3 + 1] = Math.cos(phi) * radius * 0.62;
-    positions[i * 3 + 2] = Math.sin(phi) * Math.sin(theta) * radius;
+  function makeTarget(mode, i) {
+    const a = seeded(i, mode * 1.7 + 1.2);
+    const b = seeded(i, mode * 2.3 + 7.1);
+    const c = seeded(i, mode * 3.1 + 13.7);
+    const angle = a * Math.PI * 2;
+    let x = 0, y = 0, z = 0;
+
+    if (mode === 0) {
+      // Hero: luminous sphere / identity field.
+      const theta = angle;
+      const phi = Math.acos((b * 2) - 1);
+      const r = 4.2 + c * 4.8;
+      x = Math.sin(phi) * Math.cos(theta) * r;
+      y = Math.cos(phi) * r * .72;
+      z = Math.sin(phi) * Math.sin(theta) * r;
+    } else if (mode === 1) {
+      // About: wide orbital ring.
+      const r = 5.0 + b * 3.2;
+      x = Math.cos(angle) * r;
+      y = (b - .5) * 2.3;
+      z = Math.sin(angle) * r * .62;
+    } else if (mode === 2) {
+      // Engineering: data grid / pipeline.
+      const cols = Math.ceil(Math.sqrt(nodeCount));
+      const gx = (i % cols) - (cols - 1) / 2;
+      const gy = Math.floor(i / cols) - (cols - 1) / 2;
+      x = gx * .78;
+      y = gy * .62;
+      z = Math.sin((gx + gy) * .55) * 1.8 + (c - .5) * .65;
+    } else if (mode === 3) {
+      // AI Explorer: double helix / neural orbit.
+      const turns = 2.7;
+      const t = i / Math.max(1, nodeCount - 1);
+      const aa = t * Math.PI * 2 * turns + (a > .5 ? Math.PI : 0);
+      const r = 2.0 + b * 1.4;
+      x = Math.cos(aa) * r;
+      y = (t - .5) * 8.6;
+      z = Math.sin(aa) * r;
+    } else if (mode === 4) {
+      // Resume: precise layered document-like field.
+      const cols = 10;
+      const rows = Math.ceil(nodeCount / cols);
+      const gx = (i % cols) - (cols - 1) / 2;
+      const gy = Math.floor(i / cols) - (rows - 1) / 2;
+      x = gx * .72;
+      y = gy * .46;
+      z = Math.sin(gx * .45) * .7 + (c - .5) * .55;
+    } else {
+      // Social: connected orbit / network loop.
+      const t = i / Math.max(1, nodeCount - 1);
+      const aa = t * Math.PI * 2;
+      const r = 5.2 + Math.sin(aa * 3) * .65 + b * .7;
+      x = Math.cos(aa) * r;
+      y = Math.sin(aa * 2) * 2.1 + (b - .5) * .7;
+      z = Math.sin(aa) * r * .55;
+    }
+
+    return [x, y, z];
+  }
+
+  const morphTargets = [];
+  const modes = 6;
+  for (let mode = 0; mode < modes; mode++) {
+    const target = new Float32Array(nodeCount * 3);
+    for (let i = 0; i < nodeCount; i++) {
+      const p = makeTarget(mode, i);
+      target[i * 3] = p[0];
+      target[i * 3 + 1] = p[1];
+      target[i * 3 + 2] = p[2];
+    }
+    morphTargets.push(target);
+  }
+
+  for (let i = 0; i < nodeCount; i++) {
+    positions[i * 3] = morphTargets[0][i * 3];
+    positions[i * 3 + 1] = morphTargets[0][i * 3 + 1];
+    positions[i * 3 + 2] = morphTargets[0][i * 3 + 2];
 
     velocities.push({
-      x: (Math.random() - .5) * .0018,
-      y: (Math.random() - .5) * .0012,
-      z: (Math.random() - .5) * .0018
+      x: (seeded(i, 44) - .5) * .0018,
+      y: (seeded(i, 77) - .5) * .0012,
+      z: (seeded(i, 101) - .5) * .0018
     });
   }
 
@@ -2758,126 +3038,27 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
   function buildConnections() {
     const linePositions = [];
     const p = pointGeometry.attributes.position.array;
-
-    for (let i = 0; i < nodeCount; i++) {
-      const ax = p[i * 3];
-      const ay = p[i * 3 + 1];
-      const az = p[i * 3 + 2];
-
-      for (let j = i + 1; j < nodeCount; j++) {
-        const bx = p[j * 3];
-        const by = p[j * 3 + 1];
-        const bz = p[j * 3 + 2];
-        const dx = ax - bx;
-        const dy = ay - by;
-        const dz = az - bz;
-        const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-        if (distance < lineDistance) {
-          linePositions.push(ax, ay, az, bx, by, bz);
-        }
-      }
-    }
-
-    lineGeometry = new THREE.BufferGeometry();
-    lineGeometry.setAttribute(
-      "position",
-      new THREE.Float32BufferAttribute(linePositions, 3)
-    );
-
-    lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-    universe.add(lines);
-  }
-
-  buildConnections();
-
-  const ringMaterial = new THREE.MeshBasicMaterial({
-    color: 0x5ee7d4,
-    wireframe: true,
-    transparent: true,
-    opacity: .055,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false
-  });
-
-  const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(3.6, .012, 8, 180),
-    ringMaterial
-  );
-  ring.rotation.x = Math.PI * .36;
-  ring.rotation.y = Math.PI * .16;
-  ring.position.set(4.6, .2, -3.5);
-  universe.add(ring);
-
-  const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
-  let scrollY = 0;
-  let lastScrollY = -1;
-
-  window.addEventListener("pointermove", function (e) {
-    mouse.targetX = (e.clientX / window.innerWidth - .5) * 2;
-    mouse.targetY = (e.clientY / window.innerHeight - .5) * 2;
-  }, { passive: true });
-
-  window.addEventListener("scroll", function () {
-    scrollY = window.scrollY || 0;
-  }, { passive: true });
-
-  function resize() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    const maxDPR = w < 850 ? 1 : 1.5;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDPR));
-    renderer.setSize(w, h, false);
-  }
-
-  window.addEventListener("resize", resize, { passive: true });
-
-  const clock = new THREE.Clock();
-  let animationFrame = 0;
-  let isPageVisible = !document.hidden;
-  let lastRender = 0;
-
-  // Expensive WebGL is capped at 120 FPS. DOM/CSS animation and native
-  // scrolling are still free to follow the display's actual refresh rate.
-  const WEBGL_FPS = 120;
-  const WEBGL_FRAME_MS = 1000 / WEBGL_FPS;
-
-  document.addEventListener("visibilitychange", function () {
-    isPageVisible = !document.hidden;
-    if (isPageVisible) {
-      clock.start();
-      lastRender = performance.now();
-    }
-  });
-
-  function animate(now) {
-    animationFrame = requestAnimationFrame(animate);
-    if (!isPageVisible) return;
-    if (now - lastRender < WEBGL_FRAME_MS) return;
-    lastRender = now;
-
-    const delta = Math.min(.05, clock.getDelta());
-    const frameScale = Math.min(2, Math.max(.5, delta * 60));
-    const t = clock.getElapsedTime();
-
-    mouse.x += (mouse.targetX - mouse.x) * .025;
-    mouse.y += (mouse.targetY - mouse.y) * .025;
-
-    const p = pointGeometry.attributes.position.array;
+    const sceneState = window.__raviScene || { t: 0 };
+    const sceneT = Math.max(0, Math.min(modes - 1, sceneState.t || 0));
+    const fromIndex = Math.min(modes - 1, Math.floor(sceneT));
+    const toIndex = Math.min(modes - 1, fromIndex + 1);
+    const rawBlend = sceneT - fromIndex;
+    const blend = rawBlend * rawBlend * (3 - 2 * rawBlend); // smoothstep
+    const from = morphTargets[fromIndex];
+    const to = morphTargets[toIndex];
 
     for (let i = 0; i < nodeCount; i++) {
       const index = i * 3;
       const v = velocities[i];
+      const drift = .45 * frameScale;
 
-      p[index] += v.x * frameScale;
-      p[index + 1] += v.y * frameScale;
-      p[index + 2] += v.z * frameScale;
+      const tx = from[index] * (1 - blend) + to[index] * blend;
+      const ty = from[index + 1] * (1 - blend) + to[index + 1] * blend;
+      const tz = from[index + 2] * (1 - blend) + to[index + 2] * blend;
 
-      if (Math.abs(p[index]) > 17) v.x *= -1;
-      if (Math.abs(p[index + 1]) > 11) v.y *= -1;
-      if (Math.abs(p[index + 2]) > 17) v.z *= -1;
+      p[index] += (tx - p[index]) * .032 + v.x * drift;
+      p[index + 1] += (ty - p[index + 1]) * .032 + v.y * drift;
+      p[index + 2] += (tz - p[index + 2]) * .032 + v.z * drift;
     }
 
     pointGeometry.attributes.position.needsUpdate = true;
@@ -2890,10 +3071,11 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
     }
 
     points.rotation.z = t * .006;
-    core.rotation.x = t * .12;
-    core.rotation.y = t * .17;
-    core.scale.setScalar(1 + Math.sin(t * 1.7) * .035);
-    ring.rotation.z = t * .035;
+    core.rotation.x = t * .12 + sceneState.t * .08;
+    core.rotation.y = t * .17 + sceneState.t * .12;
+    core.scale.setScalar(1 + Math.sin(t * 1.7) * .035 + Math.sin(sceneState.t * Math.PI) * .06);
+    ring.rotation.z = t * .035 + sceneState.t * .22;
+    ring.rotation.x = Math.PI * .36 + Math.sin(sceneState.t * .8) * .08;
 
     camera.position.x += (mouse.x * .55 - camera.position.x) * .018;
     camera.position.y += (-mouse.y * .35 - camera.position.y) * .018;
