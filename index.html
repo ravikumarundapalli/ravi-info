@@ -2237,6 +2237,74 @@ html{
 }
 </style>
 
+
+<style id="heritage-hero-separation-fix">
+/* =========================================================
+   HERITAGE HERO SEPARATION
+   The hero has a heritage header too, so reserve the same
+   dedicated top band before the hero's main content begins.
+   This prevents the status pill / eyebrow from entering the
+   Konark heritage slide during cinematic movement.
+========================================================= */
+@media (min-width: 851px){
+  .cinematicSection.hero{
+    display:block !important;
+    min-height:100svh;
+    padding-top:0 !important;
+    padding-bottom:90px !important;
+    overflow:hidden;
+  }
+
+  .cinematicSection.hero .heritageSlide{
+    position:absolute !important;
+    top:0 !important;
+    left:0 !important;
+    right:0 !important;
+    height:172px !important;
+    padding:0 34px !important;
+    z-index:8 !important;
+  }
+
+  .cinematicSection.hero > .wrap{
+    position:relative;
+    z-index:4;
+    width:min(1240px,calc(100% - 72px));
+    margin:0 auto !important;
+    padding-top:198px !important;
+  }
+
+  .cinematicSection.hero .heroContent{
+    position:relative;
+    z-index:5;
+  }
+
+  .cinematicSection.hero .heroGrid{
+    align-items:center;
+  }
+}
+
+@media (max-width:850px){
+  .cinematicSection.hero .heritageSlide{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    height:126px !important;
+    margin:0 0 28px !important;
+  }
+
+  .cinematicSection.hero > .wrap{
+    padding-top:0 !important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .cinematicSection.hero > .wrap{
+    transform:none !important;
+  }
+}
+</style>
+
 </head>
 
 
