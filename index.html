@@ -1297,60 +1297,35 @@ body::after {
 }
 
 
-/* =========================================================
-   VISITOR WELCOME
-========================================================= */
-.visitorWelcome{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  background:rgba(5,6,10,.78);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  opacity:1;
-  transition:opacity .8s ease, visibility .8s ease;
-}
-.visitorWelcome.hide{opacity:0;visibility:hidden;pointer-events:none}
-.visitorWelcomeCard{
-  width:min(560px,100%);
-  padding:42px 34px;
-  text-align:center;
-  border:1px solid rgba(115,133,255,.24);
-  border-radius:30px;
-  background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));
-  box-shadow:0 30px 100px rgba(0,0,0,.55),0 0 70px rgba(115,133,255,.10);
-  transform:translateY(0) scale(1);
-  animation:welcomeIn .8s cubic-bezier(.2,.8,.2,1);
-}
-.visitorWelcomeKicker{color:#7f8cff;font-size:10px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;margin-bottom:13px}
-.visitorWelcomeTitle{font-size:clamp(30px,6vw,48px);line-height:1.05;letter-spacing:-2px;font-weight:900}
-.visitorWelcomeTitle span{background:linear-gradient(90deg,#fff,#8290ff,#5ee7d4,#b66cff,#fff);background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradientMove 7s linear infinite}
-.visitorWelcomeText{margin:15px auto 0;color:var(--muted);font-size:13px;max-width:430px}
-.visitorWelcomeContinue{margin-top:25px;padding:12px 18px;border-radius:13px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:#fff;font-size:12px;font-weight:800;cursor:pointer;transition:.3s}
-.visitorWelcomeContinue:hover{transform:translateY(-2px);background:rgba(255,255,255,.11)}
-@keyframes welcomeIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-@media(prefers-reduced-motion:reduce){.visitorWelcome{transition:none}.visitorWelcomeCard{animation:none}}
 
 </style>
 </head>
 
 
 <body>
-<!-- VISITOR WELCOME -->
-<div class="visitorWelcome" id="visitorWelcome" aria-label="Welcome message">
-  <div class="visitorWelcomeCard">
-    <div class="visitorWelcomeKicker">RAVI INFO · WELCOME</div>
-    <div class="visitorWelcomeTitle" id="visitorGreeting">Welcome, <span>Explorer.</span></div>
-    <p class="visitorWelcomeText" id="visitorGreetingText">Thanks for stopping by. Explore data engineering, production systems and AI.</p>
-    <button class="visitorWelcomeContinue" id="visitorWelcomeContinue" type="button">Enter Ravi Info →</button>
-  </div>
-</div>
+<script>
+(function () {
+  // Always open the site at the true top unless the visitor explicitly
+  // opened a section using a URL hash.
+  try {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
 
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
 
+    window.addEventListener("load", function () {
+      if (!window.location.hash) window.scrollTo(0, 0);
+    }, { once: true, passive: true });
+
+    window.addEventListener("pageshow", function () {
+      if (!window.location.hash) window.scrollTo(0, 0);
+    }, { passive: true });
+  } catch (e) {}
+})();
+</script>
 
 <!-- =======================================================
      PARTICLES
@@ -2222,49 +2197,6 @@ body::after {
 
 <script>
 
-
-/* =========================================================
-   VISITOR WELCOME
-   Priority: URL name → saved browser name → default Explorer
-========================================================= */
-(function(){
-  const overlay = document.getElementById("visitorWelcome");
-  const greeting = document.getElementById("visitorGreeting");
-  const greetingText = document.getElementById("visitorGreetingText");
-  const continueButton = document.getElementById("visitorWelcomeContinue");
-  if(!overlay || !greeting || !greetingText || !continueButton) return;
-
-  const params = new URLSearchParams(window.location.search);
-  const urlName = (params.get("name") || "").trim();
-  const savedName = (localStorage.getItem("visitorName") || "").trim();
-  const visitorName = urlName || savedName;
-
-  const hour = new Date().getHours();
-  let timeGreeting = "Good Evening";
-  if(hour >= 5 && hour < 12) timeGreeting = "Good Morning";
-  else if(hour >= 12 && hour < 17) timeGreeting = "Good Afternoon";
-  else if(hour >= 17 && hour < 21) timeGreeting = "Good Evening";
-  else timeGreeting = "Good Night";
-
-  if(visitorName){
-    greeting.innerHTML = timeGreeting + ', <span>' + visitorName.replace(/[<>]/g,'') + '.</span>';
-    greetingText.textContent = "Welcome to Ravi Info. Explore data engineering, production systems and AI.";
-  }else{
-    greeting.innerHTML = timeGreeting + ', <span>Explorer.</span>';
-    greetingText.textContent = "Welcome to Ravi Info. Explore data engineering, production systems and AI.";
-  }
-
-  function closeWelcome(){
-    overlay.classList.add("hide");
-    sessionStorage.setItem("raviWelcomeShown","1");
-    setTimeout(function(){ overlay.remove(); },850);
-  }
-
-  continueButton.addEventListener("click", closeWelcome);
-
-  // Automatically continue after a short cinematic pause.
-  setTimeout(closeWelcome, 3200);
-})();
 
 /* =========================================================
    CURRENT YEAR
