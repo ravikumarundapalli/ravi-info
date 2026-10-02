@@ -67,8 +67,14 @@ const ROLE_TERMS = [
 
 function json(res, status, body) {
   res.status(status);
-  res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Cache-Control", "no-store, max-age=0");
+  res.setHeader(
+    "Content-Type",
+    "application/json; charset=utf-8"
+  );
+  res.setHeader(
+    "Cache-Control",
+    "no-store, max-age=0"
+  );
   res.end(JSON.stringify(body));
 }
 
@@ -87,24 +93,47 @@ function calculateScore(job, resumeText) {
   let matchedSkills = 0;
 
   for (const skill of SKILLS) {
-    if (resume.includes(skill) && jobText.includes(skill)) {
+    if (
+      resume.includes(skill) &&
+      jobText.includes(skill)
+    ) {
       score += 4;
       matchedSkills++;
     }
   }
 
   for (const role of ROLE_TERMS) {
-    if (resume.includes(role) && jobText.includes(role)) {
+    if (
+      resume.includes(role) &&
+      jobText.includes(role)
+    ) {
       score += 10;
     }
   }
 
-  if (jobText.includes("data engineer")) score += 8;
-  if (jobText.includes("etl")) score += 5;
-  if (jobText.includes("aws")) score += 4;
-  if (jobText.includes("python")) score += 3;
-  if (jobText.includes("sql")) score += 3;
-  if (jobText.includes("pyspark")) score += 3;
+  if (jobText.includes("data engineer")) {
+    score += 8;
+  }
+
+  if (jobText.includes("etl")) {
+    score += 5;
+  }
+
+  if (jobText.includes("aws")) {
+    score += 4;
+  }
+
+  if (jobText.includes("python")) {
+    score += 3;
+  }
+
+  if (jobText.includes("sql")) {
+    score += 3;
+  }
+
+  if (jobText.includes("pyspark")) {
+    score += 3;
+  }
 
   const matchPercentage = Math.min(
     99,
@@ -124,7 +153,10 @@ function hoursSince(dateValue) {
     return Infinity;
   }
 
-  return (Date.now() - timestamp) / (1000 * 60 * 60);
+  return (
+    (Date.now() - timestamp) /
+    (1000 * 60 * 60)
+  );
 }
 
 function formatAge(hours) {
@@ -133,7 +165,10 @@ function formatAge(hours) {
   }
 
   if (hours < 1) {
-    return `${Math.max(1, Math.round(hours * 60))} min ago`;
+    return `${Math.max(
+      1,
+      Math.round(hours * 60)
+    )} min ago`;
   }
 
   return `${Math.round(hours)}h ago`;
@@ -157,7 +192,9 @@ async function fetchResume() {
   const data = await response.json();
 
   if (!data.content) {
-    throw new Error("GitHub did not return resume content.");
+    throw new Error(
+      "GitHub did not return resume content."
+    );
   }
 
   const pdfBuffer = Buffer.from(
@@ -190,61 +227,112 @@ async function fetchJobs() {
     );
   }
 
-const searches = [
-  "data engineer",
-  "ETL developer",
-  "AWS data engineer",
-  "AWS Glue",
-  "data integration",
-  "data ingestion",
-  "Python data engineer",
-  "PySpark data engineer",
-  "cloud data engineer",
-  "data pipeline engineer"
-];
+  const searches = [
+    "data engineer",
+    "ETL developer",
+    "AWS data engineer",
+    "AWS Glue",
+    "data integration",
+    "data ingestion",
+    "Python data engineer",
+    "PySpark data engineer",
+    "cloud data engineer",
+    "data pipeline engineer"
+  ];
 
   const allJobs = [];
   const searchDiagnostics = [];
 
   for (const searchTerm of searches) {
-    const url = new URL(`${ADZUNA_BASE}/1`);
+    const url = new URL(
+      `${ADZUNA_BASE}/1`
+    );
 
-    url.searchParams.set("app_id", appId);
-    url.searchParams.set("app_key", appKey);
-    url.searchParams.set("results_per_page", "20");
-    url.searchParams.set("what", searchTerm);
-    url.searchParams.set("where", LOCATION);
-    url.searchParams.set("sort_by", "date");
-    url.searchParams.set("max_days_old", "1");
-    url.searchParams.set("content-type", "application/json");
+    url.searchParams.set(
+      "app_id",
+      appId
+    );
 
-    const response = await fetch(url.toString(), {
-      headers: {
-        Accept: "application/json"
-      },
-      cache: "no-store"
-    });
+    url.searchParams.set(
+      "app_key",
+      appKey
+    );
+
+    url.searchParams.set(
+      "results_per_page",
+      "20"
+    );
+
+    url.searchParams.set(
+      "what",
+      searchTerm
+    );
+
+    url.searchParams.set(
+      "where",
+      LOCATION
+    );
+
+    url.searchParams.set(
+      "sort_by",
+      "date"
+    );
+
+    url.searchParams.set(
+      "max_days_old",
+      "1"
+    );
+
+    url.searchParams.set(
+      "content-type",
+      "application/json"
+    );
+
+    const response = await fetch(
+      url.toString(),
+      {
+        headers: {
+          Accept: "application/json"
+        },
+        cache: "no-store"
+      }
+    );
 
     if (!response.ok) {
+      searchDiagnostics.push({
+        search: searchTerm,
+        results: 0,
+        status: response.status
+      });
+
       continue;
     }
 
     const data = await response.json();
 
-if (Array.isArray(data.results)) {
-  searchDiagnostics.push({
-    search: searchTerm,
-    results: data.results.length
-  });
+    if (Array.isArray(data.results)) {
+      searchDiagnostics.push({
+        search: searchTerm,
+        results: data.results.length,
+        status: response.status
+      });
 
-  allJobs.push(...data.results);
-} else {
-  searchDiagnostics.push({
-    search: searchTerm,
-    results: 0
-  });
+      allJobs.push(
+        ...data.results
+      );
+    } else {
+      searchDiagnostics.push({
+        search: searchTerm,
+        results: 0,
+        status: response.status
+      });
+    }
+  }
 
-  return allJobs;
+  return {
+    jobs: allJobs,
+    diagnostics: searchDiagnostics
+  };
 }
 
 function normalizeJobs(jobs, resumeText) {
@@ -252,16 +340,25 @@ function normalizeJobs(jobs, resumeText) {
   const output = [];
 
   for (const job of jobs) {
-    const ageHours = hoursSince(job.created);
+    const ageHours = hoursSince(
+      job.created
+    );
 
     if (ageHours > 24) {
       continue;
     }
 
-    const title = job.title || "Data Engineering Role";
-    const company = job.company?.display_name || "Company not listed";
+    const title =
+      job.title ||
+      "Data Engineering Role";
+
+    const company =
+      job.company?.display_name ||
+      "Company not listed";
+
     const location =
-      job.location?.display_name || LOCATION;
+      job.location?.display_name ||
+      LOCATION;
 
     const key =
       job.id ||
@@ -273,7 +370,10 @@ function normalizeJobs(jobs, resumeText) {
 
     seen.add(key);
 
-    const score = calculateScore(job, resumeText);
+    const score = calculateScore(
+      job,
+      resumeText
+    );
 
     output.push({
       id: key,
@@ -281,27 +381,45 @@ function normalizeJobs(jobs, resumeText) {
       company,
       location,
       source: "Adzuna",
-      postedAt: job.created || null,
-      postedAgeHours: Number(ageHours.toFixed(2)),
-      postedAge: formatAge(ageHours),
-      matchPercentage: score.matchPercentage,
-      matchedSkills: score.matchedSkills,
-      url: job.redirect_url || null
+      postedAt:
+        job.created || null,
+      postedAgeHours:
+        Number(ageHours.toFixed(2)),
+      postedAge:
+        formatAge(ageHours),
+      matchPercentage:
+        score.matchPercentage,
+      matchedSkills:
+        score.matchedSkills,
+      url:
+        job.redirect_url || null
     });
   }
 
   output.sort((a, b) => {
-    if (b.matchPercentage !== a.matchPercentage) {
-      return b.matchPercentage - a.matchPercentage;
+    if (
+      b.matchPercentage !==
+      a.matchPercentage
+    ) {
+      return (
+        b.matchPercentage -
+        a.matchPercentage
+      );
     }
 
-    return a.postedAgeHours - b.postedAgeHours;
+    return (
+      a.postedAgeHours -
+      b.postedAgeHours
+    );
   });
 
   return output.slice(0, 10);
 }
 
-module.exports = async function handler(req, res) {
+module.exports = async function handler(
+  req,
+  res
+) {
   try {
     if (req.method !== "GET") {
       return json(res, 405, {
@@ -309,31 +427,43 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const resume = await fetchResume();
+    const resume =
+      await fetchResume();
 
-    const jobs = await fetchJobs();
+    const jobData =
+      await fetchJobs();
 
-    const normalizedJobs = normalizeJobs(
-      jobs,
-      resume.text
-    );
+    const normalizedJobs =
+      normalizeJobs(
+        jobData.jobs,
+        resume.text
+      );
 
     return json(res, 200, {
       success: true,
-      generatedAt: new Date().toISOString(),
+      generatedAt:
+        new Date().toISOString(),
       location: LOCATION,
       maxAgeHours: 24,
       resumeSha: resume.sha,
-      jobCount: normalizedJobs.length,
+      searchDiagnostics:
+        jobData.diagnostics,
+      jobCount:
+        normalizedJobs.length,
       jobs: normalizedJobs
     });
 
   } catch (error) {
-    console.error("Job Radar error:", error);
+    console.error(
+      "Job Radar error:",
+      error
+    );
 
     return json(res, 500, {
       success: false,
-      error: error.message || "Unable to load jobs."
+      error:
+        error.message ||
+        "Unable to load jobs."
     });
   }
 };
