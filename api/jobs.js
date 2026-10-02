@@ -190,12 +190,18 @@ async function fetchJobs() {
     );
   }
 
-  const searches = [
-    "data engineer",
-    "ETL developer",
-    "AWS data engineer",
-    "cloud data engineer"
-  ];
+const searches = [
+  "data engineer",
+  "ETL developer",
+  "AWS data engineer",
+  "AWS Glue",
+  "data integration",
+  "data ingestion",
+  "Python data engineer",
+  "PySpark data engineer",
+  "cloud data engineer",
+  "data pipeline engineer"
+];
 
   const allJobs = [];
 
