@@ -12,6 +12,9 @@ const ADZUNA_BASE =
 
 const LOCATION = process.env.JOB_LOCATION || "Hyderabad";
 
+const MAX_JOB_AGE_HOURS = 24;
+const MAX_RESULTS = 10;
+
 const SKILLS = [
   "aws",
   "azure",
@@ -67,14 +70,17 @@ const ROLE_TERMS = [
 
 function json(res, status, body) {
   res.status(status);
+
   res.setHeader(
     "Content-Type",
     "application/json; charset=utf-8"
   );
+
   res.setHeader(
     "Cache-Control",
     "no-store, max-age=0"
   );
+
   res.end(JSON.stringify(body));
 }
 
@@ -84,7 +90,7 @@ function normalizeText(value) {
 
 function calculateScore(job, resumeText) {
   const jobText = normalizeText(
-    `${job.title} ${job.description} ${job.category} ${job.company}`
+    `${job.title || ""} ${job.description || ""} ${job.category || ""} ${job.company?.display_name || ""}`
   );
 
   const resume = normalizeText(resumeText);
@@ -146,6 +152,13 @@ function calculateScore(job, resumeText) {
   };
 }
 
+/*
+ * Calculates job age in hours.
+ *
+ * Adzuna timestamps can occasionally be slightly ahead
+ * of the Vercel runtime clock. Negative values are therefore
+ * clamped to zero instead of producing negative job ages.
+ */
 function hoursSince(dateValue) {
   const timestamp = new Date(dateValue).getTime();
 
@@ -153,10 +166,11 @@ function hoursSince(dateValue) {
     return Infinity;
   }
 
-  return (
+  const hours =
     (Date.now() - timestamp) /
-    (1000 * 60 * 60)
-  );
+    (1000 * 60 * 60);
+
+  return Math.max(0, hours);
 }
 
 function formatAge(hours) {
@@ -165,10 +179,13 @@ function formatAge(hours) {
   }
 
   if (hours < 1) {
-    return `${Math.max(
-      1,
-      Math.round(hours * 60)
-    )} min ago`;
+    const minutes = Math.round(hours * 60);
+
+    if (minutes <= 0) {
+      return "Just now";
+    }
+
+    return `${minutes} min ago`;
   }
 
   return `${Math.round(hours)}h ago`;
@@ -288,43 +305,50 @@ async function fetchJobs() {
       "application/json"
     );
 
-    const response = await fetch(
-      url.toString(),
-      {
-        headers: {
-          Accept: "application/json"
-        },
-        cache: "no-store"
-      }
-    );
-
-    if (!response.ok) {
-      searchDiagnostics.push({
-        search: searchTerm,
-        results: 0,
-        status: response.status
-      });
-
-      continue;
-    }
-
-    const data = await response.json();
-
-    if (Array.isArray(data.results)) {
-      searchDiagnostics.push({
-        search: searchTerm,
-        results: data.results.length,
-        status: response.status
-      });
-
-      allJobs.push(
-        ...data.results
+    try {
+      const response = await fetch(
+        url.toString(),
+        {
+          headers: {
+            Accept: "application/json"
+          },
+          cache: "no-store"
+        }
       );
-    } else {
+
+      if (!response.ok) {
+        searchDiagnostics.push({
+          search: searchTerm,
+          results: 0,
+          status: response.status
+        });
+
+        continue;
+      }
+
+      const data = await response.json();
+
+      if (Array.isArray(data.results)) {
+        searchDiagnostics.push({
+          search: searchTerm,
+          results: data.results.length,
+          status: response.status
+        });
+
+        allJobs.push(...data.results);
+      } else {
+        searchDiagnostics.push({
+          search: searchTerm,
+          results: 0,
+          status: response.status
+        });
+      }
+    } catch (error) {
       searchDiagnostics.push({
         search: searchTerm,
         results: 0,
-        status: response.status
+        status: 0,
+        error: "Request failed"
       });
     }
   }
@@ -344,7 +368,13 @@ function normalizeJobs(jobs, resumeText) {
       job.created
     );
 
-    if (ageHours > 24) {
+    /*
+     * Only jobs posted within the last 24 hours.
+     */
+    if (
+      !Number.isFinite(ageHours) ||
+      ageHours > MAX_JOB_AGE_HOURS
+    ) {
       continue;
     }
 
@@ -381,12 +411,11 @@ function normalizeJobs(jobs, resumeText) {
       company,
       location,
       source: "Adzuna",
-      postedAt:
-        job.created || null,
-      postedAgeHours:
-        Number(ageHours.toFixed(2)),
-      postedAge:
-        formatAge(ageHours),
+      postedAt: job.created || null,
+      postedAgeHours: Number(
+        ageHours.toFixed(2)
+      ),
+      postedAge: formatAge(ageHours),
       matchPercentage:
         score.matchPercentage,
       matchedSkills:
@@ -396,6 +425,10 @@ function normalizeJobs(jobs, resumeText) {
     });
   }
 
+  /*
+   * Highest resume match first.
+   * For equal matches, newest jobs first.
+   */
   output.sort((a, b) => {
     if (
       b.matchPercentage !==
@@ -413,7 +446,10 @@ function normalizeJobs(jobs, resumeText) {
     );
   });
 
-  return output.slice(0, 10);
+  return output.slice(
+    0,
+    MAX_RESULTS
+  );
 }
 
 module.exports = async function handler(
@@ -443,16 +479,24 @@ module.exports = async function handler(
       success: true,
       generatedAt:
         new Date().toISOString(),
+
       location: LOCATION,
-      maxAgeHours: 24,
-      resumeSha: resume.sha,
+
+      maxAgeHours:
+        MAX_JOB_AGE_HOURS,
+
+      resumeSha:
+        resume.sha,
+
       searchDiagnostics:
         jobData.diagnostics,
+
       jobCount:
         normalizedJobs.length,
-      jobs: normalizedJobs
-    });
 
+      jobs:
+        normalizedJobs
+    });
   } catch (error) {
     console.error(
       "Job Radar error:",
