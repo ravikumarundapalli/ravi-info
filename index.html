@@ -2283,12 +2283,12 @@ document.getElementById("year").textContent =
    every year on the anniversary.
 ========================================================= */
 
-const startDate = new Date("2021-12-13");
-
+const startDate = new Date(2021, 11, 13);
 const today = new Date();
 
-let experienceYears =
-  today.getFullYear() - startDate.getFullYear();
+/* Calculate experience from the actual start date.
+   Shows completed years plus the current partial year. */
+let completedYears = today.getFullYear() - startDate.getFullYear();
 
 const anniversaryThisYear = new Date(
   today.getFullYear(),
@@ -2297,11 +2297,33 @@ const anniversaryThisYear = new Date(
 );
 
 if (today < anniversaryThisYear) {
-  experienceYears--;
+  completedYears--;
 }
 
+const lastAnniversary = new Date(
+  today.getFullYear() - (today < anniversaryThisYear ? 1 : 0),
+  startDate.getMonth(),
+  startDate.getDate()
+);
+
+const nextAnniversary = new Date(
+  lastAnniversary.getFullYear() + 1,
+  startDate.getMonth(),
+  startDate.getDate()
+);
+
+const partialYear =
+  (today - lastAnniversary) /
+  (nextAnniversary - lastAnniversary);
+
+const experienceYears =
+  Math.max(
+    0,
+    completedYears + Math.max(0, Math.min(partialYear, 0.999))
+  );
+
 document.getElementById("experienceYears").textContent =
-  experienceYears + "+";
+  experienceYears.toFixed(1) + "+";
 
 
 /* =========================================================
