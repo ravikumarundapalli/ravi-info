@@ -51,7 +51,11 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-4;opa
 body:after{content:"";position:fixed;width:420px;height:420px;border-radius:50%;pointer-events:none;
   background:rgba(115,133,255,.07);filter:blur(100px);transform:translate(-50%,-50%);
   left:var(--mx,50%);top:var(--my,25%);transition:left .5s ease,top .5s ease;z-index:-3}
-a{color:inherit;text-decoration:none}button{font:inherit}
+a{color:inherit;text-decoration:none;position:relative;z-index:20;pointer-events:auto}
+button{font:inherit}
+nav{z-index:1000}
+section[id]{scroll-margin-top:92px}
+.btn,.navlinks a,.brand,.social,.resumeStats a{pointer-events:auto}
 .wrap{width:min(var(--max),calc(100% - 36px));margin:auto}
 .particles{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-2}
 .particle{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.42);animation:float linear infinite}
@@ -67,10 +71,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(5,6,10,.72);backdrop-filte
 .heritageFrame{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:28px;
   background:#08090e;box-shadow:0 30px 90px rgba(0,0,0,.45);isolation:isolate}
 .heritageFrame:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;
-  background:linear-gradient(90deg,rgba(5,6,10,.24),rgba(5,6,10,.06) 55%,rgba(5,6,10,.14)),
-             linear-gradient(180deg,rgba(5,6,10,.05),rgba(5,6,10,.20))}
+  background:linear-gradient(90deg,rgba(5,6,10,.12),rgba(5,6,10,.03) 55%,rgba(5,6,10,.08)),
+             linear-gradient(180deg,rgba(5,6,10,.02),rgba(5,6,10,.10))}
 .heritageArt{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;
-  opacity:.58;filter:saturate(1.02) brightness(.92);transform:scale(1.025);
+  opacity:.68;filter:saturate(1.03) brightness(.98);transform:scale(1.025);
   animation:heritageZoom 18s ease-in-out infinite alternate}
 .heritageGlow{position:absolute;inset:-20%;z-index:1;pointer-events:none;
   background:radial-gradient(circle at 65% 45%,rgba(255,190,80,.12),transparent 28%),
@@ -111,6 +115,11 @@ border-radius:999px;background:rgba(94,231,212,.05);color:#a8e8df;font-size:10px
 .buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
 .btn{padding:13px 18px;border-radius:13px;border:1px solid var(--line);background:rgba(255,255,255,.045);font-size:12px;font-weight:850;transition:.3s}
 .btn:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.2)}.btn.primary{background:#fff;color:#05060a}
+.heroStats{display:flex;gap:28px;flex-wrap:wrap;margin-top:24px}
+.heroStats div{display:flex;flex-direction:column;gap:3px}
+.heroStats b{font-size:18px;letter-spacing:-.5px}
+.heroStats span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:760px){.heroStats{gap:18px}.heroStats b{font-size:16px}}
 .heroTech{display:flex;flex-wrap:wrap;gap:7px;margin-top:28px}.heroTech span{padding:6px 9px;border:1px solid rgba(255,255,255,.07);
 border-radius:8px;background:rgba(255,255,255,.035);color:#8791a4;font-size:9px;font-weight:750}
 
@@ -195,6 +204,11 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
       </div>
       <div class="heroTech">
         <span>Multi-Tool ETL</span><span>Multi-Cloud Engineering</span><span>Python</span><span>SQL</span><span>PySpark</span><span>AI Explorer</span>
+      </div>
+      <div class="heroStats">
+        <div><b id="heroExperience">0.0</b><span>Years Experience</span></div>
+        <div><b>E2E</b><span>Production Ownership</span></div>
+        <div><b>AI</b><span>Explorer</span></div>
       </div>
     </div>
 
@@ -376,17 +390,44 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
     document.documentElement.style.setProperty("--my",e.clientY+"px");
   });
 
-  const jobStartDate = new Date("2021-12-13T00:00:00");
+  const jobStartDate = new Date(2021, 11, 13);
   const today = new Date();
-  const millisecondsPerYear = 365.2425 * 24 * 60 * 60 * 1000;
-  const experienceYears = Math.max(0, (today - jobStartDate) / millisecondsPerYear);
+  let completedYears = today.getFullYear() - jobStartDate.getFullYear();
+  const anniversary = new Date(today.getFullYear(), 11, 13);
+  if (today < anniversary) completedYears--;
+  const lastAnniversary = new Date(today.getFullYear() - (today < anniversary ? 1 : 0), 11, 13);
+  const nextAnniversary = new Date(lastAnniversary.getFullYear() + 1, 11, 13);
+  const fraction = Math.max(0, Math.min(0.99,
+    (today - lastAnniversary) / (nextAnniversary - lastAnniversary)
+  ));
+  const experienceYears = Math.max(0, completedYears + fraction);
+  const experienceText = experienceYears.toFixed(1);
   const experienceElement = document.getElementById("experienceYears");
-  if (experienceElement) experienceElement.textContent = experienceYears.toFixed(1);
+  const heroExperienceElement = document.getElementById("heroExperience");
+  if (experienceElement) experienceElement.textContent = experienceText;
+  if (heroExperienceElement) heroExperienceElement.textContent = experienceText;
 
   document.getElementById("year").textContent=new Date().getFullYear();
 })();
 </script>
 
+
+
+<script>
+(function(){
+  document.querySelectorAll('a[href^="#"]').forEach(function(link){
+    link.addEventListener("click", function(e){
+      const id = link.getAttribute("href");
+      if (!id || id === "#") return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      history.pushState(null, "", id);
+      target.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
