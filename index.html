@@ -1652,17 +1652,6 @@ body{background:#030409;}
 }
 @keyframes cinemaBeam{to{transform:translateX(-44%) rotate(24deg)}}
 
-.cinemaHUDv2{
-  position:fixed; left:28px; top:50%; transform:translateY(-50%);
-  z-index:150; pointer-events:none; display:flex; flex-direction:column; gap:12px;
-  font-size:9px; letter-spacing:.18em; color:rgba(255,255,255,.45);
-}
-.cinemaHUDv2 .chapter{writing-mode:vertical-rl; transform:rotate(180deg);}
-.cinemaHUDv2 .chapter strong{color:white;font-weight:800}
-.cinemaDots{display:flex;flex-direction:column;gap:7px;margin-top:8px}
-.cinemaDot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.25);transition:transform .35s,background .35s,box-shadow .35s}
-.cinemaDot.active{background:#fff;transform:scale(1.8);box-shadow:0 0 14px rgba(115,133,255,.9)}
-.cinemaTime{font-variant-numeric:tabular-nums;opacity:.55}
 
 .cinemaProgressTop{
   position:fixed;left:0;top:0;width:100%;height:2px;z-index:300;background:rgba(255,255,255,.04)
@@ -1733,7 +1722,6 @@ main{position:relative;z-index:1}
 
 /* mobile */
 @media(max-width:850px){
- .cinemaHUDv2{left:12px;opacity:.55}.cinemaHUDv2 .chapter{display:none}.cinemaDots{display:none}
  .cinematicSection{min-height:auto;padding:110px 0}
  .cinematicSection > .wrap{width:min(100% - 34px,1240px)}
  .hero{min-height:100svh;padding:90px 0 70px}
@@ -2335,12 +2323,6 @@ html{
 </div>
 <div class="cinemaProgressTop" aria-hidden="true"><i></i></div>
 <div class="cinemaCursor" id="cinemaCursor" aria-hidden="true"></div>
-<div class="cinemaHUDv2" aria-hidden="true">
-  <div class="chapter">RAVI INFO · <strong id="cinemaChapter">IDENTITY</strong></div>
-  <div class="cinemaDots" id="cinemaDots"></div>
-  <div class="cinemaTime" id="cinemaTime">00:00</div>
-</div>
-
 <main id="top">
 
 
@@ -3781,11 +3763,8 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
   gsap.registerPlugin(ScrollTrigger);
 
   const sections=[...document.querySelectorAll('.cinematicSection')];
-  const chapter=document.getElementById('cinemaChapter');
-  const dots=document.getElementById('cinemaDots');
   const cursor=document.getElementById('cinemaCursor');
   const progress=document.querySelector('.cinemaProgressTop i');
-  const timeEl=document.getElementById('cinemaTime');
   const root=document.documentElement;
   const colors=[220,180,160,285,225,175];
 
@@ -3823,10 +3802,6 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
   }
 
   sections.forEach((s,i)=>{
-    const d=document.createElement('span');
-    d.className='cinemaDot'+(i===0?' active':'');
-    d.dataset.index=i;
-    dots && dots.appendChild(d);
     s.querySelectorAll('.sectionTop,.heroContent,.card,.flowItem,.aiBox,.resumeBox,.social,.stat').forEach(el=>el.classList.add('cinemaReveal','cinemaSurface'));
   });
 
@@ -3860,9 +3835,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
 
   function activate(i){
     const name=sections[i]?.dataset.scene||'';
-    if(chapter) chapter.textContent=name;
     root.style.setProperty('--cinema-hue',colors[i%colors.length]);
-    document.querySelectorAll('.cinemaDot').forEach((d,n)=>d.classList.toggle('active',n===i));
     if(window.__raviScene) window.__raviScene.index=i;
   }
 
@@ -3874,11 +3847,6 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
       const p=self.progress;
       root.style.setProperty('--cinema-progress',p.toFixed(5));
       if(progress) progress.style.transform='scaleX('+p+')';
-      if(timeEl){
-        const total=sections.length*12;
-        const sec=Math.floor(p*total);
-        timeEl.textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
-      }
     }
   });
 
