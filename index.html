@@ -67,10 +67,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(5,6,10,.72);backdrop-filte
 .heritageFrame{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:28px;
   background:#08090e;box-shadow:0 30px 90px rgba(0,0,0,.45);isolation:isolate}
 .heritageFrame:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;
-  background:linear-gradient(90deg,rgba(5,6,10,.78),rgba(5,6,10,.48) 48%,rgba(5,6,10,.62)),
-             linear-gradient(180deg,rgba(5,6,10,.30),rgba(5,6,10,.58))}
+  background:linear-gradient(90deg,rgba(5,6,10,.24),rgba(5,6,10,.06) 55%,rgba(5,6,10,.14)),
+             linear-gradient(180deg,rgba(5,6,10,.05),rgba(5,6,10,.20))}
 .heritageArt{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;
-  opacity:.34;filter:saturate(.9) brightness(.78);transform:scale(1.025);
+  opacity:.58;filter:saturate(1.02) brightness(.92);transform:scale(1.025);
   animation:heritageZoom 18s ease-in-out infinite alternate}
 .heritageGlow{position:absolute;inset:-20%;z-index:1;pointer-events:none;
   background:radial-gradient(circle at 65% 45%,rgba(255,190,80,.12),transparent 28%),
@@ -81,13 +81,13 @@ nav{position:sticky;top:0;z-index:100;background:rgba(5,6,10,.72);backdrop-filte
 .heritageCopy h2{margin-top:7px}
 .heritageCopy p{margin-top:8px;color:rgba(245,247,255,.72);font-size:13px}
 .heritageBadge{display:inline-flex;margin-top:13px;padding:7px 11px;border:1px solid rgba(255,213,138,.25);
-  border-radius:999px;background:rgba(5,6,10,.4);backdrop-filter:blur(10px);color:#ffe4b0;font-size:9px;font-weight:800}
+  border-radius:999px;background:rgba(5,6,10,.48);backdrop-filter:blur(10px);color:#ffe4b0;font-size:9px;font-weight:800}
 @keyframes heritageZoom{from{transform:scale(1.025) translate3d(-.4%,0,0)}to{transform:scale(1.08) translate3d(.5%,-.4%,0)}}
 @keyframes heritageGlow{from{transform:translate3d(-2%,1%,0);opacity:.55}to{transform:translate3d(2%,-1%,0);opacity:1}}
 @media(max-width:760px){
   .heritage{padding:20px 0 80px}
   .heritageFrame{border-radius:20px}
-  .heritageArt{aspect-ratio:4/5;object-position:58% center;opacity:.28}
+  .heritageArt{aspect-ratio:4/5;object-position:58% center;opacity:.48}
   .heritageCopy{left:17px;right:17px;bottom:17px}
   .heritageCopy p{font-size:11px}
 }
