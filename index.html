@@ -62,6 +62,39 @@ nav{position:sticky;top:0;z-index:100;background:rgba(5,6,10,.72);backdrop-filte
 .brand{font-size:21px;font-weight:900;letter-spacing:-1.2px}.brand span{color:var(--blue)}
 .navlinks{display:flex;gap:25px}.navlinks a{font-size:12px;color:#929bad;transition:.25s}.navlinks a:hover{color:#fff}
 .navCta{padding:9px 13px;border:1px solid var(--line);border-radius:10px;font-size:11px;font-weight:850}
+
+.heritage{padding:40px 0 110px;position:relative}
+.heritageFrame{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:28px;
+  background:#08090e;box-shadow:0 30px 90px rgba(0,0,0,.45);isolation:isolate}
+.heritageFrame:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:linear-gradient(90deg,rgba(5,6,10,.78),rgba(5,6,10,.48) 48%,rgba(5,6,10,.62)),
+             linear-gradient(180deg,rgba(5,6,10,.30),rgba(5,6,10,.58))}
+.heritageArt{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;
+  opacity:.30;filter:saturate(.82) brightness(.72);transform:scale(1.025);
+  animation:heritageZoom 18s ease-in-out infinite alternate}
+.heritageGlow{position:absolute;inset:-20%;z-index:1;pointer-events:none;
+  background:radial-gradient(circle at 65% 45%,rgba(255,190,80,.12),transparent 28%),
+             radial-gradient(circle at 35% 55%,rgba(115,133,255,.1),transparent 32%);
+  animation:heritageGlow 9s ease-in-out infinite alternate}
+.heritageCopy{position:absolute;left:28px;bottom:25px;z-index:4;max-width:520px}
+.heritageCopy .kicker{color:#ffd58a}
+.heritageCopy h2{margin-top:7px}
+.heritageCopy p{margin-top:8px;color:rgba(245,247,255,.72);font-size:13px}
+.heritageBadge{display:inline-flex;margin-top:13px;padding:7px 11px;border:1px solid rgba(255,213,138,.25);
+  border-radius:999px;background:rgba(5,6,10,.4);backdrop-filter:blur(10px);color:#ffe4b0;font-size:9px;font-weight:800}
+@keyframes heritageZoom{from{transform:scale(1.025) translate3d(-.4%,0,0)}to{transform:scale(1.08) translate3d(.5%,-.4%,0)}}
+@keyframes heritageGlow{from{transform:translate3d(-2%,1%,0);opacity:.55}to{transform:translate3d(2%,-1%,0);opacity:1}}
+@media(max-width:760px){
+  .heritage{padding:20px 0 80px}
+  .heritageFrame{border-radius:20px}
+  .heritageArt{aspect-ratio:4/5;object-position:58% center;opacity:.24}
+  .heritageCopy{left:17px;right:17px;bottom:17px}
+  .heritageCopy p{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .heritageArt,.heritageGlow{animation:none}
+}
+
 @media(max-width:760px){.navlinks a:not(:last-child){display:none}.navlinks{gap:8px}}
 
 .hero{min-height:calc(100vh - 72px);display:flex;align-items:center;padding:90px 0 80px;position:relative}
@@ -138,6 +171,7 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
       <a href="#about">About</a>
       <a href="#production">Production</a>
       <a href="#ai">AI</a>
+      <a href="#heritage">Heritage</a>
       <a href="#resume">Resume</a>
       <a class="navCta" href="mailto:ravikumar.undapalli444@gmail.com">Contact</a>
     </div>
@@ -170,6 +204,29 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
         <div class="profileGlow">
           <img class="photo" src="ravi-photo.png" alt="Ravi Kumar" width="255" height="255" fetchpriority="high">
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="heritage" class="heritage">
+  <div class="wrap">
+    <div class="sectionTop reveal">
+      <div class="kicker">Cinematic Heritage</div>
+      <h2>Tradition meets the modern web.</h2>
+      <p class="muted">A cinematic visual featuring Seetha, Rama, Lakshmana and Hanuman, integrated as an animated visual layer.</p>
+    </div>
+    <div class="heritageFrame reveal">
+      <img class="heritageArt" src="rama-sita-lakshmana-hanuman-4k.png"
+           alt="Cinematic artwork of Seetha, Rama, Lakshmana and Hanuman"
+           width="3840" height="2560" loading="lazy" decoding="async">
+      <div class="heritageGlow"></div>
+      <div class="heritageCopy">
+        <div class="kicker">Ravi Info · Cinematic Visual</div>
+        <h2>Seetha · Rama · Lakshmana · Hanuman</h2>
+        <p>A subtle cinematic background treatment keeps Rama, Sita, Lakshmana and Hanuman visible while keeping the website content clearly in focus.</p>
+        <span class="heritageBadge">4K-STYLE · ANIMATED · RESPONSIVE</span>
       </div>
     </div>
   </div>
