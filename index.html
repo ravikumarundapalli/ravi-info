@@ -97,30 +97,6 @@ background:linear-gradient(145deg,rgba(115,133,255,.08),rgba(255,255,255,.018))}
 .aiList{display:grid;gap:10px;margin-top:20px}.aiItem{display:flex;gap:12px;padding:12px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055)}
 .aiItem b{font-size:11px}.aiItem span{display:block;color:#7e8899;font-size:10px}
 
-.jobRadar{position:relative;overflow:hidden;padding:32px;border:1px solid rgba(255,255,255,.09);border-radius:30px;
-background:radial-gradient(circle at 8% 10%,rgba(115,133,255,.13),transparent 28%),radial-gradient(circle at 92% 90%,rgba(94,231,212,.09),transparent 26%),linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
-box-shadow:0 35px 100px rgba(0,0,0,.28)}
-.jobRadarHead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:24px}.jobRadarLive{display:inline-flex;align-items:center;gap:7px;
-padding:6px 9px;border:1px solid rgba(94,231,212,.18);border-radius:999px;color:#9fe9df;background:rgba(94,231,212,.055);font-size:9px;font-weight:900;letter-spacing:.1em}
-.jobRadarLive i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan);animation:pulse 1.8s infinite}
-@keyframes pulse{50%{opacity:.35;transform:scale(.65)}}.jobRadarMeta{color:#737d90;font-size:10px;margin-top:8px}
-.jobRadarActions{display:flex;gap:8px}.jobRadarBtn{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.045);color:#eef2ff;border-radius:11px;padding:10px 13px;cursor:pointer;font-size:10px;font-weight:850;transition:.25s}
-.jobRadarBtn:hover{transform:translateY(-2px);border-color:rgba(115,133,255,.38)}.jobRadarBtn.primary{background:#fff;color:#05060a}.jobRadarBtn:disabled{opacity:.55;cursor:wait}
-.jobRadarGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.jobCard{min-width:0;padding:19px;border:1px solid rgba(255,255,255,.075);
-border-radius:20px;background:rgba(4,6,12,.52);transition:.3s}.jobCard:hover{transform:translateY(-5px);border-color:rgba(115,133,255,.3);background:rgba(8,11,20,.72)}
-.jobCardTop{display:flex;justify-content:space-between;gap:13px}.jobTitle{font-size:15px;line-height:1.28;font-weight:850;letter-spacing:-.25px}.jobCompany{color:#788397;font-size:9px;font-weight:800;margin-top:5px}
-.jobMatch{flex:0 0 auto;min-width:56px;height:56px;display:grid;place-items:center;border-radius:16px;border:1px solid rgba(94,231,212,.18);
-background:radial-gradient(circle,rgba(94,231,212,.13),rgba(255,255,255,.025));color:#9fe9df;font-size:14px;font-weight:950}
-.jobMatch small{display:block;color:#667082;font-size:6px;letter-spacing:.08em}.jobInfo{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}.jobChip{padding:5px 7px;border-radius:7px;color:#8f99aa;
-border:1px solid rgba(255,255,255,.065);background:rgba(255,255,255,.028);font-size:8px;font-weight:750}.jobSkills{display:flex;flex-wrap:wrap;gap:6px;min-height:22px}
-.jobSkill{padding:4px 6px;border-radius:6px;color:#aeb8ca;background:rgba(115,133,255,.065);border:1px solid rgba(115,133,255,.12);font-size:7px}
-.jobCardFoot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px;padding-top:13px;border-top:1px solid rgba(255,255,255,.055)}
-.jobPosted{color:#667083;font-size:8px;font-weight:750}.jobApply{padding:7px 9px;border-radius:8px;background:#fff;color:#05060a;font-size:8px;font-weight:900}
-.jobRadarStatus{margin-top:13px;min-height:17px;color:#6f798b;font-size:9px}.jobRadarEmpty{grid-column:1/-1;padding:38px 20px;text-align:center;color:#7c8698;border:1px dashed rgba(255,255,255,.1);border-radius:18px}
-.jobRadarSkeleton{height:180px;border-radius:20px;border:1px solid rgba(255,255,255,.055);background:linear-gradient(100deg,rgba(255,255,255,.025) 30%,rgba(255,255,255,.07) 45%,rgba(255,255,255,.025) 60%);
-background-size:220% 100%;animation:skeleton 1.4s infinite}@keyframes skeleton{to{background-position:-220% 0}}
-.jobRadarAttribution{margin-top:13px;color:#5f697a;font-size:7px}.jobRadarAttribution a{text-decoration:underline}
-
 .resumeBox{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:30px;border-radius:var(--radius);border:1px solid var(--line);
 background:linear-gradient(135deg,rgba(115,133,255,.08),rgba(94,231,212,.035),rgba(255,255,255,.018))}
 .resumeBox p{color:var(--muted);font-size:12px;margin-top:7px}.resumeStats{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.resumeStat{padding:8px 10px;border-radius:9px;background:rgba(255,255,255,.035);border:1px solid var(--line);font-size:9px;color:#9da7b8}
@@ -149,7 +125,6 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
       <a href="#about">About</a>
       <a href="#production">Production</a>
       <a href="#ai">AI</a>
-      <a href="#jobs">Jobs</a>
       <a href="#resume">Resume</a>
       <a class="navCta" href="mailto:ravikumar.undapalli444@gmail.com">Contact</a>
     </div>
@@ -169,12 +144,10 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
       </p>
       <div class="buttons">
         <a class="btn primary" href="#production">Explore Engineering</a>
-        <a class="btn" href="#jobs">View Job Radar</a>
         <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Open Resume</a>
       </div>
       <div class="heroTech">
-        <span>Python</span><span>SQL</span><span>AWS</span><span>Fivetran</span><span>HVR</span>
-        <span>Apache NiFi</span><span>Informatica</span><span>PySpark</span><span>AI Explorer</span>
+        <span>Multi-Tool ETL</span><span>Multi-Cloud Engineering</span><span>Python</span><span>SQL</span><span>PySpark</span><span>AI Explorer</span>
       </div>
     </div>
 
@@ -197,7 +170,7 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
       <p class="muted">Production data engineering is more than fixing visible errors. It is understanding dependencies, data movement, runtime behavior and the business impact behind the pipeline.</p>
     </div>
     <div class="cards">
-      <article class="card reveal"><div class="iconBox">01</div><h3>Multi-Tool ETL Engineering</h3><p>Hands-on production exposure across Fivetran, HVR, Informatica, Apache NiFi and AWS ingestion services.</p></article>
+      <article class="card reveal"><div class="iconBox">01</div><h3>Multi-Tool ETL Engineering</h3><p>Hands-on production experience across multiple ETL tools and cloud data platforms.</p></article>
       <article class="card reveal"><div class="iconBox">02</div><h3>Production Troubleshooting</h3><p>Trace failures across source, ingestion, transformation, storage, dependencies and downstream consumers to isolate root cause.</p></article>
       <article class="card reveal"><div class="iconBox">03</div><h3>Functional Knowledge</h3><p>Connect technical pipeline behavior with operational workflows, SLAs, incident handling and production outcomes.</p></article>
     </div>
@@ -219,11 +192,9 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
       <div class="flowItem reveal"><span class="flowNumber">05</span><span class="flowTitle">OPTIMIZE</span></div>
     </div>
     <div class="toolkit reveal">
-      <span class="tag">AWS S3</span><span class="tag">AWS Glue</span><span class="tag">AppFlow</span><span class="tag">Redshift</span>
-      <span class="tag">Step Functions</span><span class="tag">Lambda</span><span class="tag">EMR</span><span class="tag">Athena</span>
-      <span class="tag">Fivetran</span><span class="tag">HVR</span><span class="tag">Informatica</span><span class="tag">Apache NiFi</span>
-      <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">PySpark</span><span class="tag">Databricks</span>
-      <span class="tag">CDC</span><span class="tag">Unix</span><span class="tag">Shell</span>
+      <span class="tag">Multi-Tool ETL</span><span class="tag">Multi-Cloud Engineering</span>
+      <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">PySpark</span><span class="tag">Data Pipelines</span>
+      <span class="tag">CDC</span><span class="tag">Automation</span><span class="tag">Production Support</span>
     </div>
   </div>
 </section>
@@ -257,32 +228,7 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
   </div>
 </section>
 
-<section id="jobs">
-  <div class="wrap">
-    <div class="sectionTop reveal">
-      <div class="kicker">Live Opportunities</div>
-      <h2>Job Radar</h2>
-      <p class="muted">Fresh Hyderabad opportunities matched against the latest resume in GitHub. Automatic refresh every 6 hours.</p>
-    </div>
-    <div class="jobRadar reveal">
-      <div class="jobRadarHead">
-        <div>
-          <div class="jobRadarLive"><i></i> LIVE RADAR</div>
-          <div class="jobRadarMeta" id="jobRadarMeta">Checking latest opportunities…</div>
-        </div>
-        <div class="jobRadarActions">
-          <button class="jobRadarBtn primary" id="jobRefreshBtn" type="button">↻ Refresh Jobs</button>
-        </div>
-      </div>
-      <div class="jobRadarGrid" id="jobRadarGrid" aria-live="polite">
-        <div class="jobRadarSkeleton"></div><div class="jobRadarSkeleton"></div>
-        <div class="jobRadarSkeleton"></div><div class="jobRadarSkeleton"></div>
-      </div>
-      <div class="jobRadarStatus" id="jobRadarStatus"></div>
-      <div class="jobRadarAttribution">Job listings provided by <a href="https://www.adzuna.in/" target="_blank" rel="noopener noreferrer">Adzuna</a>. Listings and posting times can change at the source.</div>
-    </div>
-  </div>
-</section>
+
 
 <section id="resume">
   <div class="wrap">
@@ -290,7 +236,7 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
     <div class="resumeBox reveal">
       <div>
         <h3>ETL & Data Engineer · AWS Cloud · Pipeline Automation</h3>
-        <p>4.5+ years of enterprise production data engineering experience across ingestion, ETL, cloud services, automation and incident management.</p>
+        <p>4.5+ years of enterprise production data engineering experience across multi-tool ETL, multi-cloud engineering, automation and incident management. Detailed tools and technologies: Fivetran, HVR, Informatica, Apache NiFi, AWS Glue, AppFlow, S3, Redshift, Lambda, Step Functions, EMR, Athena, Python, SQL, PySpark, Databricks, CDC and Unix/Shell.</p>
         <div class="resumeStats"><span class="resumeStat">4.5+ Years</span><span class="resumeStat">AWS</span><span class="resumeStat">ETL Production</span><span class="resumeStat">Data Ingestion</span><span class="resumeStat">Python + SQL</span></div>
       </div>
       <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener">View Resume ↗</a>
@@ -344,73 +290,6 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
 })();
 </script>
 
-<script>
-(() => {
-  const API_URL="/api/jobs";
-  const REFRESH_INTERVAL=6*60*60*1000;
-  const grid=document.getElementById("jobRadarGrid");
-  const button=document.getElementById("jobRefreshBtn");
-  const meta=document.getElementById("jobRadarMeta");
-  const status=document.getElementById("jobRadarStatus");
-  if(!grid||!button||!meta||!status)return;
-  let loading=false;
 
-  const escapeHtml=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-  const loadingView=()=>grid.innerHTML='<div class="jobRadarSkeleton"></div>'.repeat(4);
-
-  function renderJobs(jobs){
-    if(!Array.isArray(jobs)||!jobs.length){
-      grid.innerHTML='<div class="jobRadarEmpty"><strong>No matching jobs found in the current 24-hour window.</strong><br><span>Try refreshing later for newly published roles.</span></div>';
-      return;
-    }
-    grid.innerHTML=jobs.map(job=>{
-      const skills=Number(job.matchedSkills||0);
-      return `<article class="jobCard">
-        <div class="jobCardTop">
-          <div><div class="jobTitle">${escapeHtml(job.title)}</div><div class="jobCompany">${escapeHtml(job.company)}</div></div>
-          <div class="jobMatch">${escapeHtml(job.matchPercentage)}%<small>MATCH</small></div>
-        </div>
-        <div class="jobInfo">
-          <span class="jobChip">⌖ ${escapeHtml(job.location||"Hyderabad")}</span>
-          <span class="jobChip">◷ ${escapeHtml(job.postedAge||"Recently posted")}</span>
-          <span class="jobChip">${skills} matched skill${skills===1?"":"s"}</span>
-        </div>
-        <div class="jobSkills"><span class="jobSkill">Resume-aligned</span><span class="jobSkill">Adzuna</span></div>
-        <div class="jobCardFoot">
-          <span class="jobPosted">${escapeHtml(job.source||"Job source")}</span>
-          ${job.url?`<a class="jobApply" href="${escapeHtml(job.url)}" target="_blank" rel="noopener noreferrer">View Job ↗</a>`:"<span class='jobPosted'>Link unavailable</span>"}
-        </div>
-      </article>`;
-    }).join("");
-  }
-
-  async function loadJobs(manual=false){
-    if(loading)return;
-    loading=true;button.disabled=true;button.textContent="↻ Loading…";
-    if(!manual)loadingView();
-    status.textContent=manual?"Refreshing the latest opportunities…":"Connecting to the live job radar…";
-    try{
-      const response=await fetch(`${API_URL}?t=${Date.now()}`,{cache:"no-store",headers:{"Accept":"application/json"}});
-      const data=await response.json();
-      if(!response.ok||!data.success)throw new Error(data.error||`Request failed (${response.status})`);
-      renderJobs(data.jobs);
-      const d=data.generatedAt?new Date(data.generatedAt):new Date();
-      const time=Number.isNaN(d.getTime())?"just now":d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
-      meta.textContent=`${data.jobCount||0} fresh roles • Hyderabad • Last checked ${time}`;
-      status.textContent=`Showing up to 10 roles posted within the last ${data.maxAgeHours||24} hours.`;
-    }catch(error){
-      grid.innerHTML='<div class="jobRadarEmpty"><strong>Job Radar is temporarily unavailable.</strong><br><span>Please try Refresh Jobs again.</span></div>';
-      meta.textContent="Unable to load live opportunities";
-      status.textContent="The rest of Ravi Info is still available.";
-    }finally{
-      loading=false;button.disabled=false;button.textContent="↻ Refresh Jobs";
-    }
-  }
-
-  button.addEventListener("click",()=>loadJobs(true));
-  loadJobs(false);
-  window.setInterval(()=>loadJobs(false),REFRESH_INTERVAL);
-})();
-</script>
 </body>
 </html>
