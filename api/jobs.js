@@ -243,12 +243,6 @@ if (Array.isArray(data.results)) {
     search: searchTerm,
     results: 0
   });
-} else {
-  console.log(
-    `Adzuna "${searchTerm}": no results array`,
-    data
-  );
-}
 
   return allJobs;
 }
