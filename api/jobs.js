@@ -204,6 +204,7 @@ const searches = [
 ];
 
   const allJobs = [];
+  const searchDiagnostics = [];
 
   for (const searchTerm of searches) {
     const url = new URL(`${ADZUNA_BASE}/1`);
@@ -231,11 +232,17 @@ const searches = [
     const data = await response.json();
 
 if (Array.isArray(data.results)) {
-  console.log(
-    `Adzuna "${searchTerm}": ${data.results.length} results`
-  );
+  searchDiagnostics.push({
+    search: searchTerm,
+    results: data.results.length
+  });
 
   allJobs.push(...data.results);
+} else {
+  searchDiagnostics.push({
+    search: searchTerm,
+    results: 0
+  });
 } else {
   console.log(
     `Adzuna "${searchTerm}": no results array`,
