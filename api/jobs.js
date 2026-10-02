@@ -230,10 +230,18 @@ const searches = [
 
     const data = await response.json();
 
-    if (Array.isArray(data.results)) {
-      allJobs.push(...data.results);
-    }
-  }
+if (Array.isArray(data.results)) {
+  console.log(
+    `Adzuna "${searchTerm}": ${data.results.length} results`
+  );
+
+  allJobs.push(...data.results);
+} else {
+  console.log(
+    `Adzuna "${searchTerm}": no results array`,
+    data
+  );
+}
 
   return allJobs;
 }
