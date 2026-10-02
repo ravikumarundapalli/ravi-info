@@ -16,71 +16,25 @@ const MAX_JOB_AGE_HOURS = 24;
 const MAX_RESULTS = 10;
 
 const SKILLS = [
-  "aws",
-  "azure",
-  "gcp",
-  "s3",
-  "redshift",
-  "glue",
-  "appflow",
-  "step functions",
-  "lambda",
-  "emr",
-  "athena",
-  "kinesis",
-  "dynamodb",
-  "fivetran",
-  "hvr",
-  "informatica",
-  "apache nifi",
-  "nifi",
-  "python",
-  "sql",
-  "pyspark",
-  "spark",
-  "databricks",
-  "delta",
-  "snowflake",
-  "dbt",
-  "kafka",
-  "etl",
-  "data ingestion",
-  "data pipelines",
-  "data engineering",
-  "data integration",
-  "production support",
-  "production troubleshooting",
-  "cdc",
-  "change data capture",
-  "unix",
-  "shell"
+  "aws", "azure", "gcp", "s3", "redshift", "glue", "appflow",
+  "step functions", "lambda", "emr", "athena", "kinesis", "dynamodb",
+  "fivetran", "hvr", "informatica", "apache nifi", "nifi", "python",
+  "sql", "pyspark", "spark", "databricks", "delta", "snowflake", "dbt",
+  "kafka", "etl", "data ingestion", "data pipelines", "data engineering",
+  "data integration", "production support", "production troubleshooting",
+  "cdc", "change data capture", "unix", "shell"
 ];
 
 const ROLE_TERMS = [
-  "data engineer",
-  "etl developer",
-  "aws data engineer",
-  "cloud data engineer",
-  "data integration engineer",
-  "data platform engineer",
-  "python data engineer",
-  "pyspark data engineer",
-  "aws glue data engineer"
+  "data engineer", "etl developer", "aws data engineer", "cloud data engineer",
+  "data integration engineer", "data platform engineer", "python data engineer",
+  "pyspark data engineer", "aws glue data engineer"
 ];
 
 function json(res, status, body) {
   res.status(status);
-
-  res.setHeader(
-    "Content-Type",
-    "application/json; charset=utf-8"
-  );
-
-  res.setHeader(
-    "Cache-Control",
-    "no-store, max-age=0"
-  );
-
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store, max-age=0");
   res.end(JSON.stringify(body));
 }
 
@@ -94,71 +48,35 @@ function calculateScore(job, resumeText) {
   );
 
   const resume = normalizeText(resumeText);
-
   let score = 0;
   let matchedSkills = 0;
 
   for (const skill of SKILLS) {
-    if (
-      resume.includes(skill) &&
-      jobText.includes(skill)
-    ) {
+    if (resume.includes(skill) && jobText.includes(skill)) {
       score += 4;
       matchedSkills++;
     }
   }
 
   for (const role of ROLE_TERMS) {
-    if (
-      resume.includes(role) &&
-      jobText.includes(role)
-    ) {
+    if (resume.includes(role) && jobText.includes(role)) {
       score += 10;
     }
   }
 
-  if (jobText.includes("data engineer")) {
-    score += 8;
-  }
-
-  if (jobText.includes("etl")) {
-    score += 5;
-  }
-
-  if (jobText.includes("aws")) {
-    score += 4;
-  }
-
-  if (jobText.includes("python")) {
-    score += 3;
-  }
-
-  if (jobText.includes("sql")) {
-    score += 3;
-  }
-
-  if (jobText.includes("pyspark")) {
-    score += 3;
-  }
-
-  const matchPercentage = Math.min(
-    99,
-    Math.max(50, 50 + score)
-  );
+  if (jobText.includes("data engineer")) score += 8;
+  if (jobText.includes("etl")) score += 5;
+  if (jobText.includes("aws")) score += 4;
+  if (jobText.includes("python")) score += 3;
+  if (jobText.includes("sql")) score += 3;
+  if (jobText.includes("pyspark")) score += 3;
 
   return {
-    matchPercentage,
+    matchPercentage: Math.min(99, Math.max(50, 50 + score)),
     matchedSkills
   };
 }
 
-/*
- * Calculates job age in hours.
- *
- * Adzuna timestamps can occasionally be slightly ahead
- * of the Vercel runtime clock. Negative values are therefore
- * clamped to zero instead of producing negative job ages.
- */
 function hoursSince(dateValue) {
   const timestamp = new Date(dateValue).getTime();
 
@@ -167,8 +85,7 @@ function hoursSince(dateValue) {
   }
 
   const hours =
-    (Date.now() - timestamp) /
-    (1000 * 60 * 60);
+    (Date.now() - timestamp) / (1000 * 60 * 60);
 
   return Math.max(0, hours);
 }
@@ -189,6 +106,57 @@ function formatAge(hours) {
   }
 
   return `${Math.round(hours)}h ago`;
+}
+
+/*
+ * Only expose an employer/source URL when the provider itself supplies
+ * a URL that is clearly external to Adzuna.
+ *
+ * Adzuna's documented redirect_url points to Adzuna, so it is deliberately
+ * rejected. We do not scrape, guess, construct, or transform URLs.
+ */
+function getVerifiedEmployerUrl(job) {
+  const candidates = [
+    job.source_url,
+    job.sourceUrl,
+    job.employer_url,
+    job.employerUrl,
+    job.application_url,
+    job.applicationUrl,
+    job.job_url,
+    job.jobUrl
+  ];
+
+  for (const candidate of candidates) {
+    if (!candidate || typeof candidate !== "string") {
+      continue;
+    }
+
+    try {
+      const parsed = new URL(candidate);
+      const host = parsed.hostname
+        .toLowerCase()
+        .replace(/^www\./, "");
+
+      const isAdzuna =
+        host === "adzuna.in" ||
+        host.endsWith(".adzuna.in") ||
+        host === "adzuna.co.uk" ||
+        host.endsWith(".adzuna.co.uk") ||
+        host === "adzuna.com" ||
+        host.endsWith(".adzuna.com");
+
+      if (!host || isAdzuna) {
+        continue;
+      }
+
+      return parsed.toString();
+    } catch (_) {
+      // Ignore malformed or unverified URLs.
+    }
+  }
+
+  return null;
 }
 
 async function fetchResume() {
@@ -265,45 +233,14 @@ async function fetchJobs() {
       `${ADZUNA_BASE}/1`
     );
 
-    url.searchParams.set(
-      "app_id",
-      appId
-    );
-
-    url.searchParams.set(
-      "app_key",
-      appKey
-    );
-
-    url.searchParams.set(
-      "results_per_page",
-      "20"
-    );
-
-    url.searchParams.set(
-      "what",
-      searchTerm
-    );
-
-    url.searchParams.set(
-      "where",
-      LOCATION
-    );
-
-    url.searchParams.set(
-      "sort_by",
-      "date"
-    );
-
-    url.searchParams.set(
-      "max_days_old",
-      "1"
-    );
-
-    url.searchParams.set(
-      "content-type",
-      "application/json"
-    );
+    url.searchParams.set("app_id", appId);
+    url.searchParams.set("app_key", appKey);
+    url.searchParams.set("results_per_page", "20");
+    url.searchParams.set("what", searchTerm);
+    url.searchParams.set("where", LOCATION);
+    url.searchParams.set("sort_by", "date");
+    url.searchParams.set("max_days_old", "1");
+    url.searchParams.set("content-type", "application/json");
 
     try {
       const response = await fetch(
@@ -327,23 +264,18 @@ async function fetchJobs() {
       }
 
       const data = await response.json();
+      const results = Array.isArray(data.results)
+        ? data.results
+        : [];
 
-      if (Array.isArray(data.results)) {
-        searchDiagnostics.push({
-          search: searchTerm,
-          results: data.results.length,
-          status: response.status
-        });
+      searchDiagnostics.push({
+        search: searchTerm,
+        results: results.length,
+        status: response.status
+      });
 
-        allJobs.push(...data.results);
-      } else {
-        searchDiagnostics.push({
-          search: searchTerm,
-          results: 0,
-          status: response.status
-        });
-      }
-    } catch (error) {
+      allJobs.push(...results);
+    } catch (_) {
       searchDiagnostics.push({
         search: searchTerm,
         results: 0,
@@ -364,13 +296,8 @@ function normalizeJobs(jobs, resumeText) {
   const output = [];
 
   for (const job of jobs) {
-    const ageHours = hoursSince(
-      job.created
-    );
+    const ageHours = hoursSince(job.created);
 
-    /*
-     * Only jobs posted within the last 24 hours.
-     */
     if (
       !Number.isFinite(ageHours) ||
       ageHours > MAX_JOB_AGE_HOURS
@@ -405,6 +332,9 @@ function normalizeJobs(jobs, resumeText) {
       resumeText
     );
 
+    const verifiedEmployerUrl =
+      getVerifiedEmployerUrl(job);
+
     output.push({
       id: key,
       title,
@@ -420,15 +350,19 @@ function normalizeJobs(jobs, resumeText) {
         score.matchPercentage,
       matchedSkills:
         score.matchedSkills,
-      url:
-        job.redirect_url || null
+
+      /*
+       * The frontend should render Apply only when this field is present.
+       * Current Adzuna redirect_url is intentionally NOT copied here.
+       */
+      employerUrl:
+        verifiedEmployerUrl,
+
+      applyAvailable:
+        Boolean(verifiedEmployerUrl)
     });
   }
 
-  /*
-   * Highest resume match first.
-   * For equal matches, newest jobs first.
-   */
   output.sort((a, b) => {
     if (
       b.matchPercentage !==
@@ -480,7 +414,8 @@ module.exports = async function handler(
       generatedAt:
         new Date().toISOString(),
 
-      location: LOCATION,
+      location:
+        LOCATION,
 
       maxAgeHours:
         MAX_JOB_AGE_HOURS,
