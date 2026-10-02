@@ -673,7 +673,6 @@ h2 {
 }
 
 
-
 /* =========================================================
    RESUME
 ========================================================= */
@@ -1261,7 +1260,6 @@ body::after {
 }
 
 
-
 /* =========================================================
    THREE.JS / WEBGL CINEMATIC LAYER
 ========================================================= */
@@ -1314,8 +1312,6 @@ body::after {
   #webgl-canvas,
   .webglScanlines { display: none; }
 }
-
-
 
 
 /* =========================================================
@@ -1416,8 +1412,6 @@ body::after {
 }
 
 
-
-
 /* Global cinematic progress accent */
 body::marker{content:"";}
 body:before{
@@ -1435,46 +1429,6 @@ nav::after{
   pointer-events:none;
   z-index:2;
 }
-
-
-/* =========================================================
-   VISITOR WELCOME
-========================================================= */
-.visitorWelcome{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  background:rgba(5,6,10,.78);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  opacity:1;
-  transition:opacity .8s ease, visibility .8s ease;
-}
-.visitorWelcome.hide{opacity:0;visibility:hidden;pointer-events:none}
-.visitorWelcomeCard{
-  width:min(560px,100%);
-  padding:42px 34px;
-  text-align:center;
-  border:1px solid rgba(115,133,255,.24);
-  border-radius:30px;
-  background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));
-  box-shadow:0 30px 100px rgba(0,0,0,.55),0 0 70px rgba(115,133,255,.10);
-  transform:translateY(0) scale(1);
-  animation:welcomeIn .8s cubic-bezier(.2,.8,.2,1);
-}
-.visitorWelcomeKicker{color:#7f8cff;font-size:10px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;margin-bottom:13px}
-.visitorWelcomeTitle{font-size:clamp(30px,6vw,48px);line-height:1.05;letter-spacing:-2px;font-weight:900}
-.visitorWelcomeTitle span{background:linear-gradient(90deg,#fff,#8290ff,#5ee7d4,#b66cff,#fff);background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradientMove 7s linear infinite}
-.visitorWelcomeText{margin:15px auto 0;color:var(--muted);font-size:13px;max-width:430px}
-.visitorWelcomeContinue{margin-top:25px;padding:12px 18px;border-radius:13px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:#fff;font-size:12px;font-weight:800;cursor:pointer;transition:.3s}
-.visitorWelcomeContinue:hover{transform:translateY(-2px);background:rgba(255,255,255,.11)}
-@keyframes welcomeIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-@media(prefers-reduced-motion:reduce){.visitorWelcome{transition:none}.visitorWelcomeCard{animation:none}}
-
 
 
 /* =========================================================
@@ -1578,7 +1532,6 @@ nav,
     will-change: auto !important;
   }
 }
-
 
 
 /* Keep below-the-fold sections cheap during first paint. */
@@ -2421,244 +2374,10 @@ html{
 </style>
 
 
-
-
-<style id="ravi-weather-time-layer">
-/* =========================================================
-   RAVI INFO — CINEMATIC TIME + WEATHER SYSTEM
-   Pure CSS visual system: no image requests, no extra JS loop,
-   no external weather assets. Each heritage slide has its own
-   time-of-day and weather mood while scrolling through the site.
-========================================================= */
-.heritageSlide{isolation:isolate}
-.heritageWeather{
-  position:absolute;
-  inset:0;
-  z-index:0;
-  overflow:hidden;
-  pointer-events:none;
-  opacity:.9;
-  background:#07101c;
-  contain:paint;
-}
-.heritageWeather::before,
-.heritageWeather::after{
-  content:"";
-  position:absolute;
-  inset:-14%;
-  pointer-events:none;
-}
-.heritageWeather::before{
-  background:
-    radial-gradient(circle at 18% 22%, rgba(255,255,255,.07), transparent 18%),
-    radial-gradient(circle at 75% 32%, rgba(115,133,255,.08), transparent 30%),
-    linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%);
-  opacity:.8;
-}
-.heritageWeather::after{
-  background:linear-gradient(180deg, transparent 40%, rgba(3,4,9,.16) 72%, rgba(3,4,9,.78) 100%);
-}
-.weatherHorizon{
-  position:absolute;
-  left:-10%; right:-10%; bottom:-34px; height:80px;
-  background:radial-gradient(ellipse at center, rgba(255,196,112,.13), transparent 62%);
-  opacity:.75;
-  transform:translate3d(0,0,0);
-}
-.weatherSun,
-.weatherMoon{
-  position:absolute;
-  width:54px; height:54px;
-  border-radius:50%;
-  opacity:0;
-  transform:translate3d(0,10px,0) scale(.86);
-  transition:opacity 1s ease, transform 1.2s cubic-bezier(.16,1,.3,1);
-}
-.weatherSun{
-  left:18%; top:58%;
-  background:radial-gradient(circle at 40% 35%, #fff7cb 0 12%, #ffd98a 36%, rgba(255,174,74,.4) 62%, transparent 72%);
-  box-shadow:0 0 48px rgba(255,188,82,.32), 0 0 110px rgba(255,165,72,.14);
-}
-.weatherMoon{
-  right:18%; top:22%;
-  width:48px; height:48px;
-  background:radial-gradient(circle at 35% 32%, #fff 0 12%, #dce7ff 44%, #9fb8e9 74%, rgba(140,170,240,.2) 76%, transparent 80%);
-  box-shadow:0 0 30px rgba(173,201,255,.18), 0 0 90px rgba(119,163,255,.10);
-}
-.weatherMoon::after{
-  content:"";
-  position:absolute;
-  width:46px; height:46px;
-  border-radius:50%;
-  background:#07101c;
-  left:13px; top:-3px;
-}
-.weatherStars{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  background-image:
-    radial-gradient(circle at 10% 22%, rgba(255,255,255,.85) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 24% 68%, rgba(255,255,255,.55) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 38% 20%, rgba(255,255,255,.72) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 53% 58%, rgba(255,255,255,.5) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 66% 28%, rgba(255,255,255,.82) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 82% 61%, rgba(255,255,255,.62) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 91% 20%, rgba(255,255,255,.75) 0 1px, transparent 1.6px);
-  transition:opacity 1s ease;
-}
-.weatherCloud{
-  position:absolute;
-  width:150px; height:32px;
-  border-radius:50px;
-  opacity:0;
-  background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.035));
-  box-shadow:
-    28px -16px 0 -4px rgba(255,255,255,.09),
-    58px -11px 0 -1px rgba(255,255,255,.07),
-    86px -4px 0 -6px rgba(255,255,255,.05);
-  filter:blur(.25px);
-  transition:opacity .8s ease;
-}
-.weatherCloudA{left:42%; top:22%; transform:scale(.8)}
-.weatherCloudB{left:66%; top:36%; transform:scale(.58)}
-.weatherRain{
-  position:absolute;
-  inset:-40% -10%;
-  opacity:0;
-  background:repeating-linear-gradient(112deg, transparent 0 22px, rgba(173,210,255,.16) 23px 24px, transparent 25px 45px);
-  transform:translate3d(0,-12%,0) rotate(1deg);
-  transition:opacity .8s ease;
-}
-.weatherMist{
-  position:absolute;
-  left:-10%; right:-10%; bottom:-16px; height:74px;
-  opacity:0;
-  background:
-    radial-gradient(ellipse at 25% 60%, rgba(224,232,255,.14), transparent 54%),
-    radial-gradient(ellipse at 70% 45%, rgba(205,222,255,.10), transparent 58%);
-  filter:blur(8px);
-  transition:opacity .8s ease;
-}
-.weatherHaze{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  background:radial-gradient(circle at 56% 66%, rgba(255,177,89,.12), transparent 46%);
-  transition:opacity .8s ease;
-}
-.heritageWeatherReadout{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  margin-top:8px;
-  color:#7f8da2;
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-}
-.heritageWeatherReadout strong{color:#aeb8ff;font-weight:900}
-.heritageWeatherReadout span{color:#697387}
-
-/* Scene palettes */
-.heritageWeather[data-sky="dawn-clear"]{
-  background:
-    radial-gradient(circle at 20% 70%, rgba(255,175,82,.17), transparent 23%),
-    linear-gradient(180deg,#17162a 0%,#1e223f 46%,#0b111d 100%);
-}
-.heritageWeather[data-sky="dawn-clear"] .weatherSun{opacity:1; transform:translate3d(0,0,0) scale(1)}
-.heritageWeather[data-sky="dawn-clear"] .weatherHaze{opacity:.35}
-
-.heritageWeather[data-sky="morning-mist"]{
-  background:
-    radial-gradient(circle at 28% 54%, rgba(255,242,201,.16), transparent 25%),
-    linear-gradient(180deg,#1b2944 0%,#354a6b 46%,#172133 100%);
-}
-.heritageWeather[data-sky="morning-mist"] .weatherSun{left:28%;top:49%;opacity:.82;transform:translate3d(0,0,0) scale(.9)}
-.heritageWeather[data-sky="morning-mist"] .weatherMist{opacity:1;animation:weatherMistDrift 12s ease-in-out infinite alternate}
-.heritageWeather[data-sky="morning-mist"] .weatherCloudA,
-.heritageWeather[data-sky="morning-mist"] .weatherCloudB{opacity:.7}
-
-.heritageWeather[data-sky="afternoon-monsoon"]{
-  background:
-    radial-gradient(circle at 68% 30%, rgba(116,154,205,.11), transparent 28%),
-    linear-gradient(180deg,#172230 0%,#23394c 55%,#111923 100%);
-}
-.heritageWeather[data-sky="afternoon-monsoon"] .weatherCloudA{opacity:.92;top:16%;animation:weatherCloudDrift 16s linear infinite alternate}
-.heritageWeather[data-sky="afternoon-monsoon"] .weatherCloudB{opacity:.72;top:31%;animation:weatherCloudDrift 13s linear 2s infinite alternate-reverse}
-.heritageWeather[data-sky="afternoon-monsoon"] .weatherRain{opacity:1;animation:weatherRain 1s linear infinite}
-.heritageWeather[data-sky="afternoon-monsoon"] .weatherMist{opacity:.35}
-
-.heritageWeather[data-sky="golden-haze"]{
-  background:
-    radial-gradient(circle at 63% 62%, rgba(255,170,72,.24), transparent 24%),
-    linear-gradient(180deg,#2a1d2f 0%,#5a3a46 50%,#1a121d 100%);
-}
-.heritageWeather[data-sky="golden-haze"] .weatherSun{left:62%;top:53%;opacity:1;transform:translate3d(0,0,0) scale(1.12)}
-.heritageWeather[data-sky="golden-haze"] .weatherHaze{opacity:1;animation:weatherHazePulse 8s ease-in-out infinite alternate}
-.heritageWeather[data-sky="golden-haze"] .weatherCloudA{opacity:.34;top:20%}
-
-.heritageWeather[data-sky="twilight-cloud"]{
-  background:
-    radial-gradient(circle at 74% 56%, rgba(196,127,255,.12), transparent 25%),
-    linear-gradient(180deg,#171329 0%,#2b2d55 46%,#090c16 100%);
-}
-.heritageWeather[data-sky="twilight-cloud"] .weatherCloudA{opacity:.72;top:18%;animation:weatherCloudDrift 18s linear infinite alternate}
-.heritageWeather[data-sky="twilight-cloud"] .weatherCloudB{opacity:.55;top:33%;animation:weatherCloudDrift 14s linear 1.5s infinite alternate-reverse}
-.heritageWeather[data-sky="twilight-cloud"] .weatherStars{opacity:.35}
-
-.heritageWeather[data-sky="night-starry"]{
-  background:
-    radial-gradient(circle at 78% 28%, rgba(104,152,255,.12), transparent 24%),
-    linear-gradient(180deg,#050914 0%,#0a1224 52%,#03050b 100%);
-}
-.heritageWeather[data-sky="night-starry"] .weatherMoon{opacity:1;transform:translate3d(0,0,0) scale(1)}
-.heritageWeather[data-sky="night-starry"] .weatherStars{opacity:1;animation:weatherTwinkle 5s ease-in-out infinite alternate}
-.heritageWeather[data-sky="night-starry"] .weatherHorizon{background:radial-gradient(ellipse at center,rgba(96,154,255,.10),transparent 62%)}
-
-.cinematicSection.heritageActive .heritageWeather{opacity:1}
-.cinematicSection.heritageActive .heritageWeather::before{animation:weatherBreath 9s ease-in-out infinite alternate}
-
-@keyframes weatherCloudDrift{from{transform:translate3d(-18px,0,0) scale(.8)}to{transform:translate3d(24px,4px,0) scale(.84)}}
-@keyframes weatherRain{from{transform:translate3d(0,-11%,0) rotate(1deg)}to{transform:translate3d(-4%,13%,0) rotate(1deg)}}
-@keyframes weatherMistDrift{from{transform:translate3d(-2%,0,0)}to{transform:translate3d(4%,-4px,0)}}
-@keyframes weatherHazePulse{from{transform:scale(.98);opacity:.65}to{transform:scale(1.04);opacity:1}}
-@keyframes weatherTwinkle{from{opacity:.55}to{opacity:1}}
-@keyframes weatherBreath{from{transform:scale(1)}to{transform:scale(1.025)}}
-
-@media(max-width:850px){
-  .heritageWeatherReadout{font-size:7px;letter-spacing:.11em}
-  .heritageWeather .weatherSun{width:44px;height:44px}
-  .heritageWeather .weatherMoon{width:40px;height:40px}
-  .weatherMoon::after{width:39px;height:39px}
-  .weatherCloud{transform:scale(.65)}
-  .weatherCloudA{left:44%}
-  .weatherCloudB{left:62%}
-}
-@media(prefers-reduced-motion:reduce){
-  .heritageWeather *{animation:none !important}
-  .heritageWeather::before{animation:none !important}
-  .heritageWeatherReadout{transition:none}
-}
-</style>
-
 </head>
 
 
 <body>
-<!-- VISITOR WELCOME -->
-<div class="visitorWelcome" id="visitorWelcome" aria-label="Welcome message">
-  <div class="visitorWelcomeCard">
-    <div class="visitorWelcomeKicker">RAVI INFO · WELCOME</div>
-    <div class="visitorWelcomeTitle" id="visitorGreeting">Welcome, <span>Explorer.</span></div>
-    <p class="visitorWelcomeText" id="visitorGreetingText">Thanks for stopping by. Explore data engineering, production systems and AI.</p>
-    <button class="visitorWelcomeContinue" id="visitorWelcomeContinue" type="button">Enter Ravi Info →</button>
-  </div>
-</div>
-
-
-
 <!-- =======================================================
      PARTICLES
 ======================================================= -->
@@ -2735,25 +2454,12 @@ html{
 
 <section class="hero cinematicSection" data-scene="IDENTITY">
   <div class="heritageSlide" data-heritage="01" aria-hidden="true">
-    <div class="heritageWeather" data-sky="dawn-clear" aria-hidden="true">
-      <span class="weatherSun"></span>
-      <span class="weatherMoon"></span>
-      <span class="weatherStars"></span>
-      <span class="weatherCloud weatherCloudA"></span>
-      <span class="weatherCloud weatherCloudB"></span>
-      <span class="weatherRain"></span>
-      <span class="weatherMist"></span>
-      <span class="weatherHaze"></span>
-      <span class="weatherHorizon"></span>
-    </div>
-
-    <div class="heritageMeta">
+<div class="heritageMeta">
       <div class="heritageKicker">INDIAN HERITAGE · 01</div>
       <div class="heritageName">KONARK SUN TEMPLE</div>
       <div class="heritagePlace">Odisha · Sun Temple heritage</div>
       <span class="heritageMiniFlag"></span>
-      <div class="heritageWeatherReadout"><strong>DAWN</strong><span>· CLEAR SKY</span></div>
-    </div>
+</div>
     <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(435 74)"><circle r="57" class="soft"/><circle r="49" class="line draw"/><circle r="8" class="solid"/><g class="soft" opacity=".8"><path d="M0-49L0-8M0 8L0 49M-49 0L-8 0M8 0L49 0M-34.6-34.6L-5.7-5.7M5.7 5.7L34.6 34.6M34.6-34.6L5.7-5.7M-5.7 5.7L-34.6 34.6"/><path d="M-18-46L-3-7M18-46L3-7M46-18L7-3M46 18L7 3M18 46L3 7M-18 46L-3 7M-46 18L-7 3M-46-18L-7-3"/></g><circle cx="0" cy="-49" r="2.2" class="spark"/></g><g transform="translate(245 25)" opacity=".62"><path class="line draw" d="M0 92L0 56 17 48 17 88 33 40 49 88 49 32 67 88 67 24 86 88 86 15 105 88"/><path class="soft" d="M-10 92H124"/></g></svg></div>
     <span class="scan"></span>
   </div>
@@ -2878,25 +2584,12 @@ html{
 
 <section id="about" class="cinematicSection" data-scene="ABOUT">
   <div class="heritageSlide" data-heritage="02" aria-hidden="true">
-    <div class="heritageWeather" data-sky="morning-mist" aria-hidden="true">
-      <span class="weatherSun"></span>
-      <span class="weatherMoon"></span>
-      <span class="weatherStars"></span>
-      <span class="weatherCloud weatherCloudA"></span>
-      <span class="weatherCloud weatherCloudB"></span>
-      <span class="weatherRain"></span>
-      <span class="weatherMist"></span>
-      <span class="weatherHaze"></span>
-      <span class="weatherHorizon"></span>
-    </div>
-
-    <div class="heritageMeta">
+<div class="heritageMeta">
       <div class="heritageKicker">INDIAN HERITAGE · 02</div>
       <div class="heritageName">TAJ MAHAL</div>
       <div class="heritagePlace">Agra · Mughal-era architecture</div>
       <span class="heritageMiniFlag"></span>
-      <div class="heritageWeatherReadout"><strong>MORNING</strong><span>· SOFT MIST</span></div>
-    </div>
+</div>
     <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(282 12)"><path class="line draw" d="M0 112V61M28 112V49M56 112V58M214 112V58M242 112V49M270 112V61"/><path class="line draw" d="M18 110V83Q135 15 252 83V110"/><path class="line draw" d="M77 110V70Q135 14 193 70V110"/><path class="line draw" d="M135 14V1M124 14Q135-11 146 14"/><path class="soft" d="M86 110V78Q135 45 184 78V110M102 110V83Q135 61 168 83V110"/><path class="line draw" d="M0 112H270M42 112V64M228 112V64"/><circle cx="135" cy="1" r="2.5" class="spark"/></g></svg></div>
     <span class="scan"></span>
   </div>
@@ -3079,25 +2772,12 @@ html{
 <div class="cinemaMarquee" aria-hidden="true"><div class="cinemaMarqueeTrack"><span>DATA ENGINEERING</span><span>AWS</span><span>PYTHON</span><span>SQL</span><span>APACHE NIFI</span><span>FIVETRAN</span><span>HVR</span><span>INFORMATICA</span><span>SPARK</span><span>DATABRICKS</span><span>PRODUCTION SYSTEMS</span><span>AI EXPLORER</span><span>DATA ENGINEERING</span><span>AWS</span><span>PYTHON</span><span>SQL</span><span>APACHE NIFI</span><span>FIVETRAN</span><span>HVR</span><span>INFORMATICA</span><span>SPARK</span><span>DATABRICKS</span><span>PRODUCTION SYSTEMS</span><span>AI EXPLORER</span></div></div>
 <section id="expertise" class="cinematicSection" data-scene="ENGINEERING">
   <div class="heritageSlide" data-heritage="03" aria-hidden="true">
-    <div class="heritageWeather" data-sky="afternoon-monsoon" aria-hidden="true">
-      <span class="weatherSun"></span>
-      <span class="weatherMoon"></span>
-      <span class="weatherStars"></span>
-      <span class="weatherCloud weatherCloudA"></span>
-      <span class="weatherCloud weatherCloudB"></span>
-      <span class="weatherRain"></span>
-      <span class="weatherMist"></span>
-      <span class="weatherHaze"></span>
-      <span class="weatherHorizon"></span>
-    </div>
-
-    <div class="heritageMeta">
+<div class="heritageMeta">
       <div class="heritageKicker">INDIAN HERITAGE · 03</div>
       <div class="heritageName">RANI KI VAV</div>
       <div class="heritagePlace">Gujarat · Stepwell architecture</div>
       <span class="heritageMiniFlag"></span>
-      <div class="heritageWeatherReadout"><strong>AFTERNOON</strong><span>· MONSOON RAIN</span></div>
-    </div>
+</div>
     <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(175 8)"><path class="line draw" d="M0 16H270M15 32H255M30 48H240M45 64H225M60 80H210M75 96H195M90 112H180M105 128H165"/><path class="line draw" d="M0 16L60 80M270 16L210 80M30 48L75 96M240 48L195 96M60 80L90 112M210 80L180 112"/><path class="soft" d="M105 128V108M165 128V108M112 126V108M158 126V108"/><circle cx="135" cy="113" r="4" class="spark"/></g><g opacity=".6"><path class="line draw" d="M74 44V127M92 58V127M500 44V127M518 58V127"/><path class="soft" d="M56 127H110M482 127H536"/></g></svg></div>
     <span class="scan"></span>
   </div>
@@ -3234,25 +2914,12 @@ html{
 
 <section id="ai" class="cinematicSection" data-scene="AI EXPLORER">
   <div class="heritageSlide" data-heritage="04" aria-hidden="true">
-    <div class="heritageWeather" data-sky="golden-haze" aria-hidden="true">
-      <span class="weatherSun"></span>
-      <span class="weatherMoon"></span>
-      <span class="weatherStars"></span>
-      <span class="weatherCloud weatherCloudA"></span>
-      <span class="weatherCloud weatherCloudB"></span>
-      <span class="weatherRain"></span>
-      <span class="weatherMist"></span>
-      <span class="weatherHaze"></span>
-      <span class="weatherHorizon"></span>
-    </div>
-
-    <div class="heritageMeta">
+<div class="heritageMeta">
       <div class="heritageKicker">INDIAN HERITAGE · 04</div>
       <div class="heritageName">HAMPI</div>
       <div class="heritagePlace">Karnataka · Vijayanagara heritage</div>
       <span class="heritageMiniFlag"></span>
-      <div class="heritageWeatherReadout"><strong>GOLDEN HOUR</strong><span>· DRY HAZE</span></div>
-    </div>
+</div>
     <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(240 24)"><path class="line draw" d="M0 92H280M30 92V52L75 30 120 52V92M160 92V54L205 31 250 54V92"/><path class="line draw" d="M55 52Q120 16 185 52"/><path class="line draw" d="M92 92V55M118 92V55M170 92V57M196 92V57"/><circle cx="93" cy="104" r="30" class="soft"/><circle cx="93" cy="104" r="22" class="line"/><circle cx="187" cy="104" r="30" class="soft"/><circle cx="187" cy="104" r="22" class="line"/><path class="soft" d="M71 104H115M165 104H209"/><circle cx="140" cy="16" r="2.5" class="spark"/></g><g transform="translate(112 68)" opacity=".62"><path class="line draw" d="M0 58L15 30 30 58M8 42L15 30 22 42M36 58L51 30 66 58M44 42L51 30 58 42"/></g></svg></div>
     <span class="scan"></span>
   </div>
@@ -3362,32 +3029,18 @@ html{
 </section>
 
 
-
 <!-- =======================================================
      RESUME · REPLACE resume.pdf IN GITHUB TO UPDATE
 ======================================================= -->
 
 <section id="resume" class="cinematicSection" data-scene="RESUME">
   <div class="heritageSlide" data-heritage="05" aria-hidden="true">
-    <div class="heritageWeather" data-sky="twilight-cloud" aria-hidden="true">
-      <span class="weatherSun"></span>
-      <span class="weatherMoon"></span>
-      <span class="weatherStars"></span>
-      <span class="weatherCloud weatherCloudA"></span>
-      <span class="weatherCloud weatherCloudB"></span>
-      <span class="weatherRain"></span>
-      <span class="weatherMist"></span>
-      <span class="weatherHaze"></span>
-      <span class="weatherHorizon"></span>
-    </div>
-
-    <div class="heritageMeta">
+<div class="heritageMeta">
       <div class="heritageKicker">INDIAN HERITAGE · 05</div>
       <div class="heritageName">AJANTA CAVES</div>
       <div class="heritagePlace">Maharashtra · Cave art & architecture</div>
       <span class="heritageMiniFlag"></span>
-      <div class="heritageWeatherReadout"><strong>TWILIGHT</strong><span>· OVERCAST SKY</span></div>
-    </div>
+</div>
     <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(192 11)"><path class="line draw" d="M0 118V60Q135 0 270 60V118"/><path class="line draw" d="M24 118V71Q135 22 246 71V118"/><path class="soft" d="M50 118V79Q135 43 220 79V118"/><path class="line draw" d="M62 118V84M88 118V76M114 118V70M156 118V70M182 118V76M208 118V84"/><path class="soft" d="M0 118H270"/><circle cx="135" cy="18" r="3" class="spark"/></g><g opacity=".6"><path class="line draw" d="M80 58Q92 42 104 58M516 58Q528 42 540 58"/></g></svg></div>
     <span class="scan"></span>
   </div>
@@ -3475,25 +3128,12 @@ html{
 
 <section id="social" class="cinematicSection" data-scene="SOCIAL">
   <div class="heritageSlide" data-heritage="06" aria-hidden="true">
-    <div class="heritageWeather" data-sky="night-starry" aria-hidden="true">
-      <span class="weatherSun"></span>
-      <span class="weatherMoon"></span>
-      <span class="weatherStars"></span>
-      <span class="weatherCloud weatherCloudA"></span>
-      <span class="weatherCloud weatherCloudB"></span>
-      <span class="weatherRain"></span>
-      <span class="weatherMist"></span>
-      <span class="weatherHaze"></span>
-      <span class="weatherHorizon"></span>
-    </div>
-
-    <div class="heritageMeta">
+<div class="heritageMeta">
       <div class="heritageKicker">INDIAN HERITAGE · 06</div>
       <div class="heritageName">CHARMINAR</div>
       <div class="heritagePlace">Hyderabad · Deccan heritage</div>
       <span class="heritageMiniFlag"></span>
-      <div class="heritageWeatherReadout"><strong>NIGHT</strong><span>· CLEAR STARLIT</span></div>
-    </div>
+</div>
     <div class="heritageArt" aria-hidden="true"><svg viewBox="0 0 620 148"><g transform="translate(220 9)"><path class="line draw" d="M72 122V56Q72 38 90 38H180Q198 38 198 56V122"/><path class="line draw" d="M106 122V70H164V122M135 70V42"/><path class="line draw" d="M90 38Q135 4 180 38"/><path class="line draw" d="M68 122V42Q68 26 56 19Q42 12 34 28V122M202 122V42Q202 26 214 19Q228 12 236 28V122"/><path class="soft" d="M34 72H68M202 72H236M20 122H250M120 90H150M120 103H150"/><circle cx="135" cy="42" r="3" class="spark"/></g><g opacity=".6"><path class="line draw" d="M100 122H180M260 122H330M390 122H460"/></g></svg></div>
     <span class="scan"></span>
   </div>
@@ -3717,185 +3357,7 @@ html{
 })();
 
 
-
-/* =========================================================
-   VISITOR WELCOME
-   Priority: URL name → saved browser name → default Explorer
-========================================================= */
-(function(){
-  const overlay = document.getElementById("visitorWelcome");
-  const greeting = document.getElementById("visitorGreeting");
-  const greetingText = document.getElementById("visitorGreetingText");
-  const continueButton = document.getElementById("visitorWelcomeContinue");
-  if(!overlay || !greeting || !greetingText || !continueButton) return;
-
-  const params = new URLSearchParams(window.location.search);
-  const urlName = (params.get("name") || "").trim();
-  const savedName = (localStorage.getItem("visitorName") || "").trim();
-  const visitorName = urlName || savedName;
-
-  const hour = new Date().getHours();
-  let timeGreeting = "Good Evening";
-  if(hour >= 5 && hour < 12) timeGreeting = "Good Morning";
-  else if(hour >= 12 && hour < 17) timeGreeting = "Good Afternoon";
-  else if(hour >= 17 && hour < 21) timeGreeting = "Good Evening";
-  else timeGreeting = "Good Night";
-
-  if(visitorName){
-    greeting.innerHTML = timeGreeting + ', <span>' + visitorName.replace(/[<>]/g,'') + '.</span>';
-    greetingText.textContent = "Welcome to Ravi Info. Explore data engineering, production systems and AI.";
-  }else{
-    greeting.innerHTML = timeGreeting + ', <span>Explorer.</span>';
-    greetingText.textContent = "Welcome to Ravi Info. Explore data engineering, production systems and AI.";
-  }
-
-  function closeWelcome(){
-    overlay.classList.add("hide");
-    sessionStorage.setItem("raviWelcomeShown","1");
-    setTimeout(function(){ overlay.remove(); },850);
-  }
-
-  continueButton.addEventListener("click", closeWelcome);
-
-  // Automatically continue after a short cinematic pause.
-  setTimeout(closeWelcome, 3200);
-})();
-
-/* =========================================================
-   CURRENT YEAR
-========================================================= */
-
-document.getElementById("year").textContent =
-  new Date().getFullYear();
-
-
-/* =========================================================
-   DYNAMIC EXPERIENCE CALCULATOR
-   START DATE: DECEMBER 13, 2021
-
-   This automatically changes:
-   4+ → 5+ → 6+ → etc.
-   every year on the anniversary.
-========================================================= */
-
-const startDate = new Date("2021-12-13T00:00:00");
-const today = new Date();
-const millisecondsPerYear = 365.2425 * 24 * 60 * 60 * 1000;
-const experienceYears = Math.max(0, (today - startDate) / millisecondsPerYear);
-
-document.getElementById("experienceYears").textContent =
-  experienceYears.toFixed(1);
-
-
-/* =========================================================
-   MOUSE / TOUCH GLOW
-========================================================= */
-
-let glowFrame = 0;
-let glowX = window.innerWidth * .5;
-let glowY = window.innerHeight * .3;
-
-function scheduleGlow(x, y) {
-  glowX = x;
-  glowY = y;
-  if (glowFrame) return;
-  glowFrame = requestAnimationFrame(function () {
-    glowFrame = 0;
-    document.documentElement.style.setProperty("--mouse-x", glowX + "px");
-    document.documentElement.style.setProperty("--mouse-y", glowY + "px");
-  });
-}
-
-document.addEventListener("pointermove", function(e) {
-  if (e.pointerType !== "mouse" && e.pointerType !== "pen") return;
-  scheduleGlow(e.clientX, e.clientY);
-}, { passive: true });
-
-document.addEventListener("touchmove", function(e) {
-  if (!e.touches.length) return;
-  scheduleGlow(e.touches[0].clientX, e.touches[0].clientY);
-}, { passive: true });
-
-
-/* =========================================================
-   SCROLL REVEAL
-========================================================= */
-
-const observer =
-  new IntersectionObserver(
-
-    function(entries) {
-
-      entries.forEach(function(entry) {
-
-        if (entry.isIntersecting) {
-
-          entry.target.classList.add("visible");
-
-        }
-
-      });
-
-    },
-
-    {
-      threshold: .12
-    }
-
-  );
-
-
-document
-  .querySelectorAll(".reveal")
-  .forEach(function(element) {
-
-    observer.observe(element);
-
-  });
-
-
-/* =========================================================
-   CARD TILT
-   Batched to one visual update per display frame.
-========================================================= */
-if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-  document.querySelectorAll(".card, .social, .flowItem").forEach(function(card) {
-    let frame = 0;
-    let px = 0;
-    let py = 0;
-
-    card.addEventListener("pointerenter", function() {
-      card.classList.add("tiltActive");
-    }, { passive: true });
-
-    card.addEventListener("pointermove", function(e) {
-      const rect = card.getBoundingClientRect();
-      px = (e.clientX - rect.left) / rect.width;
-      py = (e.clientY - rect.top) / rect.height;
-      if (frame) return;
-
-      frame = requestAnimationFrame(function() {
-        frame = 0;
-        const rotateX = (py - .5) * -4;
-        const rotateY = (px - .5) * 4;
-        card.style.transform =
-          "perspective(700px) rotateX(" + rotateX + "deg) " +
-          "rotateY(" + rotateY + "deg) translateY(-5px)";
-      });
-    }, { passive: true });
-
-    card.addEventListener("pointerleave", function() {
-      if (frame) cancelAnimationFrame(frame);
-      frame = 0;
-      card.style.transform = "";
-      card.classList.remove("tiltActive");
-    }, { passive: true });
-  });
-}
-
 </script>
-
-
 
 
 <!-- =======================================================
@@ -3921,7 +3383,6 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
   </div>
   <div class="cinematicHUDHint">SCROLL TO EXPLORE</div>
 </div>
-
 
 
 <script>
@@ -4436,31 +3897,6 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.m
 </script>
 \n
 
-<script id="ravi-weather-scene-engine">
-/* =========================================================
-   WEATHER/TIME SCENE ENGINE
-   Reuses the existing heritageActive state. No extra render loop.
-   A single observer updates the active section label only.
-========================================================= */
-(function(){
-  const sections = document.querySelectorAll('.cinematicSection');
-  if(!sections.length) return;
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const observer = new IntersectionObserver(function(entries){
-    let active = null;
-    entries.forEach(function(entry){
-      if(entry.isIntersecting && entry.intersectionRatio >= 0.28) active = entry.target;
-    });
-    if(!active) return;
-    document.documentElement.dataset.weatherScene = active.dataset.scene || '';
-  }, {threshold:[0.28,0.55,0.8], rootMargin:'-6% 0px -6% 0px'});
-  sections.forEach(function(section){ observer.observe(section); });
-  if(reduce.matches) document.documentElement.dataset.reducedMotion='true';
-  reduce.addEventListener?.('change', function(){
-    document.documentElement.dataset.reducedMotion = reduce.matches ? 'true' : 'false';
-  });
-})();
-</script>
 
 </body>
 </html>
