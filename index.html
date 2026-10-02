@@ -236,8 +236,8 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
     <div class="resumeBox reveal">
       <div>
         <h3>ETL & Data Engineer · AWS Cloud · Pipeline Automation</h3>
-        <p>4.5+ years of enterprise production data engineering experience across multi-tool ETL, multi-cloud engineering, automation and incident management. Detailed tools and technologies: Fivetran, HVR, Informatica, Apache NiFi, AWS Glue, AppFlow, S3, Redshift, Lambda, Step Functions, EMR, Athena, Python, SQL, PySpark, Databricks, CDC and Unix/Shell.</p>
-        <div class="resumeStats"><span class="resumeStat">4.5+ Years</span><span class="resumeStat">AWS</span><span class="resumeStat">ETL Production</span><span class="resumeStat">Data Ingestion</span><span class="resumeStat">Python + SQL</span></div>
+        <p>Enterprise production data engineering experience across multi-tool ETL, multi-cloud engineering, automation and incident management. Detailed tools and technologies: Fivetran, HVR, Informatica, Apache NiFi, AWS Glue, AppFlow, S3, Redshift, Lambda, Step Functions, EMR, Athena, Python, SQL, PySpark, CDC and Unix/Shell.</p>
+        <div class="resumeStats"><span class="resumeStat"><span id="experienceYears">0.0</span> Years</span><span class="resumeStat">AWS</span><span class="resumeStat">ETL Production</span><span class="resumeStat">Data Ingestion</span><span class="resumeStat">Python + SQL</span></div>
       </div>
       <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener">View Resume ↗</a>
     </div>
@@ -285,6 +285,13 @@ footer{padding:55px 0 30px;border-top:1px solid rgba(255,255,255,.06);color:#616
     document.documentElement.style.setProperty("--mx",e.clientX+"px");
     document.documentElement.style.setProperty("--my",e.clientY+"px");
   });
+
+  const jobStartDate = new Date("2021-12-13T00:00:00");
+  const today = new Date();
+  const millisecondsPerYear = 365.2425 * 24 * 60 * 60 * 1000;
+  const experienceYears = Math.max(0, (today - jobStartDate) / millisecondsPerYear);
+  const experienceElement = document.getElementById("experienceYears");
+  if (experienceElement) experienceElement.textContent = experienceYears.toFixed(1);
 
   document.getElementById("year").textContent=new Date().getFullYear();
 })();
