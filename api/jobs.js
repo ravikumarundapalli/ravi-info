@@ -1,3 +1,4 @@
+const { CanvasFactory } = require("pdf-parse/worker");
 const { PDFParse } = require("pdf-parse");
 
 const REPO = "ravikumarundapalli/ravi-info";
@@ -165,7 +166,8 @@ async function fetchResume() {
   );
 
   const parser = new PDFParse({
-    data: pdfBuffer
+    data: pdfBuffer,
+    CanvasFactory
   });
 
   const parsed = await parser.getText();
